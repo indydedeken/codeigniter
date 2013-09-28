@@ -35,9 +35,9 @@ class Membre extends CI_Controller {
 				
 				// si les identifiants sont corrects
 				// on peut convertir le mdp en sha1(...)
-				if($this->model_compte->check_membre($this->input->post('login'), $this->input->post('mdp'))) {
+				if($this->model_membre->check_membre($this->input->post('login'), $this->input->post('mdp'))) {
 					
-					$data = $this->model_compte->get_membre($this->input->post('login'));
+					$data = $this->model_membre->get_membre($this->input->post('login'));
 					foreach($data->result() as $item) {
 						$id = $item->id;
 						$login = $item->login;
@@ -87,56 +87,53 @@ class Membre extends CI_Controller {
 		
 		$data['nav'] = "membre"; 
 		
-		if(!$this->session->userdata('login') || ! $this->session->userdata('logged')) {
-		
-			// regles de validation du formulaire
-			$this->form_validation->set_rules('mailPerso', 'e-mail', 'trim|required|xss_clean|valid_email|callback_check_mail');
-			$this->form_validation->set_rules('mailPro', 'e-mail pro', 'trim|xss_clean|valid_email');
-			$this->form_validation->set_rules('mdpConf', 'mot de passe confirmation', 'trim|required|xss_clean|min_length[4]|max_length[15]');
-			$this->form_validation->set_rules('anneePromo', 'année', 'trim|required|xss_clean|min_length[4]|max_length[4]|callback_check_int');
-			$this->form_validation->set_rules('mdp', 'mot de passe', 'trim|required|xss_clean|min_length[4]|max_length[15]|matches[mdpConf]');
-			$this->form_validation->set_rules('nom', 'nom', 'trim|xss_clean|required');
-			$this->form_validation->set_rules('prenom', 'prenom', 'trim|xss_clean|required');
-			$this->form_validation->set_rules('ville', 'coordonnées', 'xss_clean');
+		if(!$this->session->userdata('login') || !$this->session->userdata('logged')) {
+		 
+			/* 
+			 *	Regles de validation du formulaire
+			 *	Règles en +, exemples : callback_check_mailcallback_check_int');
+			 *
+			 * /!\ CHECKER QUE (MAIL + LOGIN) N'EXISTE PAS DÉJÀ /!\
+			 *
+			 */
+			$this->form_validation->set_rules('loginInscription', 'login', 'trim|xss_clean|required|min_length[4]|max_length[15]');
+			$this->form_validation->set_rules('mailInscription', 'e-mail', 'trim|required|xss_clean|valid_email');
+			$this->form_validation->set_rules('passwordInscription1', 'mot de passe', 'trim|required|xss_clean|min_length[4]|max_length[15]');
+			$this->form_validation->set_rules('passwordInscription2', ' vérification de mot de passe', 'trim|required|xss_clean|min_length[4]|max_length[15]|matches[passwordInscription1]');
 			
 			// si le formulaire est bien rempli
 			if($this->form_validation->run() == TRUE) {
 				
-				$data = array(
-					'mailPerso'	=> $this->input->post('mailPerso'),
-					'mdp'		=> sha1($this->input->post('mdp')),
-					'anneePromo'=> $this->input->post('anneePromo'),
-					'promo'		=> 'DUT', // car la promo est forcement un DUT
-					'nom'		=> $this->input->post('nom'),
-					'prenom'	=> $this->input->post('prenom'),
-					'ville'		=> $this->input->post('ville'),
-					'mailPro'	=> $this->input->post('mailPro'),
-					'etatCivil'	=> $this->input->post('etatCivil')
+				$dataInscription = array(
+					'login'		=> $this->input->post('loginInscription'),
+					'mail'		=> $this->input->post('mailInscription'),
+					'password'	=> $this->input->post('passwordInscription1')
 				);
 				
 				// insertion en db
 				$this->load->model('model_membre');
-				$this->model_membre->ajout_membre($data);
+				$this->model_membre->ajout_membre($dataInscription);
 				
-				// recuperation du membre
-				$id = $this->model_membre->get_membre($data['mailPerso']);
+				// PAS NECESSAIRE... A VOIR....recuperation de l'id du membre
+/*				$id = $this->model_membre->get_membre($data['mail']);
 				foreach($id->result() as $item) {
 						$id = $item->id;
 				}
-				
-					// IUT SF est l'étab avec id=1, DUT INFO est diplome avec id=1
-				$this->model_membre->gestion_cursus("enregistrer", $id, 1, 1, $data['anneePromo']);
+*/				
+
+				// si l'on a besoin on place le login dans $data pour l'utiliser
+				$data['login'] = $dataInscription['login'];
 				
 				// affichage des vues
-				$this->load->view('header');
-				$this->load->view('vue_inscription_succes');
-				$this->load->view('footer');
+				$this->load->view('header', $data);
+				$this->load->view('vue_inscription_succes', $data);
+				$this->load->view('footer', $data);
 			
 			} else {
 	
 				// affichage des vues
 				$this->load->view('header', $data);
-				$this->load->view('vue_inscription', $data);
+				$this->load->view('vue_connexion', $data);
 				$this->load->view('footer', $data);
 			}
 		} else {

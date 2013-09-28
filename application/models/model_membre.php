@@ -1,6 +1,6 @@
 <?php 
 
-class Model_compte extends CI_Model {
+class Model_membre extends CI_Model {
 	
 	/**
 	 *
@@ -32,9 +32,9 @@ class Model_compte extends CI_Model {
 	}
 
 	/* recuperer les infos d'un membre */
-	public function get_membre($login) {
+	public function get_membre($mail) {
 		$this->db->select('*');
-		$this->db->where('login', $login);
+		$this->db->where('email', $mail);
 		$data = $this->db->get('membre');
 		if($data->num_rows() == 1) {
 			return $data;

@@ -15,5 +15,13 @@
 	})(jQuery);
 -->
 </script>
+<?php elseif($nav="membre"): ?>
+<script>
+<!-- 
+	(function($) {
+	
+	})(jQuery);
+-->
+</script>
 <?php endif; ?>
 </body></html>

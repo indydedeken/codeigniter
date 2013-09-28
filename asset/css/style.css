@@ -1,32 +1,30 @@
 @charset "UTF-8";
-::moz-selection{ background-color: #E13300; color: white; }
-::webkit-selection{ background-color: #E13300; color: white; }
-::selection{ background-color: #E13300; color: white; }
+
+/* Style général */
 
 body {
 	background: #f4f4f4;
-	padding-top: 70px;
+	padding-top: 50px;
 	padding-bottom: 30px;
 }
-
 .navbar-fixed-top {
 	font-family: 'Oxygen', sans-serif;
 }
-
 .left {
-	float: left;
+	float: left
 }
 .text-left {
-	text-align:left;
+	text-align:left
 }
-
 .right {
-	float: right;
+	float: right
 }
 .text-right {
-	text-align:right;
+	text-align:right
 }
-
+.clear {
+	clear:both
+}
 .justify {
 	text-align: justify;
 }
@@ -51,6 +49,8 @@ body {
     padding: 2px 14px;
 }
 
+/* ./style général */
+
 /* vue home */
 .annonce {
 	border-radius: 10px 10px 10px 10px;
@@ -71,20 +71,20 @@ body {
 }
 /* ./vue home */
 
-/* connexion */
-.form-signin {
-  max-width: 330px;
+/* signin & register */
+.form-signin,
+.form-register {
   padding: 15px;
   margin: 0 auto;
 }
 .form-signin .form-signin-heading,
-.form-signin .checkbox {
+.form-signin .checkbox,
+.form-register .form-signin-heading,
+.form-register .checkbox {
   margin-bottom: 10px;
 }
-.form-signin .checkbox {
-  font-weight: normal;
-}
-.form-signin .form-control {
+.form-signin .form-control,
+.form-register .form-control {
   position: relative;
   font-size: 16px;
   height: auto;
@@ -93,15 +93,32 @@ body {
      -moz-box-sizing: border-box;
           box-sizing: border-box;
 }
-.form-signin .form-control:focus {
+.form-signin .form-control:focus,
+.form-register .form-control:focus {
   z-index: 2;
 }
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
+.panneau-connexion #login input {
+	margin: -1px auto;
+	max-width: 300px;
+}
+.panneau-connexion #create .col-md-5 {
+	margin-bottom: 10px
+}
+@media (min-width: 980px) {
+.panneau-connexion #create .col-md-5.groupe {
+	margin-bottom: -1px
+}
+}
+.panneau-connexion #login input.btn {
+	margin: 15px auto;
+}
+.panneau-connexion #login .form-signin input[type="email"],
+.panneau-connexion #create #passwordInscription1 {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
-.form-signin input[type="password"] {
+.panneau-connexion #login .form-signin input[type="password"],
+.panneau-connexion #create #passwordInscription2 {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -113,59 +130,29 @@ body {
     text-align: left;
     width: auto;
 }
-/* ./signin */
-
-/*
-body {
-	background-color: #fff;
-	margin: 40px;
-	font: 13px/20px normal Helvetica, Arial, sans-serif;
-	color: #4F5155;
+.panneau-connexion {
+	max-width:800px; 
+	margin:0 auto;
+}
+.panneau-connexion a {
+	color: #4AAD8F
+}
+.panneau-connexion .well {
+	background-color: #FFFFFF;
+	margin: 20px 0 0;
 }
 
-a {
-	color: #003399;
-	background-color: transparent;
-	font-weight: normal;
+.panneau-connexion .well .nav {
+	margin:auto;
+	max-width:730px;
 }
 
-h1 {
-	color: #444;
-	background-color: transparent;
-	border-bottom: 1px solid #D0D0D0;
-	font-size: 19px;
-	font-weight: normal;
-	margin: 0 0 14px 0;
-	padding: 14px 15px 10px 15px;
+@media (max-width: 1200px) {
+/* responsive lié au formulaire d'inscription */
+	.panneau-connexion .col-lg-3,
+	.panneau-connexion .col-lg-6 {
+	  padding-left: 0;
+	  padding-right: 0;
+	}
 }
-
-code {
-	font-family: Consolas, Monaco, Courier New, Courier, monospace;
-	font-size: 12px;
-	background-color: #f9f9f9;
-	border: 1px solid #D0D0D0;
-	color: #002166;
-	display: block;
-	margin: 14px 0 14px 0;
-	padding: 12px 10px 12px 10px;
-}
-
-#body{
-	margin: 0 15px 0 15px;
-}
-
-p.footer{
-	text-align: right;
-	font-size: 11px;
-	border-top: 1px solid #D0D0D0;
-	line-height: 32px;
-	padding: 0 10px 0 10px;
-	margin: 20px 0 0 0;
-}
-
-#container{
-	margin: 10px;
-	border: 1px solid #D0D0D0;
-	-webkit-box-shadow: 0 0 8px #D0D0D0;
-}
-*/
+/* ./signin & register */
