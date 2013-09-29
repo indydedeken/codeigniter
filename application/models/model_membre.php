@@ -22,9 +22,9 @@ class Model_membre extends CI_Model {
 	}
 	
 	/* verification pour la connexion */
-	public function check_membre($login, $mdp) {
-		$this->db->where('login', $login);
-		$this->db->where('mdp', $mdp);
+	public function check_membre($email, $mdp) {
+		$this->db->where('email', $email);
+		$this->db->where('password', $mdp);
 		$data = $this->db->get('membre');
 		if($data->num_rows() == 1) {
 			return true;
@@ -32,9 +32,9 @@ class Model_membre extends CI_Model {
 	}
 
 	/* recuperer les infos d'un membre */
-	public function get_membre($mail) {
+	public function get_membre($email) {
 		$this->db->select('*');
-		$this->db->where('email', $mail);
+		$this->db->where('email', $email);
 		$data = $this->db->get('membre');
 		if($data->num_rows() == 1) {
 			return $data;

@@ -5,13 +5,13 @@ class Membre extends CI_Controller {
 	public function index() {
 		// vérifier que l'utilisateur est connecté
 		if(	!$this->session->userdata('logged') || 
-			!$this->session->userdata('login')) 
+			!$this->session->userdata('email')) 
 		{
-			redirect(site_url().'index.php/membre/signin');
+			redirect(site_url().'membre/signin');
 		} 
 		else 
 		{
-			redirect('index.php/home');
+			redirect('home');
 		}
 	}
 
@@ -23,11 +23,10 @@ class Membre extends CI_Controller {
 	public function signin() {
 		
 		$data['nav'] = "membre"; 
-		
-		if(!$this->session->userdata('login') || ! $this->session->userdata('logged')) {
+		if(!$this->session->userdata('email') || !$this->session->userdata('logged')) {
 			
 			// regles de validation du formulaire
-			$this->form_validation->set_rules('login', 'login', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('email', 'email', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('mdp', 'mot de passe', 'trim|required|xss_clean');
 			
 			// si le formulaire est bien rempli
@@ -35,24 +34,26 @@ class Membre extends CI_Controller {
 				
 				// si les identifiants sont corrects
 				// on peut convertir le mdp en sha1(...)
-				if($this->model_membre->check_membre($this->input->post('login'), $this->input->post('mdp'))) {
+				if($this->model_membre->check_membre($this->input->post('email'), $this->input->post('mdp'))) {
 					
-					$data = $this->model_membre->get_membre($this->input->post('login'));
+					$data = $this->model_membre->get_membre($this->input->post('email'));
 					foreach($data->result() as $item) {
-						$id = $item->id;
-						$login = $item->login;
+						$id		= $item->id;
+						$email	= $item->email;
 					}
 		
 					$data = array(
 						'id'		=> $id,
-						'login' 	=> $login, 
+						'email'		=> $email,
 						'logged'	=> true
 					);
 					
 					$this->session->set_userdata($data);
-					redirect(site_url().'index.php/home', $data);
+					redirect(site_url().'home', $data);
 					
 				} else {
+			
+					
 			
 					$data['error'] = '<span class="label label-warning">Mauvais identifiants</span><br>';
 					
@@ -74,7 +75,7 @@ class Membre extends CI_Controller {
 				$this->load->view('footer', $data);
 			}
 		} else {
-			redirect(site_url().'index.php/home');	
+			redirect(site_url().'home');	
 		}
 	}
 	
@@ -87,7 +88,7 @@ class Membre extends CI_Controller {
 		
 		$data['nav'] = "membre"; 
 		
-		if(!$this->session->userdata('login') || !$this->session->userdata('logged')) {
+		if(!$this->session->userdata('email') || !$this->session->userdata('logged')) {
 		 
 			/* 
 			 *	Regles de validation du formulaire
@@ -106,7 +107,7 @@ class Membre extends CI_Controller {
 				
 				$dataInscription = array(
 					'login'		=> $this->input->post('loginInscription'),
-					'mail'		=> $this->input->post('mailInscription'),
+					'email'		=> $this->input->post('mailInscription'),
 					'password'	=> $this->input->post('passwordInscription1')
 				);
 				
@@ -155,7 +156,7 @@ class Membre extends CI_Controller {
 		$this->session->set_userdata('logged');
 
 		$this->session->sess_destroy();
-		redirect(site_url()."index.php/membre");	// adresse a redéfinir, pas propre là
+		redirect(site_url()."membre");	// adresse a redéfinir, pas propre là
 	}
 
 	

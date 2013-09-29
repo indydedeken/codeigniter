@@ -13,15 +13,15 @@
       <div class="justify col-sm-8 col-md-8">We all love reading about new things. We also like to remember what we read and use information to build our knowledge. However the workflow of finding, reading, storing, searching and sharing information on the web seems broken to us. <br>It's very random and scattered to many places.<br>Kippt grew from that frustration. We want to make your information workflow and archiving effortless. 												
         </div>
     </div>
-    <?php if ($logged) { ?>
-    <p> Id :
-      <?=$id?>
+    <?php if ($this->session->userdata('logged')) { ?>
+    <p> Id : 
+      <?=$this->session->userdata('id')?>
       <br>
-      Login :
-      <?=$login?>
+	  Email : 
+	  <?=$this->session->userdata('email')?>
       <br>
-      Logged :
-      <?=$logged?>
+	  Logged : 
+      <?=$this->session->userdata('logged')?>
     </p>
     <?php } ?>
     

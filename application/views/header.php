@@ -37,9 +37,9 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-logo" href="<?=base_url('index.php/home')?>">
+        <a class="navbar-logo" href="<?=base_url('home')?>">
         	<img id="logo" src="<?=base_url()?>/asset/img/logo.png" title="logo from http://drbl.in/bjYW"/></a>
-        <a class="navbar-brand" href="<?=base_url('index.php/home')?>">Pouet</a>
+        <a class="navbar-brand" href="<?=base_url('home')?>">Pouet</a>
       </div>
     
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -53,7 +53,7 @@
 		?>
       
         <ul class="nav navbar-nav">
-          <li class="<?php if($nav == "home") echo 'active'?>"><a href="<?=base_url('index.php/home')?>">Home</a></li>
+          <li class="<?php if($nav == "home") echo 'active'?>"><a href="<?=base_url('home')?>">Home</a></li>
           <li class="<?php if($nav == "page2") echo 'active'?>"><a href="#">Link</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
@@ -74,13 +74,13 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compte <b class="caret"></b></a>
             <ul class="dropdown-menu">
             <?php if($this->session->userdata('logged')):?>
-              <li><a href="<?=base_url('index.php/membre')?>">Profil</a></li>
-              <li><a href="<?=base_url('index.php/membre')?>">Mettre à jour</a></li>
-              <li><a href="<?=base_url('index.php/membre')?>">Version Premium</a></li>
+              <li><a href="<?=base_url('membre')?>">Profil</a></li>
+              <li><a href="<?=base_url('membre')?>">Mettre à jour</a></li>
+              <li><a href="<?=base_url('membre')?>">Version Premium</a></li>
               <li role="presentation" class="divider"></li>
-              <li><a href="<?=base_url('index.php/membre/logout')?>">Déconnexion</a></li>
+              <li><a href="<?=base_url('membre/logout')?>">Déconnexion</a></li>
             <?php else:?>
-            	<li><a href="<?=base_url('index.php/membre')?>">Connexion</a></li></li>
+            	<li><a href="<?=base_url('membre')?>">Connexion</a></li></li>
             <?php endif;?>
             </ul>
           </li>

@@ -22,21 +22,21 @@
    -
 -->  
           <div class="tab-pane <?php if($this->uri->segment(2)=='signin') echo 'active in'; else echo "fade"?>" id="login">
-            <?php echo form_open('index.php/membre/signin', 'class="form-signin" role="form"')?>
+            <?php echo form_open('membre/signin', 'class="form-signin" role="form"')?>
               <fieldset>
                   <div id="legend">
                       <legend class="text-muted">Saisir vos identifiants</legend>
                   </div>
-                  <?php echo form_error('login', '<span class="label label-warning">','</span><br/>'); ?>
+                  <?php echo form_error('email', '<span class="label label-warning">','</span><br/>'); ?>
                   <?php echo form_error('mdp', '<span class="label label-warning">','</span><br/>'); ?>
                   <?php if(isset($error)):echo $error;endif;?>
-                  <input id="email" name="login" type="email" autofocus placeholder="Login" class="form-control" value="<?php echo set_value('login'); ?>">
+                  <input id="email" name="email" type="email" autofocus placeholder="Email" class="form-control" value="<?php echo set_value('email'); ?>">
                   <input id="mdp" name="mdp" type="password" placeholder="Password" class="form-control">
                   <!-- <label class="checkbox">
                           <input type="checkbox" value="rester-connecter"> Se souvenir de moi
                         </label>-->
                   <?php echo form_submit('', 'Valider', 'class="btn btn-lg btn-success btn-block"')?>
-                  <?php //echo anchor('index.php/membre/register', 'S\'inscrire', 'class="btn btn-large btn-default btn-block"')?>
+                  <?php //echo anchor('membre/register', 'S\'inscrire', 'class="btn btn-large btn-default btn-block"')?>
                 </fieldset>
               <?php echo form_close()?>
           </div>
@@ -48,7 +48,7 @@
    -
 -->
           <div class="tab-pane fade <?php if($this->uri->segment(2)=='register')echo 'active in'; else echo "fade"?>" id="create">
-            <?php echo form_open('index.php/membre/register', 'class="form-horizontal form-register" role="form"')?>
+            <?php echo form_open('membre/register', 'class="form-horizontal form-register" role="form"')?>
               <fieldset>
                 <div id="legend">
                   <legend class="text-muted">Inscription aux services Pouet</legend>
