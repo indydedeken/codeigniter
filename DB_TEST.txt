@@ -41,7 +41,7 @@ CREATE TABLE `membre` (\
 \
 INSERT INTO `membre` (`id`, `mail`, `login`, `password`) VALUES\
 (1, 'test@test.test', 'test', 'test'),\
-(2, '', 'axel', 'test'),\
+(2, 'axelajavon@gmail.com', 'axel', 'test'),\
 (3, '', 'indy', 'test'),\
 (4, 'bidochon@test.fr', 'bidochon', 'test');\
 }
