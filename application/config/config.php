@@ -14,9 +14,9 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://192.168.194.200/codeigniter/';
-$config['base_url']	= 'http://192.168.1.4/codeigniter/';
-$config['base_url']	= 'http://localhost/codeigniter/';
+$config['base_url']	= 'http://192.168.194.200/markus/';
+$config['base_url']	= 'http://192.168.1.4/markus/';
+$config['base_url']	= 'http://localhost/markus/';
 
 /*
 |--------------------------------------------------------------------------
