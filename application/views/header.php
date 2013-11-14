@@ -39,7 +39,7 @@
         </button>
         <a class="navbar-logo" href="<?=base_url('home')?>">
         	<img id="logo" src="<?=base_url()?>/asset/img/logo.png" title="logo from http://drbl.in/bjYW"/></a>
-        <a class="navbar-brand" href="<?=base_url('home')?>">Pouet</a>
+        <a class="navbar-brand" href="<?=base_url('home')?>">Markus</a>
       </div>
     
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -54,16 +54,26 @@
       
         <ul class="nav navbar-nav">
           <li class="<?php if($nav == "home") echo 'active'?>"><a href="<?=base_url('home')?>">Home</a></li>
-          <li class="<?php if($nav == "page2") echo 'active'?>"><a href="#">Link</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+          <li class="<?php if($nav == "page2") echo 'active'?>">
+          	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Mes documents<b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
+              <li><a href="#">1. Levi Strauss - Races et histoires</a></li>
+              <li><a href="#">2. Vers un modèle computationnel unifié des émo...</a></li>
+              <li><a href="#">3. Functionnal Genomics of nuclear receptors from...</a></li>
               <li role="presentation" class="divider"></li>
-              <li><a href="#">Separated link</a></li>
-              <li><a href="#">One more separated link</a></li>
+              <li><a href="#">Gestion de mes documents</a></li>
+              <li><a href="#">Uploader un document</a></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Groupes <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">1. Evry Search - IBGBI</a></li>
+              <li><a href="#">2. Fontainebleau Search</a></li>
+              <li><a href="#">3. Markus Group</a></li>
+              <li role="presentation" class="divider"></li>
+              <li><a href="#">Gestion de mes groupes</a></li>
+              <li><a href="#">Créer un groupe</a></li>
             </ul>
           </li>
         </ul>
@@ -76,7 +86,7 @@
             <?php if($this->session->userdata('logged')):?>
               <li><a href="<?=base_url('membre')?>">Profil</a></li>
               <li><a href="<?=base_url('membre')?>">Mettre à jour</a></li>
-              <li><a href="<?=base_url('membre')?>">Version Premium</a></li>
+              <li><a href="<?=base_url('membre')?>">Uploader un document</a></li>
               <li role="presentation" class="divider"></li>
               <li><a href="<?=base_url('membre/logout')?>">Déconnexion</a></li>
             <?php else:?>
@@ -87,7 +97,7 @@
         </ul>
         <form class="navbar-form navbar-right" role="search">
           <div class="form-group">
-            <input type="search" class="form-control" placeholder="Bonjour...">
+            <input type="search" class="form-control" placeholder="chercher un groupe...">
           </div>
           <button type="submit" class="btn btn-default">go</button>
         </form>
