@@ -18,14 +18,14 @@ class Model_membre extends CI_Model {
 	
 	/* inscription d'un membre */
 	public function ajout_membre($data) {
-		$this->db->insert('membre', $data);
+		$this->db->insert('Utilisateur', $data);
 	}
 	
 	/* verification pour la connexion */
 	public function check_membre($email, $mdp) {
 		$this->db->where('email', $email);
-		$this->db->where('password', $mdp);
-		$data = $this->db->get('membre');
+		$this->db->where('mdp', $mdp);
+		$data = $this->db->get('Utilisateur');
 		if($data->num_rows() == 1) {
 			return true;
 		}
@@ -35,7 +35,7 @@ class Model_membre extends CI_Model {
 	public function get_membre($email) {
 		$this->db->select('*');
 		$this->db->where('email', $email);
-		$data = $this->db->get('membre');
+		$data = $this->db->get('Utilisateur');
 		if($data->num_rows() == 1) {
 			return $data;
 		} else {

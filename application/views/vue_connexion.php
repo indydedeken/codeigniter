@@ -51,20 +51,27 @@
             <?php echo form_open('membre/register', 'class="form-horizontal form-register" role="form"')?>
               <fieldset>
                 <div id="legend">
-                  <legend class="text-muted">Inscription aux services Pouet</legend>
+                  <legend class="text-muted">Inscription aux services Marküs</legend>
                 </div>
+                <!-- nom prenom -->
                 <div class="control-group clear">
-                    <label for="loginInscription" class="col-md-5 control-label">Login</label>
+                    <label for="nomInscription" class="col-md-5 control-label">Nom</label>
+                    <div class="col-md-5 groupe">
+                        <input type="text" class="form-control" id="nomInscription" name="nomInscription" placeholder="Nom">
+                    </div>
+                    <label for="prenomInscription" class="col-md-5 control-label">Prénom</label>
                     <div class="col-md-5">
-                        <input type="text" class="form-control" id="loginInscription" name="loginInscription" placeholder="Login">
+                        <input type="text" class="form-control" id="prenomInscription" name="prenomInscription" placeholder="Prénom">
                     </div>
                 </div>
+                 <!-- email -->
                 <div class="control-group clear">
                     <label for="mailInscription" class="col-md-5 control-label">E-mail</label>
                     <div class="col-md-5">
                         <input type="email" class="form-control" id="mailInscription" name="mailInscription" placeholder="E-mail">
                     </div>
                 </div>
+                 <!-- mot de passe -->
                 <div class="control-group clear">
                     <label for="passwordInscription1" class="col-md-5 control-label">Password</label>
                     <div class="col-md-5 groupe">

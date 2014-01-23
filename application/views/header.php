@@ -54,7 +54,7 @@
       
         <ul class="nav navbar-nav">
           <li class="<?php if($nav == "home") echo 'active'?>"><a href="<?=base_url('home')?>">Home</a></li>
-          <li class="<?php if($nav == "page2") echo 'active'?>">
+          <li class="<?php if($nav == "page2") echo 'active'?> dropdown">
           	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Mes documents<b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="#">1. Levi Strauss - Races et histoires</a></li>
@@ -84,7 +84,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compte <b class="caret"></b></a>
             <ul class="dropdown-menu">
             <?php if($this->session->userdata('logged')):?>
-              <li><a href="<?=base_url('membre')?>">Profil</a></li>
+              <li><a href="<?=base_url('membre')?>">Profil <?=$this->session->userdata('email')?></a></li>
               <li><a href="<?=base_url('membre')?>">Mettre à jour</a></li>
               <li><a href="<?=base_url('membre')?>">Uploader un document</a></li>
               <li role="presentation" class="divider"></li>
@@ -97,7 +97,7 @@
         </ul>
         <form class="navbar-form navbar-right" role="search">
           <div class="form-group">
-            <input type="search" class="form-control" placeholder="chercher un groupe...">
+            <input type="search" class="form-control" placeholder="chercher un groupe..." spellcheck="true">
           </div>
           <button type="submit" class="btn btn-default">go</button>
         </form>

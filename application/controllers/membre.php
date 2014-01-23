@@ -38,12 +38,10 @@ class Membre extends CI_Controller {
 					
 					$data = $this->model_membre->get_membre($this->input->post('email'));
 					foreach($data->result() as $item) {
-						$id		= $item->id;
 						$email	= $item->email;
 					}
-		
+					
 					$data = array(
-						'id'		=> $id,
 						'email'		=> $email,
 						'logged'	=> true
 					);
@@ -97,7 +95,8 @@ class Membre extends CI_Controller {
 			 * /!\ CHECKER QUE (MAIL + LOGIN) N'EXISTE PAS DÉJÀ /!\
 			 *
 			 */
-			$this->form_validation->set_rules('loginInscription', 'login', 'trim|xss_clean|required|min_length[4]|max_length[15]');
+			$this->form_validation->set_rules('nomInscription', 'nom', 'trim|xss_clean|required|min_length[2]|max_length[100]');
+			$this->form_validation->set_rules('prenomInscription', 'prenom', 'trim|xss_clean|required|min_length[2]|max_length[100]');
 			$this->form_validation->set_rules('mailInscription', 'e-mail', 'trim|required|xss_clean|valid_email');
 			$this->form_validation->set_rules('passwordInscription1', 'mot de passe', 'trim|required|xss_clean|min_length[4]|max_length[15]');
 			$this->form_validation->set_rules('passwordInscription2', ' vérification de mot de passe', 'trim|required|xss_clean|min_length[4]|max_length[15]|matches[passwordInscription1]');
@@ -106,9 +105,10 @@ class Membre extends CI_Controller {
 			if($this->form_validation->run() == TRUE) {
 				
 				$dataInscription = array(
-					'login'		=> $this->input->post('loginInscription'),
-					'email'		=> $this->input->post('mailInscription'),
-					'password'	=> $this->input->post('passwordInscription1')
+					'nom'	=> $this->input->post('nomInscription'),
+					'prenom'=> $this->input->post('prenomInscription'),
+					'email'	=> $this->input->post('mailInscription'),
+					'mdp'	=> $this->input->post('passwordInscription1')
 				);
 				
 				// insertion en db
@@ -122,20 +122,55 @@ class Membre extends CI_Controller {
 				}
 */				
 
-				// si l'on a besoin on place le login dans $data pour l'utiliser
-				$data['login'] = $dataInscription['login'];
+				// si l'on a besoin on place le nom dans $data pour l'utiliser
+				//$data['email']	= $dataInscription['email'];
+				//$data['nom']	= $dataInscription['nom'];
+ 				
+				if($this->model_membre->check_membre($dataInscription['email'], $dataInscription['mdp'])) {
+					
+					$data = $this->model_membre->get_membre($dataInscription['email']);
+					foreach($data->result() as $item) {
+						$email	= $item->email;
+						$nom 	= $item->nom;
+						$prenom	= $item->prenom;
+					}
+					
+					$data = array(
+						'email'		=> $email,
+						'nom'		=> $nom,
+						'prenom'	=> $prenom,
+						'logged'	=> true
+					);
+					
+					// remettre nav=membre car on refait le tableau
+					$data['nav'] = "membre"; 
+					
+					$this->session->set_userdata($data);
+					
+					// affichage des vues
+					$this->load->view('header', $data);
+					$this->load->view('vue_inscription_succes', $data);
+					$this->load->view('footer', $data);
+					
+				} else {
+					// cas d'erreur
+					// affichage des vues
+					$this->load->view('header', $data);
+					$this->load->view('vue_connexion', $data);
+					$this->load->view('footer', $data);
 				
-				// affichage des vues
-				$this->load->view('header', $data);
-				$this->load->view('vue_inscription_succes', $data);
-				$this->load->view('footer', $data);
+				}
+ 				
+ 				
+				
 			
 			} else {
-	
+				
 				// affichage des vues
 				$this->load->view('header', $data);
 				$this->load->view('vue_connexion', $data);
 				$this->load->view('footer', $data);
+			
 			}
 		} else {
 			redirect(site_url().'membre');	
