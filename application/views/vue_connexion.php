@@ -51,24 +51,29 @@
             <?php echo form_open('membre/register', 'class="form-horizontal form-register" role="form"')?>
               <fieldset>
                 <div id="legend">
-                  <legend class="text-muted">Inscription aux services Marküs</legend>
+                	<legend class="text-muted">Inscription aux services Marküs</legend>
                 </div>
+                <?php echo form_error('passwordInscription1', '<span class="label label-warning">','</span><br/>'); ?>
+                <?php echo form_error('passwordInscription2', '<span class="label label-warning">','</span><br/>'); ?>
+                <?php echo form_error('mailInscription', '<span class="label label-warning">','</span><br/>'); ?>
+                <?php echo form_error('nomInscription', '<span class="label label-warning">','</span><br/>'); ?>
+                <?php echo form_error('prenomInscription', '<span class="label label-warning">','</span><br/>'); ?>
                 <!-- nom prenom -->
                 <div class="control-group clear">
                     <label for="nomInscription" class="col-md-5 control-label">Nom</label>
                     <div class="col-md-5 groupe">
-                        <input type="text" class="form-control" id="nomInscription" name="nomInscription" placeholder="Nom">
+                        <input type="text" class="form-control" id="nomInscription" name="nomInscription" placeholder="Nom" value="<?php echo set_value('nomInscription'); ?>">
                     </div>
                     <label for="prenomInscription" class="col-md-5 control-label">Prénom</label>
                     <div class="col-md-5">
-                        <input type="text" class="form-control" id="prenomInscription" name="prenomInscription" placeholder="Prénom">
+                        <input type="text" class="form-control" id="prenomInscription" name="prenomInscription" placeholder="Prénom" value="<?php echo set_value('prenomInscription'); ?>">
                     </div>
                 </div>
                  <!-- email -->
                 <div class="control-group clear">
                     <label for="mailInscription" class="col-md-5 control-label">E-mail</label>
                     <div class="col-md-5">
-                        <input type="email" class="form-control" id="mailInscription" name="mailInscription" placeholder="E-mail">
+                        <input type="email" class="form-control" id="mailInscription" name="mailInscription" placeholder="E-mail" value="<?php echo set_value('mailInscription'); ?>">
                     </div>
                 </div>
                  <!-- mot de passe -->

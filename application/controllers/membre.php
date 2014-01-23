@@ -34,7 +34,7 @@ class Membre extends CI_Controller {
 				
 				// si les identifiants sont corrects
 				// on peut convertir le mdp en sha1(...)
-				if($this->model_membre->check_membre($this->input->post('email'), $this->input->post('mdp'))) {
+				if( $this->model_membre->check_membre($this->input->post('email') )) {
 					
 					$data = $this->model_membre->get_membre($this->input->post('email'));
 					foreach($data->result() as $item) {
@@ -90,20 +90,19 @@ class Membre extends CI_Controller {
 		 
 			/* 
 			 *	Regles de validation du formulaire
-			 *	Règles en +, exemples : callback_check_mailcallback_check_int');
+			 *	Règles en +, exemples : callback_check_mail callback_check_int');
 			 *
 			 * /!\ CHECKER QUE (MAIL + LOGIN) N'EXISTE PAS DÉJÀ /!\
 			 *
 			 */
 			$this->form_validation->set_rules('nomInscription', 'nom', 'trim|xss_clean|required|min_length[2]|max_length[100]');
 			$this->form_validation->set_rules('prenomInscription', 'prenom', 'trim|xss_clean|required|min_length[2]|max_length[100]');
-			$this->form_validation->set_rules('mailInscription', 'e-mail', 'trim|required|xss_clean|valid_email');
+			$this->form_validation->set_rules('mailInscription', 'e-mail', 'trim|required|xss_clean|valid_email|callback_check_mail');
 			$this->form_validation->set_rules('passwordInscription1', 'mot de passe', 'trim|required|xss_clean|min_length[4]|max_length[15]');
 			$this->form_validation->set_rules('passwordInscription2', ' vérification de mot de passe', 'trim|required|xss_clean|min_length[4]|max_length[15]|matches[passwordInscription1]');
 			
 			// si le formulaire est bien rempli
-			if($this->form_validation->run() == TRUE) {
-				
+			if( $this->form_validation->run() == TRUE ) {
 				$dataInscription = array(
 					'nom'	=> $this->input->post('nomInscription'),
 					'prenom'=> $this->input->post('prenomInscription'),
@@ -122,11 +121,7 @@ class Membre extends CI_Controller {
 				}
 */				
 
-				// si l'on a besoin on place le nom dans $data pour l'utiliser
-				//$data['email']	= $dataInscription['email'];
-				//$data['nom']	= $dataInscription['nom'];
- 				
-				if($this->model_membre->check_membre($dataInscription['email'], $dataInscription['mdp'])) {
+				if( $this->model_membre->check_membre($dataInscription['email']) ) {
 					
 					$data = $this->model_membre->get_membre($dataInscription['email']);
 					foreach($data->result() as $item) {
@@ -203,12 +198,12 @@ class Membre extends CI_Controller {
 	/* vérifie l'existance du mail en DB */
 	/*************************************/
 	function check_mail(){
-		if($this->input->post('mail')) {
-			$this->db->select('mail');
-			$this->db->from('membre');
-			$this->db->where('mail', $this->input->post('mail'));
+		if($this->input->post('mailInscription')) {
+			$this->db->select('email');
+			$this->db->from('Utilisateur');
+			$this->db->where('email', $this->input->post('mailInscription'));
 			if($this->db->count_all_results()>0) {
-				$this->form_validation->set_message('check_mail', 'Ce mail existe déjà !');	
+				$this->form_validation->set_message('check_mail', 'Cette adresse email est déjà utilisée !');	
 				return false;
 			} else {
 				return true; 	

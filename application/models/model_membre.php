@@ -21,14 +21,14 @@ class Model_membre extends CI_Model {
 		$this->db->insert('Utilisateur', $data);
 	}
 	
-	/* verification pour la connexion */
-	public function check_membre($email, $mdp) {
+	/* verifier qu'un membre est présent en DB */
+	public function check_membre($email) {
 		$this->db->where('email', $email);
-		$this->db->where('mdp', $mdp);
 		$data = $this->db->get('Utilisateur');
 		if($data->num_rows() == 1) {
 			return true;
 		}
+		return false;
 	}
 
 	/* recuperer les infos d'un membre */

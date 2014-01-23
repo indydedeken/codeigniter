@@ -10,7 +10,6 @@
 	(function($) {
 	
 		/* focus sur l'élément de recherche dans la barre de navigation */
-		$(".navbar-form .form-control").focus();
 		
 	})(jQuery);
 -->
@@ -19,7 +18,12 @@
 <script>
 <!-- 
 	(function($) {
-	
+		
+		// focus sur le premier input du formulaire connexion & inscription
+		$(document).on('click', 'li', function(){
+			$('div.active input').first().focus();
+		});
+		
 	})(jQuery);
 -->
 </script>
