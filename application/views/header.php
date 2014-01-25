@@ -63,7 +63,7 @@
               <li><a href="#">2. Vers un modèle computationnel unifié des émo...</a></li>
               <li><a href="#">3. Functionnal Genomics of nuclear receptors from...</a></li>
               <li role="presentation" class="divider"></li>
-              <li><a href="#">Gestion de mes documents</a></li>
+              <li><a href="<?=base_url('document')?>">Gestion de mes documents</a></li>
               <li><a href="#">Uploader un document</a></li>
             </ul>
           </li>
@@ -77,9 +77,6 @@
               <li><a href="#">Gestion de mes groupes</a></li>
               <li><a href="#">Créer un groupe</a></li>
             </ul>
-          </li>
-          <li>
-          	<?=$this->session->userdata('nom')?> | <?=$this->session->userdata('prenom')?> | <?=$this->session->userdata('email')?>
           </li>
         </ul>
         

@@ -15,7 +15,8 @@
             <div class="libelle">Prénom</div>
             <div class="valeur"><?=form_input(array('id'=>'prenom', 'name'=>'prenom','value'=>$this->session->userdata('prenom'),'class'=>'form-control','style'=>''))?></div>
 			<br>
-            <div><?=form_submit('submit','Editer','id="submit" class="btn btn-default btn-lg" style="width:300px"')?></div>
+            <div>
+			<?=form_submit('submit','Éditer','id="submit" class="btn btn-default btn-lg" style="width:300px"')?></div>
 			<?=form_close()?>
         </div>   
              
