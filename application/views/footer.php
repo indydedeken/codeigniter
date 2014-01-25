@@ -1,7 +1,7 @@
 <nav class="navbar-default navbar-fixed-bottom">
   <div class="faitPar">Université d'Évry Val d'Essonne 2013/2014</div> 
 </nav>
-<script src="<?=base_url()?>asset/js/jquery-1.10.2.min.js"></script> 
+<?php /*?><script src="<?=base_url()?>asset/js/jquery-1.10.2.min.js"></script> <?php */?>
 <script src="<?=base_url()?>asset/js/bootstrap.js"></script>
 
 <?php if($nav == "home"): ?>

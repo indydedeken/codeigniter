@@ -54,6 +54,10 @@ body {
     height: 25px;
     padding: 2px 14px;
 }
+.navbar-fixed-top .badge {
+	background-color: #F63;
+	margin-right: 5px;
+}
 
 /* ./style général */
 
@@ -181,3 +185,22 @@ a.lienGroupe:hover {
 	}
 }
 /* ./signin & register */
+
+/* profil */
+/*
+*	toutes les informations présentées sur la page PROFIL
+*
+*/
+.bloc_profil_infoPerso {
+	width:100%;
+	margin-bottom:20px;
+}
+.bloc_profil_infoPerso .libelle {
+	width: 20%; 
+	float: left; 
+	display: block;
+}
+.bloc_profil_infoPerso .valeur {
+	width: 80%;
+}
+/* ./profil */

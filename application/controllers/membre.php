@@ -39,10 +39,14 @@ class Membre extends CI_Controller {
 					$data = $this->model_membre->get_membre($this->input->post('email'));
 					foreach($data->result() as $item) {
 						$email	= $item->email;
+						$nom	= $item->nom;
+						$prenom	= $item->prenom;
 					}
 					
 					$data = array(
 						'email'		=> $email,
+						'prenom'	=> $prenom,
+						'nom'		=> $nom,
 						'logged'	=> true
 					);
 					
@@ -82,7 +86,7 @@ class Membre extends CI_Controller {
 	/*										*/
 	/* BUT : inscription d'un utilisateur	*/
 	/****************************************/
-	function register() {
+	public function register() {
 		
 		$data['nav'] = "membre"; 
 		
@@ -156,9 +160,6 @@ class Membre extends CI_Controller {
 				
 				}
  				
- 				
-				
-			
 			} else {
 				
 				// affichage des vues
@@ -173,6 +174,59 @@ class Membre extends CI_Controller {
 	}
 
 
+	/********************************************************/
+	/* membre/profil										*/
+	/*														*/
+	/* BUT : administration des variables d'un utilisateur	*/
+	/********************************************************/
+	public function profil() {
+		if($this->session->userdata('email') && $this->session->userdata('logged'))  {
+			$data['nav'] = 'profil';
+			
+			// remettre nav=membre car on refait le tableau
+			$data['nav'] = "membre"; 
+			
+			$this->session->set_userdata($data);
+			
+			// affichage des vues
+			$this->load->view('header', $data);
+			$this->load->view('vue_profil', $data);
+			$this->load->view('footer', $data);
+				
+		} else {
+			redirect(site_url().'membre/register');
+		}
+	}
+	
+	
+	/****************************************************************/
+	/* membre/ajax_info_profil										*/
+	/*																*/
+	/* BUT : mettre à jour le formulaire des données utilisateur	*/
+	/****************************************************************/
+	public function ajax_info_profil() {
+		if($this->input->post('ajax') == '1') {
+			
+			$this->form_validation->set_rules('nom', 'nom', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('prenom', 'prenom', 'trim|required|xss_clean');
+			
+			$this->form_validation->set_message('required', 'Erreur : Merci de saisir tous les champs !');
+			if($this->form_validation->run() == FALSE) {
+				// message d'erreur
+				echo validation_errors();
+				
+			} else {
+				// mise à jour des données
+				$data['nom'] 	= $this->input->post('nom');
+				$data['prenom'] = $this->input->post('prenom');
+				$this->model_membre->maj_info_unite($data);
+				// mise à jour des var de session
+				$this->session->set_userdata($data);
+				echo 'Succès : Données utilisateur mises à jour';
+			}
+		}
+	}
+
 	/****************************************/
 	/* membre/logout 						*/
 	/*										*/
@@ -181,8 +235,9 @@ class Membre extends CI_Controller {
 	function logout() { 
 	
 		// supprimer les variables de session	
-		$this->session->set_userdata('id');
-		$this->session->set_userdata('login');
+		$this->session->set_userdata('nom');
+		$this->session->set_userdata('prenom');
+		$this->session->set_userdata('email');
 		$this->session->set_userdata('logged');
 
 		$this->session->sess_destroy();

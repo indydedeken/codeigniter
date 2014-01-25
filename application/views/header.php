@@ -7,6 +7,8 @@
 <!-- IE SWAGG -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Hello !</title>
+<script src="<?=base_url()?>asset/js/jquery-1.10.2.min.js"></script> 
+<script src="<?=base_url()?>asset/js/jquery.noty.packaged.min.js"></script> 
 
 <!-- CSS -->
 <link href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'>
@@ -55,7 +57,7 @@
         <ul class="nav navbar-nav">
           <li class="<?php if($nav == "home") echo 'active'?>"><a href="<?=base_url('home')?>">Home</a></li>
           <li class="<?php if($nav == "page2") echo 'active'?> dropdown">
-          	<a href="#" class="dropdown-toggle" data-toggle="dropdown">Mes documents<b class="caret"></b></a>
+          	<a href="#" class="dropdown-toggle" data-toggle="dropdown"> Mes documents <span class="badge pull-left">42</span> <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="#">1. Levi Strauss - Races et histoires</a></li>
               <li><a href="#">2. Vers un modèle computationnel unifié des émo...</a></li>
@@ -66,7 +68,7 @@
             </ul>
           </li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Groupes <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Groupes <span class="badge pull-left">5</span> <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><a href="#">1. Evry Search - IBGBI</a></li>
               <li><a href="#">2. Fontainebleau Search</a></li>
@@ -76,6 +78,9 @@
               <li><a href="#">Créer un groupe</a></li>
             </ul>
           </li>
+          <li>
+          	<?=$this->session->userdata('nom')?> | <?=$this->session->userdata('prenom')?> | <?=$this->session->userdata('email')?>
+          </li>
         </ul>
         
         <ul class="nav navbar-nav navbar-right">
@@ -84,7 +89,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compte <b class="caret"></b></a>
             <ul class="dropdown-menu">
             <?php if($this->session->userdata('logged')):?>
-              <li><a href="<?=base_url('membre')?>">Profil <?=$this->session->userdata('email')?></a></li>
+              <li><a href="<?=base_url('membre')?>/profil">Profil <?=$this->session->userdata('email')?></a></li>
               <li><a href="<?=base_url('membre')?>">Mettre à jour</a></li>
               <li><a href="<?=base_url('membre')?>">Uploader un document</a></li>
               <li role="presentation" class="divider"></li>

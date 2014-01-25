@@ -44,10 +44,9 @@ class Model_membre extends CI_Model {
 	}
 	
 	/* MAJ des infos simple : NOM, PRENOM, ETATCIVIL, MAILPRO */
-	public function maj_info_simple($data) {
-		
-		$this->db->where('mailPerso', $this->session->userdata('login'));
-		$this->db->update('membre', $data);
+	public function maj_info_unite($data) {
+		$this->db->where('email', $this->session->userdata('email'));
+		$this->db->update('Utilisateur', $data);
 	}
 	
 	/* MAJ du mdp */
