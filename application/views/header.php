@@ -55,34 +55,38 @@
 		?>
       
         <ul class="nav navbar-nav">
-          <li class="<?php if($nav == "home") echo 'active'?>"><a href="<?=base_url('home')?>">Home</a></li>
-          <li class="<?php if($nav == "page2") echo 'active'?> dropdown">
-          	<a href="#" class="dropdown-toggle" data-toggle="dropdown"> Mes documents <span class="badge pull-left">42</span> <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">1. Levi Strauss - Races et histoires</a></li>
-              <li><a href="#">2. Vers un modèle computationnel unifié des émo...</a></li>
-              <li><a href="#">3. Functionnal Genomics of nuclear receptors from...</a></li>
-              <li role="presentation" class="divider"></li>
-              <li><a href="<?=base_url('document')?>">Gestion de mes documents</a></li>
-              <li><a href="#">Uploader un document</a></li>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Groupes <span class="badge pull-left">5</span> <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">1. Evry Search - IBGBI</a></li>
-              <li><a href="#">2. Fontainebleau Search</a></li>
-              <li><a href="#">3. Markus Group</a></li>
-              <li role="presentation" class="divider"></li>
-              <li><a href="#">Gestion de mes groupes</a></li>
-              <li><a href="#">Créer un groupe</a></li>
-            </ul>
-          </li>
+        	<li class="<?php if($this->uri->segment(1) == "home") echo 'active'?>"><a href="<?=base_url('home')?>">Home</a></li>
+          	<li class="<?php if($this->uri->segment(1) == "document") echo 'active'?> dropdown">
+          		<a href="#" class="dropdown-toggle" data-toggle="dropdown"> Mes documents <span class="badge pull-left"><?php if(isset($nbDocumentsUtilisateur))echo $nbDocumentsUtilisateur?></span> <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <?php if($this->session->userdata('logged')):?>
+                    <li><a href="#">1. Levi Strauss - Races et histoires</a></li>
+                    <li><a href="#">2. Vers un modèle computationnel unifié des émo...</a></li>
+                    <li><a href="#">3. Functionnal Genomics of nuclear receptors from...</a></li>
+                    <li role="presentation" class="divider"></li>                  	
+                    <li><a href="<?=base_url('document')?>">Gestion de mes documents</a></li>
+                    <li><a href="#">Uploader un document</a></li>
+                    <?php else:?>
+                        <li><a href="<?=base_url('membre')?>">Connexion</a></li></li>
+                    <?php endif;?>
+                </ul>
+            </li>
+            <li class="<?php if($this->uri->segment(1) == "groupe") echo 'active'?> dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Groupes <span class="badge pull-left"><?php if(isset($nbGroupeUtilisateur))echo $nbGroupeUtilisateur?></span> <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">1. Evry Search - IBGBI</a></li>
+                    <li><a href="#">2. Fontainebleau Search</a></li>
+                    <li><a href="#">3. Markus Group</a></li>
+                    <li role="presentation" class="divider"></li>
+                    <li><a href="<?=base_url('groupe')?>">Gestion de mes groupes</a></li>
+                    <li><a href="#">Créer un groupe</a></li>
+                </ul>
+            </li>
         </ul>
-        
+       	
         <ul class="nav navbar-nav navbar-right">
           <!--<li><a href="#">Link</a></li>-->
-          <li class="dropdown <?php if($nav == "membre") echo 'active'?>">
+          <li class="dropdown <?php if($this->uri->segment(1) == "membre") echo 'active'?>">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compte <b class="caret"></b></a>
             <ul class="dropdown-menu">
             <?php if($this->session->userdata('logged')):?>

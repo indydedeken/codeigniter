@@ -15,9 +15,14 @@ class Home extends CI_Controller {
 		 */
 		$data['nav'] = "home"; 
 		$data['id'] = $this->session->userdata('id');
-		$data['login'] = $this->session->userdata('login');
+		$data['email'] = $this->session->userdata('email');
 		$data['logged'] = $this->session->userdata('logged');
 		
+		// afficher le nombre de document de l'utilisateur
+		if($this->session->userdata('logged')) {
+			$data['nbDocumentsUtilisateur']	= $this->model_document->countDocuments($this->session->userdata('email'), 'tous');
+			$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($this->session->userdata('email'));
+		}
 		
 		if($this->agent->is_mobile()) {
 			//echo "Vue mobile";

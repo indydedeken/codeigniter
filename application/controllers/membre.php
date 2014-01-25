@@ -188,6 +188,12 @@ class Membre extends CI_Controller {
 			
 			$this->session->set_userdata($data);
 			
+			// afficher le nombre de document de l'utilisateur
+			if($this->session->userdata('email')) {
+				$data['nbDocumentsUtilisateur']	= $this->model_document->countDocuments($this->session->userdata('email'), 'tous');
+				$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($this->session->userdata('email'));
+			}
+			
 			// affichage des vues
 			$this->load->view('header', $data);
 			$this->load->view('vue_profil', $data);

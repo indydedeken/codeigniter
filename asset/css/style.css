@@ -204,3 +204,12 @@ a.lienGroupe:hover {
 	width: 80%;
 }
 /* ./profil */
+
+/* document */
+/*
+*	toutes les informations présentées sur les pages documents
+* 
+*/
+#liste-document a.list-group-item {
+	/*min-height: 75px;*/
+}

@@ -4,8 +4,7 @@ class Document extends CI_Controller {
 
 	public function index() {
 		// vérifier que l'utilisateur est connecté
-		if(	$this->session->userdata('logged') &&
-			$this->session->userdata('email')) 
+		if(	$this->session->userdata('logged') && $this->session->userdata('email')) 
 		{
 			redirect(site_url().'document/gestion');
 		} 
@@ -25,6 +24,12 @@ class Document extends CI_Controller {
 		$data['nav'] = "gestionDoc"; 
 		if($this->session->userdata('email') && $this->session->userdata('logged')) {
 			
+			$email = $this->session->userdata('email');
+			
+			$data['documents']				= $this->model_document->getAllDocuments($email);
+			$data['nbDocumentsUtilisateur']	= $this->model_document->countDocuments($email, 'tous');
+			$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($email);
+			
 			$this->load->view('header', $data);
 			$this->load->view('vue_gestion_document', $data);
 			$this->load->view('footer', $data);
@@ -37,92 +42,17 @@ class Document extends CI_Controller {
 	}
 	
 	/****************************************/
-	/* membre/register						*/
+	/* document/afficher/<idDocument>		*/
 	/*										*/
-	/* BUT : inscription d'un utilisateur	*/
+	/* BUT : afficher un document			*/
 	/****************************************/
-	public function register() {
+	public function afficher() {
 		
-		$data['nav'] = "membre"; 
+		$data['nav'] = "afficher"; 
 		
-		if(!$this->session->userdata('email') || !$this->session->userdata('logged')) {
-		 
-			/* 
-			 *	Regles de validation du formulaire
-			 *	Règles en +, exemples : callback_check_mail callback_check_int');
-			 *
-			 * /!\ CHECKER QUE (MAIL + LOGIN) N'EXISTE PAS DÉJÀ /!\
-			 *
-			 */
-			$this->form_validation->set_rules('nomInscription', 'nom', 'trim|xss_clean|required|min_length[2]|max_length[100]');
-			$this->form_validation->set_rules('prenomInscription', 'prenom', 'trim|xss_clean|required|min_length[2]|max_length[100]');
-			$this->form_validation->set_rules('mailInscription', 'e-mail', 'trim|required|xss_clean|valid_email|callback_check_mail');
-			$this->form_validation->set_rules('passwordInscription1', 'mot de passe', 'trim|required|xss_clean|min_length[4]|max_length[15]');
-			$this->form_validation->set_rules('passwordInscription2', ' vérification de mot de passe', 'trim|required|xss_clean|min_length[4]|max_length[15]|matches[passwordInscription1]');
-			
-			// si le formulaire est bien rempli
-			if( $this->form_validation->run() == TRUE ) {
-				$dataInscription = array(
-					'nom'	=> $this->input->post('nomInscription'),
-					'prenom'=> $this->input->post('prenomInscription'),
-					'email'	=> $this->input->post('mailInscription'),
-					'mdp'	=> $this->input->post('passwordInscription1')
-				);
-				
-				// insertion en db
-				$this->load->model('model_membre');
-				$this->model_membre->ajout_membre($dataInscription);
-				
-				// PAS NECESSAIRE... A VOIR....recuperation de l'id du membre
-/*				$id = $this->model_membre->get_membre($data['mail']);
-				foreach($id->result() as $item) {
-						$id = $item->id;
-				}
-*/				
-
-				if( $this->model_membre->check_membre($dataInscription['email']) ) {
-					
-					$data = $this->model_membre->get_membre($dataInscription['email']);
-					foreach($data->result() as $item) {
-						$email	= $item->email;
-						$nom 	= $item->nom;
-						$prenom	= $item->prenom;
-					}
-					
-					$data = array(
-						'email'		=> $email,
-						'nom'		=> $nom,
-						'prenom'	=> $prenom,
-						'logged'	=> true
-					);
-					
-					// remettre nav=membre car on refait le tableau
-					$data['nav'] = "membre"; 
-					
-					$this->session->set_userdata($data);
-					
-					// affichage des vues
-					$this->load->view('header', $data);
-					$this->load->view('vue_inscription_succes', $data);
-					$this->load->view('footer', $data);
-					
-				} else {
-					// cas d'erreur
-					// affichage des vues
-					$this->load->view('header', $data);
-					$this->load->view('vue_connexion', $data);
-					$this->load->view('footer', $data);
-				
-				}
- 				
-			} else {
-				
-				// affichage des vues
-				$this->load->view('header', $data);
-				$this->load->view('vue_connexion', $data);
-				$this->load->view('footer', $data);
-			
-			}
+		// vérifier que l'utilisateur à le droit d'accès à ce document
+		if($this->session->userdata('email') && $this->session->userdata('logged')) {
+		
 		} else {
 			redirect(site_url().'membre');	
 		}
