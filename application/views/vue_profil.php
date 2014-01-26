@@ -2,7 +2,7 @@
   <br>
   <br>
   
-  <div id="finDePage" class="row annonce">
+  <div id="blocContent" class="row annonce">
     <div class="col col-sm-3 col-md-2">
       <h1>Profil</h1>
     </div>

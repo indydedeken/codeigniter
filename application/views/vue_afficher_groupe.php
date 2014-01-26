@@ -24,6 +24,24 @@
 			<?php } ?>
 			</dl>
         </div>
+        <div class="bloc_profil_infoPerso">
+        	<table class="table table-hover">
+            	<tr>
+                	<th>Titre</th>
+                    <th>Auteur</th>
+                    <th>Date</th>
+                    <th>Etat</th>
+                </tr>
+				<?php foreach($documents->result() as $item) { ?>
+                    <tr id="document_<?php echo $item->idDocument; ?>" <?php if($item->etat == 2) echo 'class="danger"'; ?>>
+                        <td><?=$item->titre?></td>
+                        <td><?=$item->auteur?></td>
+                        <td><?=$item->dateCreation?></td>
+                        <td><?=$item->libelle?></td>
+                    </tr>
+                <?php } ?>
+			</table>
+        </div>   
         <div>
         	<!-- affichage des membres du groupe -->
         	<dl class="dl-horizontal">
@@ -59,6 +77,9 @@
 							$('#groupe-badge').html($('#groupe-badge').text()-1);
 							// modifier l'id du bouton pour stopper l'action de quitter
 							$('#groupe-badge').attr("id", "groupe-badge-ok");
+							$("button, input").attr("disabled", true);
+							var direction = 'window.location.replace("<?php echo base_url('groupe/gestion');?>");';
+							setTimeout(direction, 3000); 
 						}).trigger('click'); // simuler click pour décrémenter la variable
 					}
 				},

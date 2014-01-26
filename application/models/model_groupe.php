@@ -11,7 +11,10 @@ class Model_groupe extends CI_Model {
         parent::__construct();
     }
 	
-	// ajouter un groupe
+	/* addGroupe	: ajouter un groupe
+	 * param1		: data (tableau de données intitulé, description... ) 
+	 * return 		: true
+	 */
 	public function addGroupe($data) {
 			$this->db->insert('Groupe', $data);
 	}
@@ -30,7 +33,7 @@ class Model_groupe extends CI_Model {
 		return $data;	
 	}
 	
-	/* getAllGroupes	: récupérer tous les Groupes d'un utilisateur
+	/* getAllGroupes	: récupérer tous les groupes d'un utilisateur
 	 * param1			: email de l'utilisateur
 	 * return			: ensemble des données de chaque Groupe
 	 */
@@ -46,7 +49,7 @@ class Model_groupe extends CI_Model {
 		return $data;
 	}
 	
-	/* getGroupe	: récupérer un Groupe
+	/* getGroupe	: récupérer les informations d'un groupe
 	 * param1		: id du Groupe
 	 * param2		: email de l'utilisateur
 	 * return		: ensemble des données du Groupe
@@ -102,6 +105,12 @@ class Model_groupe extends CI_Model {
 		}
 	}
 
+	/*
+	 * quitterGroupe	: supprimer un membre d'un groupe
+	 * param1			: id du Groupe
+	 * param2			: email de l'utilisateur
+	 * return			: true/false
+	 */
 	public function quitterGroupe($idGroupe, $email) {
 		$param = array('idGroupe' 			=> $idGroupe,
 						'emailUtilisateur'	=> $email

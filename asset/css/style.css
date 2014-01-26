@@ -58,8 +58,41 @@ body {
 	background-color: #F63;
 	margin-right: 5px;
 }
-
+#finDePage, #blocContent {
+    background: none repeat scroll 0 0 #E9E9E9;
+	box-shadow: 0 5px 15px #999999;
+	border: 2px solid #EEEEEE;
+}
 /* ./style général */
+
+/* style du HEADER */
+.navbar-form .form-control {
+	font-size: 13px;
+	width: 130px;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+.navbar-form {
+	padding-left:5px;
+	padding-right:5px;
+}
+@media (min-width: 800px) {
+	.navbar-form .form-control {
+		font-size: 14px;
+		width: 160px;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+}
+@media (min-width: 1000px) {
+	.navbar-form .form-control {
+		font-size: 14px;
+		width: 300px;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+}
+/* fin dtyle du HEADER */
 
 /* vue home */
 .annonce {
@@ -78,11 +111,6 @@ body {
 #aboutUs span {
 	font-size: 22px;
     font-weight: 500;
-}
-#finDePage {
-    background: none repeat scroll 0 0 #E9E9E9;
-	box-shadow: 0 5px 15px #999999;
-	border: 2px solid #EEEEEE;
 }
 a.lienGroupe,
 a.lienGroupe:active,

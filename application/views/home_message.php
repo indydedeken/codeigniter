@@ -29,7 +29,7 @@
   </div>
   <div id="finDePage" class="row annonce">
     <div class="col col-sm-3 col-md-4">
-      <h1>Informations des groupes</h1>
+      <h1>Activité des groupes</h1>
     </div>
     <div class="justify col-sm-8 col-md-8"> <i><strong>––– Le 12 décembre 2013</strong></i><br>
       <a class="lienGroupe" href="">Evry Search</a> - <strong>@Judith</strong> à rayé 8 lignes du document "<u>Vers un modèle computationnel unifié des émotions</u>"<br>

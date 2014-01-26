@@ -6,7 +6,7 @@
 <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
 <!-- IE SWAGG -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Hello !</title>
+<title>Markus - Outils d'annotation de pdf</title>
 <script src="<?=base_url()?>asset/js/jquery-1.10.2.min.js"></script> 
 <script src="<?=base_url()?>asset/js/jquery.noty.packaged.min.js"></script> 
 
@@ -57,7 +57,7 @@
         <ul class="nav navbar-nav">
         	<li class="<?php if($this->uri->segment(1) == "home") echo 'active'?>"><a href="<?=base_url('home')?>">Home</a></li>
           	<li class="<?php if($this->uri->segment(1) == "document") echo 'active'?> dropdown">
-          		<a href="#" class="dropdown-toggle" data-toggle="dropdown"> Mes documents <span id="document-badge" class="badge pull-left"><?php if($this->session->userdata('nbDocumentsUtilisateur'))echo $this->session->userdata('nbDocumentsUtilisateur')?></span> <b class="caret"></b></a>
+          		<a href="#" class="dropdown-toggle" data-toggle="dropdown"> Documents<span id="document-badge" class="badge pull-left"><?php if($this->session->userdata('nbDocumentsUtilisateur'))echo $this->session->userdata('nbDocumentsUtilisateur')?></span> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <?php if($this->session->userdata('logged')):?>
                     <li><a href="#">1. Levi Strauss - Races et histoires</a></li>
@@ -72,7 +72,7 @@
                 </ul>
             </li>
             <li class="<?php if($this->uri->segment(1) == "groupe") echo 'active'?> dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Groupes <span id="groupe-badge" class=" badge pull-left"><?php if($this->session->userdata('nbGroupesUtilisateur'))echo $this->session->userdata('nbGroupesUtilisateur')?></span> <b class="caret"></b></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Groupes<span id="groupe-badge" class=" badge pull-left"><?php if($this->session->userdata('nbGroupesUtilisateur'))echo $this->session->userdata('nbGroupesUtilisateur')?></span> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <?php if($this->session->userdata('logged')):?>
                     <li><a href="#">1. Evry Search - IBGBI</a></li>
@@ -109,7 +109,9 @@
           <div class="form-group">
             <input type="search" class="form-control" placeholder="chercher un groupe..." spellcheck="true">
           </div>
-          <button type="submit" class="btn btn-default">go</button>
+          <?php /* Voir si la saisie de la touche "entrée" peut valider la recherche ?>
+		  <button type="submit" class="btn btn-default">go</button>
+		  <?php */?>
         </form>
       </div><!-- /.navbar-collapse -->
     </nav>

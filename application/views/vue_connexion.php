@@ -99,33 +99,3 @@
       </div>
     </div>
 </div>
-<!-- le tableau devient responsive
-<div class="table-responsive">
-  <table class="table table-hover" id="membre">
-    <tr>
-      <th>#</th>
-      <th>login</th>
-      <th>password</th>
-    </tr>
-    <tr>
-      <td> #99 </td>
-      <td> Doe </td>
-      <td> ***** </td>
-    </tr>
-    <tr class="warning">
-      <td> #99 (tr class="warning") </td>
-      <td> Doe </td>
-      <td> ***** </td>
-    </tr>
-    <tr>
-      <td> #99 </td>
-      <td class="success"> Doe (class=active) </td>
-      <td> ***** </td>
-    </tr>
-    <tr>
-      <td> #99 </td>
-      <td> Doe </td>
-      <td> ***** </td>
-    </tr>
-  </table>
-</div>--> 

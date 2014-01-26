@@ -57,7 +57,8 @@ class Groupe extends CI_Controller {
 				$data['membresGroupe'] 		= $this->model_groupe->getAllMembresGroupe($id);
 				$data['estAdministrateur'] 	= $this->model_groupe->estAdministrateur($id, $this->session->userdata('email'));
 				$data['idGroupe']			= $id;
-
+				$data['documents']			= $this->model_document->getAllDocumentsGroupe($id, $this->session->userdata('email'));
+				
 				$this->load->view('header', $data);
 				$this->load->view('vue_afficher_groupe', $data);
 				$this->load->view('footer', $data);
@@ -75,6 +76,12 @@ class Groupe extends CI_Controller {
 		}
 	}
 
+	/****************************************/
+	/* Méthode ajax							*/
+	/*										*/
+	/* BUT : action + affichage du message	*/
+	/* lorsque le membre quitte un groupe	*/
+	/****************************************/
 	public function ajax_quitte_groupe() {
 
 		$data['email']	= $this->input->post('email');
@@ -84,16 +91,21 @@ class Groupe extends CI_Controller {
 
 			// vérifier que l'utilisateur à le droit de quitter le groupe...
 			// regles de gestion............................................
+			if($this->model_groupe->estAdministrateur($data['groupe'], $data['email'])) {
 			
-			if($this->model_groupe->quitterGroupe($data['groupe'], $data['email'])) {
-			
-				$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroupes($data['email']));
-				echo 'Succès : Vous avez bien quitté le groupe.';
+				echo 'Erreur : Un administrateur ne peut pas encore quitter un groupe.<br>Patience, cela va arriver...';	
 			
 			} else {
-				echo 'Erreur : Vous ne pouvez pas quitter le groupe.';			
+			
+				if($this->model_groupe->quitterGroupe($data['groupe'], $data['email'])) {
+				
+					$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroupes($data['email']));
+					echo 'Succès : Vous avez bien quitté le groupe.<br>Vous allez être redirigé.';
+				
+				} else {
+					echo 'Erreur : Vous ne pouvez pas quitter le groupe.';			
+				}
 			}
-		
 		} else {
 			echo 'Erreur : Vous ne disposez pas des droits suiffisants pour quitter le groupe.';
 		}
