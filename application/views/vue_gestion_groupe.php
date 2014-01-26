@@ -12,10 +12,13 @@
             <div id="liste-groupe" class="list-group">
             <?php 
 				foreach($groupe->result() as $item) { ?>
-                    <a class="list-group-item" href="<?=base_url('groupe/afficher/'.$item->id)?>" title="groupe">
-						<?=$item->intitule?> - <?=$item->dateCreation?><span class="badge pull-right">NB personne</span><br>
+                   <div class="btn-group btn-group-justified">
+                    <a class="list-group-item" href="<?=base_url('groupe/afficher/'.$item->id)?>" title="Groupe - <?=$item->intitule?>">
+						<span class="badge pull-right"><?=$item->nb?></span>
+						<h5 class="list-group-item-heading"><?=$item->intitule?><span style="font-weight:300; font-style:italic;"> - <?=$item->dateCreation?></span></h5>
                         <?=$item->description?>
 					</a>
+				</div>
 			<?php } ?>
          	</div>   
         </div>   

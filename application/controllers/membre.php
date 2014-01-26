@@ -44,13 +44,15 @@ class Membre extends CI_Controller {
 					}
 					
 					$data = array(
-						'email'		=> $email,
-						'prenom'	=> $prenom,
-						'nom'		=> $nom,
-						'logged'	=> true
+						'email'						=> $email,
+						'prenom'					=> $prenom,
+						'nom'						=> $nom,
+						'logged'					=> true,
+						'nbDocumentsUtilisateur'	=> $this->model_document->countDocuments($email, 'tous'),
+						'nbGroupesUtilisateur'		=> $this->model_groupe->countGroupes($email)
 					);
-					
 					$this->session->set_userdata($data);
+					
 					redirect(site_url().'home', $data);
 					
 				} else {
@@ -187,12 +189,6 @@ class Membre extends CI_Controller {
 			$data['nav'] = "membre"; 
 			
 			$this->session->set_userdata($data);
-			
-			// afficher le nombre de document de l'utilisateur
-			if($this->session->userdata('email')) {
-				$data['nbDocumentsUtilisateur']	= $this->model_document->countDocuments($this->session->userdata('email'), 'tous');
-				$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($this->session->userdata('email'));
-			}
 			
 			// affichage des vues
 			$this->load->view('header', $data);

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Sam 25 Janvier 2014 à 17:20
+-- Généré le: Dim 26 Janvier 2014 à 11:32
 -- Version du serveur: 5.5.25
 -- Version de PHP: 5.4.4
 
@@ -11,6 +11,12 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT=0;
 START TRANSACTION;
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données: `markus`
@@ -100,14 +106,15 @@ CREATE TABLE `Groupe` (
   `dateCreation` varchar(50) NOT NULL,
   `emailAdministrateur` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `Groupe`
 --
 
 INSERT INTO `Groupe` (`id`, `intitule`, `description`, `dateCreation`, `emailAdministrateur`) VALUES
-(1, 'Faculté d''Évry', 'Ce groupe est un rassemblement de professeurs issus de l''université d''Évry', '25/01/2014', 'indy@indy.fr');
+(1, 'Faculté d''Évry', 'Ce groupe est un rassemblement de professeurs issus de l''université d''Évry', '25/01/2014', 'indy@indy.fr'),
+(2, 'MIAGE Université d''Évry Val d''Essonne', 'Groupement des élèves de toutes les promotions MIAGE.', '25/01/2014', 'indy@indy.fr');
 
 -- --------------------------------------------------------
 
@@ -133,8 +140,7 @@ CREATE TABLE `GroupeUtilisateur` (
   `idGroupe` int(11) NOT NULL,
   `emailUtilisateur` varchar(100) NOT NULL,
   `dateInscriptionGroupe` varchar(50) NOT NULL,
-  PRIMARY KEY (`idGroupe`),
-  UNIQUE KEY `idGroupe` (`idGroupe`)
+  PRIMARY KEY (`idGroupe`,`emailUtilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -142,7 +148,10 @@ CREATE TABLE `GroupeUtilisateur` (
 --
 
 INSERT INTO `GroupeUtilisateur` (`idGroupe`, `emailUtilisateur`, `dateInscriptionGroupe`) VALUES
-(1, 'indy@indy.fr', '25/01/2014');
+(1, 'axel@axel.fr', '28/01/2014'),
+(1, 'indy@indy.fr', '25/01/2014'),
+(1, 'luis@luis.fr', '25/01/2014'),
+(2, 'indy@indy.fr', '25/01/2014');
 
 -- --------------------------------------------------------
 
@@ -183,3 +192,7 @@ INSERT INTO `Utilisateur` (`email`, `nom`, `prenom`, `mdp`) VALUES
 ('indy@indy.fr', 'De Deken', 'Indy', 'indyindy'),
 ('luis@luis.fr', 'Luis', 'Pépito del muerte', 'luisluis');
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

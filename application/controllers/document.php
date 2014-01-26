@@ -27,8 +27,7 @@ class Document extends CI_Controller {
 			$email = $this->session->userdata('email');
 			
 			$data['documents']				= $this->model_document->getAllDocuments($email);
-			$data['nbDocumentsUtilisateur']	= $this->model_document->countDocuments($email, 'tous');
-			$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($email);
+			//$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($email);
 			
 			$this->load->view('header', $data);
 			$this->load->view('vue_gestion_document', $data);

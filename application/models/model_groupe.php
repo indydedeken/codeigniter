@@ -35,13 +35,14 @@ class Model_groupe extends CI_Model {
 	 * return			: ensemble des données de chaque Groupe
 	 */
 	public function getAllGroupes($email) {
-				
-		$param = array('emailUtilisateur' => $email);
-		
-		$this->db->select('*');
-		$this->db->join('GroupeUtilisateur', 'GroupeUtilisateur.idGroupe = Groupe.id');
-		$data = $this->db->get_where('Groupe', $param);
-		
+
+		// récupère toutes les variables du groupe + nombre de collaborateur
+		$this->db->select('*, count(*) as nb');
+		$this->db->from('Groupe JOIN GroupeUtilisateur ON `GroupeUtilisateur`.`idGroupe` = `Groupe`.`id` ');
+		$this->db->where('Groupe.id IN (select idGroupe from GroupeUtilisateur WHERE emailUtilisateur = \''.$email.'\')');
+		$this->db->group_by('id');
+		$data = $this->db->get();
+
 		return $data;
 	}
 	
@@ -51,11 +52,13 @@ class Model_groupe extends CI_Model {
 	 * return		: ensemble des données du Groupe
 	 */
 	public function getGroupe($idGroupe, $email) {
-		$this->db->select('*');
-		$param = array(	'id'	=> $idGroupe,
-						'email'	=> $email
+		$param = array(	'id'				=> $idGroupe,
+						'emailUtilisateur'	=> $email
 		);
+		
+		$this->db->join('GroupeUtilisateur', 'GroupeUtilisateur.idGroupe = Groupe.id');
 		$data = $this->db->get_where('Groupe', $param);
+		
 		if($data->num_rows() == 1) {
 			return $data;
 		} else {
@@ -63,6 +66,54 @@ class Model_groupe extends CI_Model {
 		}
 	}
 	
+	/*
+	 * getAllMembresGroupe	: obtenir tous les membres d'un Groupe 
+	 * param1				: id du Groupe
+	 * param2				: email de l'utilisateur
+	 * return				: array de membre
+	 */
+	public function getAllMembresGroupe($idGroupe) {
+		$this->db->select('*');
+		$this->db->from('`GroupeUtilisateur` JOIN `Utilisateur` ON `GroupeUtilisateur`.`emailUtilisateur` = `Utilisateur`.`email`');
+		$this->db->where('idGroupe', $idGroupe);
+		$this->db->order_by('dateInscriptionGroupe', 'desc');
+		$data = $this->db->get();
+
+		return $data;
+	}
+
+	/*
+	 * estAdministrateur	: savoir si un membre est admin du groupe
+	 * param1				: id du Groupe
+	 * param2				: email de l'utilisateur
+	 * return				: true/false
+	 */
+	public function estAdministrateur($idGroupe, $email) {
+		$param = array(	'id' 					=> $idGroupe,
+						'emailAdministrateur'	=> $email
+		);
+
+		$data = $this->db->get_where('Groupe', $param);
+
+		if($data->num_rows() == 1) {
+			return true;
+		} else {
+			return false;	
+		}
+	}
+
+	public function quitterGroupe($idGroupe, $email) {
+		$param = array('idGroupe' 			=> $idGroupe,
+						'emailUtilisateur'	=> $email
+		);
+		
+		if($this->db->delete('GroupeUtilisateur', $param))
+			return true;
+		else
+			return false;
+
+	}
+
 	/*
 	 * delGroupe	: supprimer un Groupe
 	 * param1		: id du Groupe

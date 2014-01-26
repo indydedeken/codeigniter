@@ -4,17 +4,17 @@
 <?php /*?><script src="<?=base_url()?>asset/js/jquery-1.10.2.min.js"></script> <?php */?>
 <script src="<?=base_url()?>asset/js/bootstrap.js"></script>
 
-<?php if($nav == "home"): ?>
+<?php if($this->uri->segment(1) == "home"): ?>
 <script>
 <!-- 
 	(function($) {
 	
-		/* focus sur l'élément de recherche dans la barre de navigation */
+		
 		
 	})(jQuery);
 -->
 </script>
-<?php elseif($nav="membre"): ?>
+<?php elseif($this->uri->segment(1) == "membre"): ?>
 <script>
 <!-- 
 	(function($) {

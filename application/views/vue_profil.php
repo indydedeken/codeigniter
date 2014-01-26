@@ -38,7 +38,6 @@
       <a class="lienGroupe" href="">Fontainebleau Search</a> - <strong>@Axel</strong> à surligné 2 lignes du document "<u>Vers un modèle computationnel unifié...</u>"<br></div>
   </div>
 </div>
-
 <script type="application/javascript">
 	$(document).ready(function() {
 		$('#submit').click(function() {
@@ -68,7 +67,7 @@
 		});
 	});
 </script>
-<script type="text/javascript">
+<script type="application/javascript">
 	/*
 	 * Préparation des boites de notification
 	 * generateAlert()

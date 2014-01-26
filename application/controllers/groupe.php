@@ -20,23 +20,15 @@ class Groupe extends CI_Controller {
 	/* BUT : gestion des groupe d'un utilisateur	*/
 	/************************************************/
 	public function gestion() {
-		
 		$data['nav'] = "gestionGrp"; 
 		if($this->session->userdata('email') && $this->session->userdata('logged')) {
 			
-			// afficher le nombre de document/groupe de l'utilisateur
-			if($this->session->userdata('email')) {
-				$data['nbDocumentsUtilisateur']	= $this->model_document->countDocuments($this->session->userdata('email'), 'tous');
-				$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($this->session->userdata('email'));
-				$data['groupe']	= $this->model_groupe->getAllGroupes($this->session->userdata('email'));
-			}
-			
-			//$data['nbGroupes']				= $this->model_groupe->countGroupes($email, 'tous');
+			$data['groupe']	= $this->model_groupe->getAllGroupes($this->session->userdata('email'));
 			
 			$this->load->view('header', $data);
 			$this->load->view('vue_gestion_groupe', $data);
 			$this->load->view('footer', $data);
-		
+			
 		} else {
 			// si non loggé && sans email
 			redirect(site_url().'home');	
@@ -47,7 +39,8 @@ class Groupe extends CI_Controller {
 	/****************************************/
 	/* groupe/afficher/<idGroupe>			*/
 	/*										*/
-	/* BUT : afficher un groupe				*/
+	/* BUT : afficher les données du		*/
+	/* groupe 								*/
 	/****************************************/
 	public function afficher() {
 		
@@ -55,9 +48,55 @@ class Groupe extends CI_Controller {
 		
 		// vérifier que l'utilisateur à le droit d'accès à ce document
 		if($this->session->userdata('email') && $this->session->userdata('logged')) {
-		
+			
+			$id = $this->uri->segment(3);
+
+			if($this->model_groupe->getGroupe($id, $this->session->userdata('email'))) {
+				
+				$data['groupe'] 			= $this->model_groupe->getGroupe($id, $this->session->userdata('email'));
+				$data['membresGroupe'] 		= $this->model_groupe->getAllMembresGroupe($id);
+				$data['estAdministrateur'] 	= $this->model_groupe->estAdministrateur($id, $this->session->userdata('email'));
+				$data['idGroupe']			= $id;
+
+				$this->load->view('header', $data);
+				$this->load->view('vue_afficher_groupe', $data);
+				$this->load->view('footer', $data);
+			
+			} else {
+				// affichage d'une page d'erreur
+
+				$this->load->view('header', $data);
+				$this->load->view('vue_afficher_groupe_inaccessible', $data);
+				$this->load->view('footer', $data);
+			}	
+
 		} else {
 			redirect(site_url().'membre');	
 		}
+	}
+
+	public function ajax_quitte_groupe() {
+
+		$data['email']	= $this->input->post('email');
+		$data['groupe']	= $this->input->post('groupe');
+
+		if($this->input->post('ajax') == '1' && $data['email'] == $this->session->userdata('email') && $data['groupe']) {
+
+			// vérifier que l'utilisateur à le droit de quitter le groupe...
+			// regles de gestion............................................
+			
+			if($this->model_groupe->quitterGroupe($data['groupe'], $data['email'])) {
+			
+				$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroupes($data['email']));
+				echo 'Succès : Vous avez bien quitté le groupe.';
+			
+			} else {
+				echo 'Erreur : Vous ne pouvez pas quitter le groupe.';			
+			}
+		
+		} else {
+			echo 'Erreur : Vous ne disposez pas des droits suiffisants pour quitter le groupe.';
+		}
+
 	}
 }
