@@ -1,26 +1,26 @@
 <div class="container"> 
   <br>
   <br>
-  <div id="finDePage" class="row annonce">
+  <div id="" class="annonce">
     <div class="col col-sm-4 col-md-3">
-      <h1>Gestion des documents</h1>
+      <h1>Mon document</h1>
     </div>
     <div class="justify col-sm-8 col-md-9">
-      	<div class="bloc_profil_infoPerso">
-            <h2>Mes documents</h2>
-			<p>Liste des documents disponibles :</p>
-            <div id="liste-document" class="list-group">
-            <?php 
-				foreach($documents->result() as $item) { ?>
-                    <a class="list-group-item" href="<?=base_url('document/afficher/'.$item->id)?>" title="document">
-						<?=$item->titre?> - <?=$item->auteur?><span class="badge pull-right"><?=$item->libelle?></span>
-					</a>
-			<?php } ?>
-         	</div>   
-        </div>   
+      	<div class="bloc_groupe">
+      		<!-- affichage des informations du document -->
+            info document <?=$idDocument?>
+            <dl class="dl-horizontal">
+			</dl>
+        </div>
+        <div>
+        	<!-- affichage des membres du groupe -->
+        	<dl class="dl-horizontal">
+            </div>
 	</div>
 </div>
-<script type="text/javascript">
+<script type="application/javascript">
+</script>
+<script type="application/javascript">
 	/*
 	 * Préparation des boites de notification
 	 * generateAlert()

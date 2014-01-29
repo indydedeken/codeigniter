@@ -1,4 +1,22 @@
 @charset "UTF-8";
+@font-face {
+  font-family: 'Oxygen';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Oxygen Light'), local('Oxygen-Light'), url(http://themes.googleusercontent.com/static/fonts/oxygen/v3/AwBqWF2kjhlybWamaKMPcbO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+}
+@font-face {
+  font-family: 'Oxygen';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Oxygen'), local('Oxygen-Regular'), url(http://themes.googleusercontent.com/static/fonts/oxygen/v3/eAWT4YudG0otf3rlsJD6zOvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
+}
+@font-face {
+  font-family: 'Oxygen';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Oxygen Bold'), local('Oxygen-Bold'), url(http://themes.googleusercontent.com/static/fonts/oxygen/v3/yVHpdQrmTj9Kax1tmFSx2rO3LdcAZYWl9Si6vvxL-qU.woff) format('woff');
+}
 
 /* Style général */
 
@@ -238,6 +256,17 @@ a.lienGroupe:hover {
 *	toutes les informations présentées sur les pages documents
 * 
 */
-#liste-document a.list-group-item {
-	/*min-height: 75px;*/
+table.listeDocument {
+	cursor: pointer;
 }
+
+/* groupe */
+ul#listeMembre {
+	width: 190px; 
+	height: 80px; 
+	overflow: scroll; 
+	border: 1px solid rgb(102, 102, 102); 
+	list-style: none outside none; 
+	padding: 0px 0px 0px 3px;
+}
+/* ./groupe */

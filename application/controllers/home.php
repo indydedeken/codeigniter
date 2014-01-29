@@ -21,11 +21,11 @@ class Home extends CI_Controller {
 		if($this->agent->is_mobile()) {
 			//echo "Vue mobile";
 			$this->load->view('header', $data);
-			$this->load->view('home_message', $data);
+			$this->load->view('home/home_message', $data);
 			$this->load->view('footer', $data);
 		} else {
 			$this->load->view('header', $data);
-			$this->load->view('home_message', $data);
+			$this->load->view('home/home_message', $data);
 			$this->load->view('footer', $data);
 		}
 	}

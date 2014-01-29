@@ -75,12 +75,15 @@ class Model_document extends CI_Model {
 	 * param1			: email de l'utilisateur
 	 * return			: ensemble des données de chaque document
 	 */
-	public function getAllDocuments($email) {
-		$param = array('emailUtilisateur' => $email);
+	public function getAllDocuments($email, $limite = NULL) {
+		if($limite == NULL)
+			$limite = 100;
 		
-		$this->db->select('Document.id, titre, auteur, auteur, contenu, libelle');
-		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');
-		$data = $this->db->get_where('Document', $param);
+		$param = array('Document.emailUtilisateur' => $email);
+		
+		$this->db->select('Document.id, Document.titre, Document.auteur, Document.auteur, Document.contenu, EtatDocument.libelle');
+		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');		
+		$data = $this->db->get_where('Document', $param, $limite);
 		
 		return $data;
 	}

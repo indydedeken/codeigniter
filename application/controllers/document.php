@@ -30,7 +30,7 @@ class Document extends CI_Controller {
 			//$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($email);
 			
 			$this->load->view('header', $data);
-			$this->load->view('vue_gestion_document', $data);
+			$this->load->view('document/vue_gestion_document', $data);
 			$this->load->view('footer', $data);
 		
 		} else {
@@ -61,14 +61,14 @@ class Document extends CI_Controller {
 				$data['idDocument']			= $id;
 
 				$this->load->view('header', $data);
-				$this->load->view('vue_afficher_document', $data);
+				$this->load->view('document/vue_afficher_document', $data);
 				$this->load->view('footer', $data);
 			
 			} else {
 				// affichage d'une page d'erreur
 
 				$this->load->view('header', $data);
-				//$this->load->view('vue_afficher_document_inaccessible', $data);
+				//$this->load->view('document/vue_afficher_document_inaccessible', $data);
 				$this->load->view('footer', $data);
 			}	
 
@@ -94,7 +94,7 @@ class Document extends CI_Controller {
 			
 			// affichage des vues
 			$this->load->view('header', $data);
-			$this->load->view('vue_profil', $data);
+			$this->load->view('membre/vue_profil', $data);
 			$this->load->view('footer', $data);
 				
 		} else {

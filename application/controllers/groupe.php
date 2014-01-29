@@ -26,7 +26,7 @@ class Groupe extends CI_Controller {
 			$data['groupe']	= $this->model_groupe->getAllGroupes($this->session->userdata('email'));
 			
 			$this->load->view('header', $data);
-			$this->load->view('vue_gestion_groupe', $data);
+			$this->load->view('groupe/vue_gestion_groupe', $data);
 			$this->load->view('footer', $data);
 			
 		} else {
@@ -60,14 +60,14 @@ class Groupe extends CI_Controller {
 				$data['documents']			= $this->model_document->getAllDocumentsGroupe($id, $this->session->userdata('email'));
 				
 				$this->load->view('header', $data);
-				$this->load->view('vue_afficher_groupe', $data);
+				$this->load->view('groupe/vue_afficher_groupe', $data);
 				$this->load->view('footer', $data);
 			
 			} else {
 				// affichage d'une page d'erreur
 
 				$this->load->view('header', $data);
-				$this->load->view('vue_afficher_groupe_inaccessible', $data);
+				$this->load->view('groupe/vue_afficher_groupe_inaccessible', $data);
 				$this->load->view('footer', $data);
 			}	
 

@@ -34,7 +34,7 @@ class Membre extends CI_Controller {
 				
 				// si les identifiants sont corrects
 				// on peut convertir le mdp en sha1(...)
-				if( $this->model_membre->check_membre($this->input->post('email') )) {
+				if( $this->model_membre->check_membre($this->input->post('email'), $this->input->post('mdp'))) {
 					
 					$data = $this->model_membre->get_membre($this->input->post('email'));
 					foreach($data->result() as $item) {
@@ -42,6 +42,8 @@ class Membre extends CI_Controller {
 						$nom	= $item->nom;
 						$prenom	= $item->prenom;
 					}
+					
+					
 					
 					$data = array(
 						'email'						=> $email,
@@ -51,6 +53,7 @@ class Membre extends CI_Controller {
 						'nbDocumentsUtilisateur'	=> $this->model_document->countDocuments($email, 'tous'),
 						'nbGroupesUtilisateur'		=> $this->model_groupe->countGroupes($email)
 					);
+					//$_SESSION['listeDocument'] = $this->model_document->getAllDocuments($this->session->userdata('email'), 5);
 					$this->session->set_userdata($data);
 					
 					redirect(site_url().'home', $data);
@@ -63,11 +66,11 @@ class Membre extends CI_Controller {
 					
 					if($this->agent->is_mobile()) {
 						$this->load->view('header');
-						$this->load->view('vue_connexion', $data);
+						$this->load->view('membre/vue_connexion', $data);
 						$this->load->view('footer');
 					} else {
 						$this->load->view('header');
-						$this->load->view('vue_connexion', $data);
+						$this->load->view('membre/vue_connexion', $data);
 						$this->load->view('footer');			
 					}
 				}
@@ -75,7 +78,7 @@ class Membre extends CI_Controller {
 			} else {
 				
 				$this->load->view('header', $data);
-				$this->load->view('vue_connexion', $data);
+				$this->load->view('membre/vue_connexion', $data);
 				$this->load->view('footer', $data);
 			}
 		} else {
@@ -150,14 +153,14 @@ class Membre extends CI_Controller {
 					
 					// affichage des vues
 					$this->load->view('header', $data);
-					$this->load->view('vue_inscription_succes', $data);
+					$this->load->view('membre/vue_inscription_succes', $data);
 					$this->load->view('footer', $data);
 					
 				} else {
 					// cas d'erreur
 					// affichage des vues
 					$this->load->view('header', $data);
-					$this->load->view('vue_connexion', $data);
+					$this->load->view('membre/vue_connexion', $data);
 					$this->load->view('footer', $data);
 				
 				}
@@ -166,7 +169,7 @@ class Membre extends CI_Controller {
 				
 				// affichage des vues
 				$this->load->view('header', $data);
-				$this->load->view('vue_connexion', $data);
+				$this->load->view('membre/vue_connexion', $data);
 				$this->load->view('footer', $data);
 			
 			}
@@ -192,7 +195,7 @@ class Membre extends CI_Controller {
 			
 			// affichage des vues
 			$this->load->view('header', $data);
-			$this->load->view('vue_profil', $data);
+			$this->load->view('membre/vue_profil', $data);
 			$this->load->view('footer', $data);
 				
 		} else {
@@ -221,7 +224,7 @@ class Membre extends CI_Controller {
 				// mise à jour des données
 				$data['nom'] 	= $this->input->post('nom');
 				$data['prenom'] = $this->input->post('prenom');
-				$this->model_membre->maj_info_unite($data);
+				$this->model_membre->maj_info_unite($this->session->userdata('email'), $data);
 				// mise à jour des var de session
 				$this->session->set_userdata($data);
 				echo 'Succès : Données utilisateur mises à jour';
@@ -269,7 +272,7 @@ class Membre extends CI_Controller {
 	}
 	
 	/************************************/
-	/* vérifie qu'il s'agit d'une année */
+	/* MODELE vérifie qu'il s'agit d'une année MODELE */
 	/************************************/
 	function check_int(){
 		if(ctype_digit($this->input->post('annee'))) {

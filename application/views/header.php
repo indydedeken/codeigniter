@@ -11,9 +11,10 @@
 <script src="<?=base_url()?>asset/js/jquery.noty.packaged.min.js"></script> 
 
 <!-- CSS -->
-<link href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'>
+
 <link href="<?=base_url()?>asset/css/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="<?=base_url()?>asset/css/style.css" rel="stylesheet" type="text/css">
+<link href="<?=base_url()?>asset/css/jquery.pageslide.css" rel="stylesheet" type="text/css">
 
 <!-- Favicons -->
 <link rel="shortcut icon" href="<?=base_url()?>/asset/ico/favicon.ico" type="image/x-icon" />
