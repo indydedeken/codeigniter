@@ -8,7 +8,7 @@
     <div class="justify col-sm-8 col-md-9">
       	<div class="bloc_groupe">
       		<!-- affichage des informations du document -->
-            info document <?=$idDocument?>
+            Document hors de portée
             <dl class="dl-horizontal">
 			</dl>
         </div>

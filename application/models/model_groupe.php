@@ -11,14 +11,6 @@ class Model_groupe extends CI_Model {
         parent::__construct();
     }
 	
-	/* addGroupe	: ajouter un groupe
-	 * param1		: data (tableau de données intitulé, description... ) 
-	 * return 		: true
-	 */
-	public function addGroupe($data) {
-			$this->db->insert('Groupe', $data);
-	}
-	
 	/* countGroupes		: connaitre le nombre de Groupes disponible
 	 * param1 			: email de l'utilisateur, peut-être vide
 	 * return			: nombre de Groupes qui correspondent
@@ -122,6 +114,54 @@ class Model_groupe extends CI_Model {
 			return false;
 
 	}
+
+	/*
+	 * addGroupe	: créer un groupe en table Groupe
+	 * param1		: ensemble des données à enregistrer
+	 * return		: idGroupe / 0
+	 */
+	public function addGroupe($table, $data) {
+	
+		$this->db->trans_begin();	
+		if( $this->db->insert($table, $data) ) {
+			// si l'insertion réussie
+			$insert_id = $this->db->insert_id();
+			$this->db->trans_commit();
+	
+		} else {
+			// si l'insertion échoue
+			$this->db->trans_rollback();
+			return 0;
+	
+		}	
+		// retour de la fonction en cas de réussite
+		return $insert_id;
+	
+	}
+	
+	/*
+	 * addDocGroupe	: associer un document à un groupe
+	 * param1		: ensemble des données à enregistrer
+	 * return		: true / false
+	 */
+	public function addDocGroupe($data) {
+	
+		$this->db->trans_begin();	
+		if( $this->db->insert('GroupeDocument', $data) ) {
+			// si l'insertion réussie
+			$this->db->trans_commit();
+	
+		} else {
+			// si l'insertion échoue
+			$this->db->trans_rollback();
+			return 0;
+	
+		}	
+		// retour de la fonction en cas de réussite
+		return 1;
+	
+	}	
+	
 
 	/*
 	 * delGroupe	: supprimer un Groupe

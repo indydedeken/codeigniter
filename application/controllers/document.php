@@ -52,13 +52,17 @@ class Document extends CI_Controller {
 		// vérifier que l'utilisateur à le droit d'accès à ce document
 		if($this->session->userdata('email') && $this->session->userdata('logged')) {
 			
-			$id = $this->uri->segment(3);
-
-			if($this->model_document->getDocument($id, $this->session->userdata('email'))) {
+			$idDocument = $this->uri->segment(3);
+			if($this->uri->segment(5)) {
+				$idGroupe = $this->uri->segment(5);
+			}
+			
+			
+			if($this->model_document->getDocument($idDocument, $this->session->userdata('email'), $idGroupe)) {
 				
 				//$data['document'] 			= $this->model_document->getDocument($id, $this->session->userdata('email'));
 				//$data['estAdministrateur'] 	= $this->model_document->estAdministrateur($id, $this->session->userdata('email'));
-				$data['idDocument']			= $id;
+				$data['idDocument']			= $idDocument;
 
 				$this->load->view('header', $data);
 				$this->load->view('document/vue_afficher_document', $data);
@@ -68,7 +72,7 @@ class Document extends CI_Controller {
 				// affichage d'une page d'erreur
 
 				$this->load->view('header', $data);
-				//$this->load->view('document/vue_afficher_document_inaccessible', $data);
+				$this->load->view('document/vue_afficher_document_inaccessible', $data);
 				$this->load->view('footer', $data);
 			}	
 

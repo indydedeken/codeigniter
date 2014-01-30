@@ -13,7 +13,7 @@
 	})(jQuery);
 -->
 </script>
-<?php elseif($this->uri->segment(1) == "membre"): ?>
+<?php elseif($this->uri->segment(1) == "membre" || $this->uri->segment(1) == "creer") : ?>
 <script>
 <!-- 
 	(function($) {

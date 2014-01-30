@@ -59,7 +59,7 @@ class Model_document extends CI_Model {
 							Document.etat, 
 							EtatDocument.libelle');
 		$this->db->from('Document');
-		$this->db->join('EtatDocument', 'Document.id = EtatDocument.id');
+		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');
 		$this->db->join('GroupeDocument', 'Document.id = GroupeDocument.idDocument');
 		$this->db->join('Groupe', 'GroupeDocument.idGroupe = Groupe.id');
 		$this->db->join('GroupeUtilisateur', 'Groupe.id = GroupeUtilisateur.idGroupe');
@@ -81,7 +81,7 @@ class Model_document extends CI_Model {
 		
 		$param = array('Document.emailUtilisateur' => $email);
 		
-		$this->db->select('Document.id, Document.titre, Document.auteur, Document.auteur, Document.contenu, EtatDocument.libelle');
+		$this->db->select('Document.id, Document.titre, Document.auteur, Document.contenu, EtatDocument.libelle, Document.dateCreation');
 		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');		
 		$data = $this->db->get_where('Document', $param, $limite);
 		
@@ -93,17 +93,18 @@ class Model_document extends CI_Model {
 	 * param2		: email de l'utilisateur
 	 * return		: ensemble des données du document
 	 */
-	public function getDocument($idDocument, $email) {
-		/*
-		 * vérifier que l'utilisateur à acces à un groupe,
-		 * et que ce groupe comprend l'email de l'utilisateur
-		 */
+	public function getDocument($idDocument, $email, $idGroupe) {
 		
-		$param = array(	'id'	=> $idDocument,
-						'emailUtilisateur'	=> $email
-		);
-		$data = $this->db->get_where('Document', $param);
-		if($data->num_rows() == 1) {
+		$param	= array( 'GroupeDocument.idDocument' => $idDocument);
+		
+		$this->db->select('*');
+		$this->db->join('GroupeUtilisateur', 'GroupeUtilisateur.idGroupe = GroupeDocument.idGroupe');
+		$this->db->join('Document', 'GroupeDocument.idDocument = Document.id');
+		$this->db->where('GroupeUtilisateur.emailUtilisateur', $email);
+		$this->db->where('GroupeUtilisateur.idGroupe', $idGroupe);
+		$data = $this->db->get_where('GroupeDocument', $param);
+		//$data =$this->db->group_by('GroupeDocument.idDocument');
+		if($data->num_rows()>0) {
 			return $data;
 		} else {
 			return false;	

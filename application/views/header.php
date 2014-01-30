@@ -7,14 +7,16 @@
 <!-- IE SWAGG -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Markus - Outils d'annotation de pdf</title>
-<script src="<?=base_url()?>asset/js/jquery-1.10.2.min.js"></script> 
+<script src="<?=base_url()?>asset/js/jquery-1.10.2.min.js"></script>
+<script src="<?=base_url()?>asset/js/jquery-ui-1.10.4.custom.min.js"></script> 
 <script src="<?=base_url()?>asset/js/jquery.noty.packaged.min.js"></script> 
 
 <!-- CSS -->
-
+<link href="<?=base_url()?>asset/css/jquery-ui-1.10.4.custom.css" rel="stylesheet" type="text/css">
 <link href="<?=base_url()?>asset/css/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="<?=base_url()?>asset/css/style.css" rel="stylesheet" type="text/css">
 <link href="<?=base_url()?>asset/css/jquery.pageslide.css" rel="stylesheet" type="text/css">
+
 
 <!-- Favicons -->
 <link rel="shortcut icon" href="<?=base_url()?>/asset/ico/favicon.ico" type="image/x-icon" />
@@ -54,7 +56,7 @@
 				$nav = "home";
 			endif;
 		?>
-      
+      	
         <ul class="nav navbar-nav">
         	<li class="<?php if($this->uri->segment(1) == "home") echo 'active'?>"><a href="<?=base_url('home')?>">Home</a></li>
           	<li class="<?php if($this->uri->segment(1) == "document") echo 'active'?> dropdown">
@@ -81,7 +83,7 @@
                     <li><a href="#">3. Markus Group</a></li>
                     <li role="presentation" class="divider"></li>
                     <li><a href="<?=base_url('groupe')?>">Gestion de mes groupes</a></li>
-                    <li><a href="#">Créer un groupe</a></li>
+                    <li><a href="<?=base_url('groupe/creer')?>">Créer un groupe</a></li>
                     <?php else:?>
                         <li><a href="<?=base_url('membre')?>">Connexion</a></li></li>
                     <?php endif;?>

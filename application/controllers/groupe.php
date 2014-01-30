@@ -49,15 +49,15 @@ class Groupe extends CI_Controller {
 		// vérifier que l'utilisateur à le droit d'accès à ce document
 		if($this->session->userdata('email') && $this->session->userdata('logged')) {
 			
-			$id = $this->uri->segment(3);
+			$idGroupe = $this->uri->segment(3);
 
-			if($this->model_groupe->getGroupe($id, $this->session->userdata('email'))) {
+			if($this->model_groupe->getGroupe($idGroupe, $this->session->userdata('email'))) {
 				
-				$data['groupe'] 			= $this->model_groupe->getGroupe($id, $this->session->userdata('email'));
-				$data['membresGroupe'] 		= $this->model_groupe->getAllMembresGroupe($id);
-				$data['estAdministrateur'] 	= $this->model_groupe->estAdministrateur($id, $this->session->userdata('email'));
-				$data['idGroupe']			= $id;
-				$data['documents']			= $this->model_document->getAllDocumentsGroupe($id, $this->session->userdata('email'));
+				$data['groupe'] 			= $this->model_groupe->getGroupe($idGroupe, $this->session->userdata('email'));
+				$data['membresGroupe'] 		= $this->model_groupe->getAllMembresGroupe($idGroupe);
+				$data['estAdministrateur'] 	= $this->model_groupe->estAdministrateur($idGroupe, $this->session->userdata('email'));
+				$data['idGroupe']			= $idGroupe;
+				$data['documents']			= $this->model_document->getAllDocumentsGroupe($idGroupe, $this->session->userdata('email'));
 				
 				$this->load->view('header', $data);
 				$this->load->view('groupe/vue_afficher_groupe', $data);
@@ -73,6 +73,96 @@ class Groupe extends CI_Controller {
 
 		} else {
 			redirect(site_url().'membre');	
+		}
+	}
+	
+	/****************************************/
+	/* groupe/creer/						*/
+	/*										*/
+	/* BUT : création de groupe				*/
+	/* 		 								*/
+	/****************************************/
+	public function creer() {
+		
+		//$data['nav'] = "creer"; 
+		
+		// vérifier que l'utilisateur à le droit d'accès à ce document
+		if($this->session->userdata('email') && $this->session->userdata('logged')) {
+			
+			$data['documents'] = $this->model_document->getAllDocuments($this->session->userdata('email'));
+				
+			$this->load->view('header', $data);
+			$this->load->view('groupe/vue_creer_groupe', $data);
+			$this->load->view('footer', $data);
+			
+		} else {
+			redirect(site_url().'membre');
+		}
+	}
+	
+	/****************************************/
+	/* groupe/creation/						*/
+	/*										*/
+	/* BUT : création de groupe				*/
+	/* 		 								*/
+	/****************************************/
+	public function creation() {
+		
+		// vérifier que l'utilisateur à le droit d'accès à ce document
+		if($this->session->userdata('email') && $this->session->userdata('logged')) {
+			
+			if( $this->input->post('nom') != '' ) {
+				
+				// préparation des variables pour la creation du groupe
+				$donnees['nom'] = $this->input->post('nom');
+				$donnees['description'] = $this->input->post('description');
+				$datestring = "%d/%m/%Y";
+				$donnees['dateCreation'] = mdate($datestring, time());
+				$donnees['emailAdministrateur'] = $this->session->userdata('email');
+				
+				$donneesGroupe = array(	'intitule'				=> $donnees['nom'],
+										'description'			=> $donnees['description'],
+										'dateCreation'			=> $donnees['dateCreation'],
+										'emailAdministrateur'	=> $donnees['emailAdministrateur']
+				);
+				
+				// insertion du groupe en DB
+				$idGroupe = $this->model_groupe->addGroupe('Groupe', $donneesGroupe);
+				if( $idGroupe > 0 ) {
+					// ajouter les documents	
+					$data['idGroupe'] = $idGroupe;
+					$data['creation'] = 1;
+					$data['nom'] = $this->input->post('nom');
+					$data['description'] = $this->input->post('description');
+				}
+				
+				// insertion de l'utilisateur au groupe
+				$donneesGroupeUtilisateur = array(	'idGroupe'				=> $idGroupe,
+													'emailUtilisateur'		=> $this->session->userdata('email'),
+													'dateInscriptionGroupe'	=> $donnees['dateCreation']
+				);
+				$this->model_groupe->addGroupe('GroupeUtilisateur', $donneesGroupeUtilisateur);
+				
+				// insertion des documents au groupe
+				foreach($_POST['documents'] as $idDoc) {
+					$donnees['idDocument'] = array(	'idGroupe'		=> $idGroupe,
+													'idDocument' 	=> $idDoc
+					);
+					$this->model_groupe->addGroupe('GroupeDocument', $donnees['idDocument']);
+				}
+				
+				$this->load->view('header', $data);
+				$this->load->view('groupe/vue_creer_groupe_succes', $data);
+				$this->load->view('footer', $data);
+				
+			} else {
+			
+				redirect(site_url().'groupe/creer');
+			
+			}
+			
+		} else {
+			redirect(site_url().'membre');
 		}
 	}
 

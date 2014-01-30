@@ -261,6 +261,54 @@ table.listeDocument {
 }
 
 /* groupe */
+form#creationGroupe.form-horizontal div.form-group div.input-group input.form-control {
+	width: 100%;
+	cursor:default;
+}
+#creationGroupe #listeDocument {
+	height: 200px;
+	overflow: scroll;
+}
+#listeDocs { 
+	width: 100%; 
+}
+#listeDocs h3 {
+	text-align: right;
+}
+#listeDocs li {
+    border-radius: 4px;
+    color: #FFFFFF;
+    display: block;
+    float: right;
+    height: 60px;
+    line-height: 23px;
+    list-style: none outside none;
+    margin-right: 20px;
+    padding: 6px;
+    text-align: center;
+    width: 145px;
+}
+#listeGroupe .form-control {
+	height: inherit;
+}
+#creationGroupe #listeGroupe ol { margin: 0; padding: 1em 0 1em 3em; }
+ #gallery { float: left; width: 100%; min-height: 12em; }
+.gallery.custom-state-active { background: #eee; }
+.gallery li { float: left; width: 96px; padding: 0.4em; margin: 0 0.4em 0.4em 0; text-align: center; }
+.gallery li h5 { font-size:11px; margin: 0 0 0.4em; cursor: move; }
+.gallery li a { float: right; }
+.gallery li a.ui-icon-zoomin { float: left; }
+#trash { width: 100%; min-height: 8em; padding: 1%; overflow:scroll }
+#trash h5 { line-height: 16px; margin: 0 0 0.4em; color: #ACACAC; }
+#trash h5 .ui-icon { float: left; }
+#trash .gallery h5 { display: none; }
+
+#gallery li.ui-draggable {
+    height: auto;
+    width: 25%;
+}
+
+
 ul#listeMembre {
 	width: 190px; 
 	height: 80px; 

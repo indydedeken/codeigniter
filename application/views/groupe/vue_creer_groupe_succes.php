@@ -1,25 +1,28 @@
-<div class="container"> 
-  <br>
+<div class="container"> <br>
   <br>
   <div id="" class="annonce">
     <div class="col col-sm-4 col-md-3">
-      <h1>Document</h1>
+      <h1>Création de groupe : ETAT : <?=$creation?></h1>
     </div>
     <div class="justify col-sm-8 col-md-9">
-      	<div class="bloc_groupe">
-      		<!-- affichage des informations du document -->
-            info document <?=$idDocument?>
-            <dl class="dl-horizontal">
-			</dl>
-        </div>
-        <div>
-        	<!-- affichage des membres du groupe -->
-        	<dl class="dl-horizontal">
-            </div>
-	</div>
+      <div class="">
+		Le groupe "<?=$nom?>" est créé.<br>
+		Sa description est : "<?=$description?>".<br>
+		Vous allez être redirigé vers la page du groupe dans un instant.
+      </div>
+    </div>
+  </div>
 </div>
-<script type="application/javascript">
-</script>
+<script>
+$(function() {
+	var direction = 'window.location.replace("<?php echo base_url('groupe/afficher').'/'.$idGroupe;?>");';
+	setTimeout(direction, 4000); 
+});
+</script> 
+<script type="application/javascript"><!--
+	$(document).ready(function() {
+	});
+--></script> 
 <script type="application/javascript">
 	/*
 	 * Préparation des boites de notification
@@ -57,7 +60,7 @@
 	function generateError(msg) {
 		var n = noty({
 			text        : msg,
-			type        : 'error',
+			type        : 'warning',
 			dismissQueue: true,
 			layout      : 'topCenter',
 			theme       : 'defaultTheme',
@@ -66,7 +69,4 @@
 			timeout		: false
 		});
 	}
-
-
-
 </script>
