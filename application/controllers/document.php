@@ -53,11 +53,11 @@ class Document extends CI_Controller {
 		if($this->session->userdata('email') && $this->session->userdata('logged')) {
 			
 			$idDocument = $this->uri->segment(3);
-			if($this->uri->segment(5)) {
-				$idGroupe = $this->uri->segment(5);
-			}
-			
-			
+			$idGroupe = $this->uri->segment(5);
+			if($idGroupe == NULL)
+				$idGroupe = -1;
+				
+						
 			if($this->model_document->getDocument($idDocument, $this->session->userdata('email'), $idGroupe)) {
 				
 				//$data['document'] 			= $this->model_document->getDocument($id, $this->session->userdata('email'));

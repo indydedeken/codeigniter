@@ -128,6 +128,7 @@ class Groupe extends CI_Controller {
 				
 				// insertion du groupe en DB
 				$idGroupe = $this->model_groupe->addGroupe('Groupe', $donneesGroupe);
+				
 				if( $idGroupe > 0 ) {
 					// ajouter les documents	
 					$data['idGroupe'] = $idGroupe;
@@ -143,12 +144,14 @@ class Groupe extends CI_Controller {
 				);
 				$this->model_groupe->addGroupe('GroupeUtilisateur', $donneesGroupeUtilisateur);
 				
-				// insertion des documents au groupe
-				foreach($_POST['documents'] as $idDoc) {
-					$donnees['idDocument'] = array(	'idGroupe'		=> $idGroupe,
-													'idDocument' 	=> $idDoc
-					);
-					$this->model_groupe->addGroupe('GroupeDocument', $donnees['idDocument']);
+				// si il y a des documents, alors insertion des documents au groupe
+				if(isset($_POST['documents'])) {
+					foreach($_POST['documents'] as $idDoc) {
+						$donnees['idDocument'] = array(	'idGroupe'		=> $idGroupe,
+														'idDocument' 	=> $idDoc
+						);
+						$this->model_groupe->addGroupe('GroupeDocument', $donnees['idDocument']);
+					}
 				}
 				
 				$this->load->view('header', $data);

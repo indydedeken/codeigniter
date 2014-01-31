@@ -96,7 +96,7 @@
 		<!-- JS - PageSlide
 		$(".callModalWindow").pageslide({ direction: "left", modal: true });
 		//lancer le pageSlide dès le début 
-		$('.callModalWindow').trigger('click');
+		//$('.callModalWindow').trigger('click');
 		<!-- ./PageSlide
 				
 		<!-- AJAX - Quitter le groupe

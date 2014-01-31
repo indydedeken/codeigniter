@@ -2,7 +2,7 @@
   <br>
   <div id="" class="annonce">
     <div class="col col-sm-4 col-md-3">
-      <h1>Création de groupe : ETAT : <?=$creation?></h1>
+      <h1>Création de groupe :</h1>
     </div>
     <div class="justify col-sm-8 col-md-9">
       <div class="">

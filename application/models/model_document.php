@@ -17,7 +17,7 @@ class Model_document extends CI_Model {
 	 * return 		: true
 	 */
 	public function addDocument($data) {
-			$this->db->insert('Document', $data);
+		$this->db->insert('Document', $data);
 	}
 	
 	/* countDocuments	: connaitre le nombre de documents disponibles
