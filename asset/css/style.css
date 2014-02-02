@@ -308,6 +308,9 @@ form#creationGroupe.form-horizontal div.form-group div.input-group input.form-co
     width: 25%;
 }
 
+#listeMembre {
+	direction: rtl;
+}
 
 ul#listeMembre {
 	width: 190px; 

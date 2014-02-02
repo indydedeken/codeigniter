@@ -86,12 +86,12 @@
 		} 
 		$elts =  substr($elts, 0, -2);
 		?>
-		<!-- ./Redirection
 		
 		$('<?=$elts?>').click(function(e) {
 			var obj = e.currentTarget.attributes.id.value.split('_');
 			window.location.replace("<?php echo base_url('document/afficher/');?>/"+obj[1]+"/groupe/"+<?=$idGroupe?>);
 		});
+		<!-- ./Redirection		
 		
 		<!-- JS - PageSlide
 		$(".callModalWindow").pageslide({ direction: "left", modal: true });

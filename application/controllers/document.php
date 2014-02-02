@@ -26,6 +26,7 @@ class Document extends CI_Controller {
 			
 			$email = $this->session->userdata('email');
 			
+			$data['groupes']				= $this->model_groupe->getAllGroupes($email);
 			$data['documents']				= $this->model_document->getAllDocuments($email);
 			//$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($email);
 			
