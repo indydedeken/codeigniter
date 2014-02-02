@@ -3,13 +3,11 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Dim 26 Janvier 2014 à 11:32
+-- Généré le: Dim 02 Février 2014 à 23:09
 -- Version du serveur: 5.5.25
 -- Version de PHP: 5.4.4
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT=0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -40,7 +38,16 @@ CREATE TABLE `Annotation` (
   `dateCreation` varchar(50) NOT NULL,
   `dateModification` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Contenu de la table `Annotation`
+--
+
+INSERT INTO `Annotation` (`id`, `idDocument`, `emailUtilisateur`, `contenu`, `coordX`, `coodY`, `idTypeAnnotation`, `dateCreation`, `dateModification`) VALUES
+(1, 1, 'indy@indy.fr', 'test de contenu', '100', '200', 0, '27/01/2014', ''),
+(2, 1, 'indy@indy.fr', 'test de contenu2', '100', '250', 0, '27/01/2014', ''),
+(3, 2, 'axel@axel.fr', 'test de contenu3', '100', '270', 0, '27/01/2014', '');
 
 -- --------------------------------------------------------
 
@@ -60,16 +67,17 @@ CREATE TABLE `Document` (
   `dateCreation` varchar(50) NOT NULL,
   `dateModification` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Contenu de la table `Document`
 --
 
 INSERT INTO `Document` (`id`, `emailUtilisateur`, `auteur`, `titre`, `description`, `contenu`, `etat`, `dateCreation`, `dateModification`) VALUES
-(1, 'indy@indy.fr', 'Guy de Maupassant', 'Ma vie', '', '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>', 0, '25/01/2014', ''),
-(2, 'indy@indy.fr', 'Guy de Maupassant', 'Pierre et Jean', '', '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>', 0, '26/01/2014', ''),
-(3, 'indy@indy.fr', 'Guy de Maupassant', 'Le horlat', '', '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>', 0, '27/01/2014', '');
+(1, 'indy@indy.fr', 'Axel Ajavon & Luis Braga Miguel Seixas José & Indy De Deken', 'Un titre de document peut-être très long comme celui-ci. Alors comment est-ce que l''affichage réagit ?', '', '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>', 0, '25/01/2014', ''),
+(2, 'luis@luis.fr', 'Guy de Maupassant', 'Pierre et Jean', '', '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>', 2, '26/01/2014', ''),
+(3, 'indy@indy.fr', 'Guy de Maupassant', 'Le horlat', '', '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>', 0, '27/01/2014', ''),
+(4, 'indy@indy.fr', 'Pedro Porto', 'La cuisine portugaise au Moyen-Âge', 'Ce recueil de poésie datant du XXIè siècle est une ôde à la maçonnerie contractuelle.\r\nLes jambes de mon fauteuil sont en vinyl de soie.', 'contenu du pdf', 1, '30/01/2014', NULL);
 
 -- --------------------------------------------------------
 
@@ -106,7 +114,7 @@ CREATE TABLE `Groupe` (
   `dateCreation` varchar(50) NOT NULL,
   `emailAdministrateur` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Contenu de la table `Groupe`
@@ -114,7 +122,18 @@ CREATE TABLE `Groupe` (
 
 INSERT INTO `Groupe` (`id`, `intitule`, `description`, `dateCreation`, `emailAdministrateur`) VALUES
 (1, 'Faculté d''Évry', 'Ce groupe est un rassemblement de professeurs issus de l''université d''Évry', '25/01/2014', 'indy@indy.fr'),
-(2, 'MIAGE Université d''Évry Val d''Essonne', 'Groupement des élèves de toutes les promotions MIAGE.', '25/01/2014', 'indy@indy.fr');
+(2, 'MIAGE Université d''Évry Val d''Essonne', 'Groupement des élèves de toutes les promotions MIAGE.', '25/01/2014', 'indy@indy.fr'),
+(3, 'hello GRP', 'description ', '30/01/2014', 'indy@indy.fr'),
+(6, 'Test3', 'Description 3', '30/01/2014', 'indy@indy.fr'),
+(7, 'Test4', 'Description 4', '30/01/2014', 'indy@indy.fr'),
+(8, 'Groupe de Luis Moustache', 'Mon crew de lecture est ici.', '30/01/2014', 'luis@luis.fr'),
+(9, 'Groupe de Indy', 'Bienvenue dans le groupe', '31/01/2014', 'indy@indy.fr'),
+(10, 'Groupe de Joséba', 'Hello Josh', '31/01/2014', 'indy@indy.fr'),
+(11, 'Je suis pas ton pote mon gars', 'A bon ?', '31/01/2014', 'indy@indy.fr'),
+(12, 'Le groupe des Nachos', 'On aime les Nachos', '31/01/2014', 'indy@indy.fr'),
+(13, 'Jacky', 'BOGOSS', '31/01/2014', 'indy@indy.fr'),
+(14, 'Bonjour  Groupe', 'Bonjour', '31/01/2014', 'indy@indy.fr'),
+(15, 'Au revoir Groupe', 'Groupe', '31/01/2014', 'indy@indy.fr');
 
 -- --------------------------------------------------------
 
@@ -128,6 +147,19 @@ CREATE TABLE `GroupeDocument` (
   `idDocument` int(11) NOT NULL,
   PRIMARY KEY (`idGroupe`,`idDocument`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `GroupeDocument`
+--
+
+INSERT INTO `GroupeDocument` (`idGroupe`, `idDocument`) VALUES
+(1, 1),
+(1, 2),
+(2, 3),
+(6, 1),
+(7, 1),
+(7, 3),
+(8, 2);
 
 -- --------------------------------------------------------
 
@@ -148,10 +180,11 @@ CREATE TABLE `GroupeUtilisateur` (
 --
 
 INSERT INTO `GroupeUtilisateur` (`idGroupe`, `emailUtilisateur`, `dateInscriptionGroupe`) VALUES
-(1, 'axel@axel.fr', '28/01/2014'),
 (1, 'indy@indy.fr', '25/01/2014'),
-(1, 'luis@luis.fr', '25/01/2014'),
-(2, 'indy@indy.fr', '25/01/2014');
+(2, 'indy@indy.fr', '25/01/2014'),
+(6, 'indy@indy.fr', '30/01/2014'),
+(7, 'indy@indy.fr', '30/01/2014'),
+(8, 'luis@luis.fr', '30/01/2014');
 
 -- --------------------------------------------------------
 
@@ -166,6 +199,14 @@ CREATE TABLE `TypeAnnotation` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `TypeAnnotation`
+--
+
+INSERT INTO `TypeAnnotation` (`id`, `libelle`) VALUES
+(1, 'commentaire'),
+(2, 'surlignage');
 
 -- --------------------------------------------------------
 
@@ -188,10 +229,10 @@ CREATE TABLE `Utilisateur` (
 --
 
 INSERT INTO `Utilisateur` (`email`, `nom`, `prenom`, `mdp`) VALUES
-('axel@axel.fr', 'axel', 'axel', 'axelaxel'),
-('indy@indy.fr', 'De Deken', 'Indy', 'indyindy'),
-('luis@luis.fr', 'Luis', 'Pépito del muerte', 'luisluis');
-COMMIT;
+('axel@axel.fr', 'axel', 'axel', 'axel'),
+('cart@man.us', 'Le mécano', 'Paulo', 'cartman'),
+('indy@indy.fr', 'De Deken', 'Indy', 'indy'),
+('luis@luis.fr', 'Luis', 'José', 'luis');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
