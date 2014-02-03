@@ -23,24 +23,23 @@
 			</div>
     </div>
     <div class="justify col-sm-8 col-md-9">
-    	<div style="margin-top:10px;margin-bottom:10px;text-align:center;">
-	    	<button class="btn btn-xs" style="padding:0 10px;margin:0 20px;">Titre A-Z</button>
-            <button class="btn btn-xs" style="padding:0 10px;margin:0 20px;">Auteur A-Z</button>
-            <button class="btn btn-xs" style="padding:0 10px;margin:0 20px;">Date A-Z</button>
-            <button class="btn btn-xs" style="padding:0 10px;margin:0 20px;">Etat A-Z</button>
-            <div style="float:right">
-            <input type="search" placeholder="Filtrer..." style="border:none; font-size:12px" />
-            <button class="btn btn-xs">ok</button>
-			</div>
+    	<div style="margin-top:10px;margin-bottom:10px;text-align:left;">
+	    	<button id="triTitre" class="btn btn-xs" style="padding:0 10px;margin:0 20px;">Titre A-Z</button>
+            <button id="triAuteur" class="btn btn-xs" style="padding:0 10px;margin:0 20px;">Auteur A-Z</button>
+            <button id="triDate" class="btn btn-xs" style="padding:0 10px;margin:0 20px;">Date A-Z</button>
+            <button id="triEtat" class="btn btn-xs" style="padding:0 10px;margin:0 20px;">Etat A-Z</button>
         </div>
         <div class="bloc_profil_infoPerso">
-        	<table class="table table-hover listeDocument">
-            	<tr>
-                	<th>Titre</th>
-                    <th>Auteur</th>
-                    <th>Date</th>
-                    <th>Etat</th>
-                </tr>
+        	<table id="table" class="table table-hover listeDocument">
+				<thead>
+					<tr>
+						<th>Titre</th>
+						<th>Auteur</th>
+						<th>Date</th>
+						<th>Etat</th>
+					</tr>
+				</thead>
+				<tbody>
 				<?php foreach($documents->result() as $item) { ?>
                     <tr id="document_<?php echo $item->idDocument; ?>" <?php if($item->etat == 2) echo 'class="danger"'; ?>>
                         <td><?=$item->titre?></td>
@@ -49,6 +48,7 @@
                         <td><?=$item->libelle?></td>
                     </tr>
                 <?php } ?>
+				</tbody>
 			</table>
         </div>   
         
@@ -72,6 +72,28 @@
 <script type="application/javascript"><!--
 	$(document).ready(function() {
 		
+		$('#triTitre').click(function() {
+			$("[aria-label~='Titre:']").trigger('click');
+		});
+		$('#triAuteur').click(function() {
+			$("[aria-label~='Auteur:']").trigger('click');
+		});
+		$('#triDate').click(function() {
+			$("[aria-label~='Date:']").trigger('click');
+		});
+		$('#triEtat').click(function() {
+			$("[aria-label~='Etat:']").trigger('click');
+		});
+			
+		var table = $('#table').DataTable({
+			"bPaginate": false,
+			"bLengthChange": false,
+			"bFilter": true,
+			"bSort": true,
+			"bInfo": false,
+			"bAutoWidth": false
+		});
+			
 		<!-- CSS - Resizer les boutons d'action de la page
 		var nbBtn = $('#actions button').length;
 		var tailleBtn = 100/nbBtn;

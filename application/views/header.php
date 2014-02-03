@@ -10,6 +10,7 @@
 <script src="<?=base_url()?>asset/js/jquery-1.10.2.min.js"></script>
 <script src="<?=base_url()?>asset/js/jquery-ui-1.10.4.custom.min.js"></script> 
 <script src="<?=base_url()?>asset/js/jquery.noty.packaged.min.js"></script> 
+<script src="<?=base_url()?>asset/js/dataTables.js"></script>
 
 <!-- CSS -->
 <link href="<?=base_url()?>asset/css/jquery-ui-1.10.4.custom.css" rel="stylesheet" type="text/css">

@@ -320,4 +320,8 @@ ul#listeMembre {
 	list-style: none outside none; 
 	padding: 0px 0px 0px 3px;
 }
+
+#table_filter {
+	float:right;
+}
 /* ./groupe */
