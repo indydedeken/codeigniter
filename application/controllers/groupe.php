@@ -89,7 +89,7 @@ class Groupe extends CI_Controller {
 		// vérifier que l'utilisateur à le droit d'accès à ce document
 		if($this->session->userdata('email') && $this->session->userdata('logged')) {
 			
-			$data['documents'] = $this->model_document->getAllDocuments($this->session->userdata('email'));
+			$data['documents'] = $this->model_document->getBibliotheque($this->session->userdata('email'));
 				
 			$this->load->view('header', $data);
 			$this->load->view('groupe/vue_creer_groupe', $data);

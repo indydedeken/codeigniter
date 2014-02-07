@@ -10,7 +10,7 @@
 				<div class="form-group">
 					<label class="col-md-3 control-label">Nom du groupe</label>
 					<div class="col-md-9">
-						<input type="texte" name="nom" class="form-control" placeholder="Nom du groupe">
+						<input id="nom" type="texte" name="nom" class="form-control" placeholder="Nom du groupe">
 					</div>
 				</div>
 				<div class="form-group">
@@ -166,6 +166,14 @@ $(function() {
 </script> 
 <script type="application/javascript"><!--
 	$(document).ready(function() {
+		$('#creationGroupe').submit(function(e){
+			
+			if($('#creationGroupe #nom').val() == '') {
+				generateError('Votre groupe ne porte pas de nom.');
+				return false;
+			} else 
+				return true;
+		});
 	});
 --></script> 
 <script type="application/javascript">
@@ -182,11 +190,17 @@ $(function() {
 			text        : msg,
 			type        : 'alert',
 			dismissQueue: true,
-			layout      : 'topCenter',
+			layout      : 'top',
 			theme       : 'defaultTheme',
-			closeWith	: ['click'],
-			maxVisible	: 3,
-			timeout		: 10000
+			killer		: true,
+			maxVisible	: 1,
+			timeout		: 3000,
+			callback: {
+				onShow: function() {},
+				afterShow: function() {},
+				onClose: function() {},
+				afterClose: function() {$('#nom').focus();}
+			}	
 		});
 	}
 	function generateSuccess(msg) {
@@ -207,11 +221,17 @@ $(function() {
 			text        : msg,
 			type        : 'warning',
 			dismissQueue: true,
-			layout      : 'topCenter',
+			layout      : 'top',
 			theme       : 'defaultTheme',
-			closeWith	: ['click'],
-			maxVisible	: 3,
-			timeout		: false
+			killer		: true,
+			maxVisible	: 1,
+			timeout		: 3000,
+			callback: {
+				onShow: function() {$('#nom').focus();},
+				afterShow: function() {},
+				onClose: function() {$('#nom').focus();},
+				afterClose: function() {}
+			}	
 		});
 	}
 </script>

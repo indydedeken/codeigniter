@@ -3,18 +3,12 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Dim 02 Février 2014 à 23:09
+-- Généré le: Jeu 06 Février 2014 à 13:04
 -- Version du serveur: 5.5.25
 -- Version de PHP: 5.4.4
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données: `markus`
@@ -62,7 +56,7 @@ CREATE TABLE `Document` (
   `auteur` varchar(100) NOT NULL,
   `titre` varchar(255) NOT NULL,
   `description` mediumtext,
-  `contenu` longtext NOT NULL,
+  `contenuOriginal` longtext NOT NULL,
   `etat` int(11) NOT NULL,
   `dateCreation` varchar(50) NOT NULL,
   `dateModification` varchar(50) DEFAULT NULL,
@@ -73,7 +67,7 @@ CREATE TABLE `Document` (
 -- Contenu de la table `Document`
 --
 
-INSERT INTO `Document` (`id`, `emailUtilisateur`, `auteur`, `titre`, `description`, `contenu`, `etat`, `dateCreation`, `dateModification`) VALUES
+INSERT INTO `Document` (`id`, `emailUtilisateur`, `auteur`, `titre`, `description`, `contenuOriginal`, `etat`, `dateCreation`, `dateModification`) VALUES
 (1, 'indy@indy.fr', 'Axel Ajavon & Luis Braga Miguel Seixas José & Indy De Deken', 'Un titre de document peut-être très long comme celui-ci. Alors comment est-ce que l''affichage réagit ?', '', '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>', 0, '25/01/2014', ''),
 (2, 'luis@luis.fr', 'Guy de Maupassant', 'Pierre et Jean', '', '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>', 2, '26/01/2014', ''),
 (3, 'indy@indy.fr', 'Guy de Maupassant', 'Le horlat', '', '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>', 0, '27/01/2014', ''),
@@ -114,7 +108,7 @@ CREATE TABLE `Groupe` (
   `dateCreation` varchar(50) NOT NULL,
   `emailAdministrateur` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
 
 --
 -- Contenu de la table `Groupe`
@@ -131,9 +125,9 @@ INSERT INTO `Groupe` (`id`, `intitule`, `description`, `dateCreation`, `emailAdm
 (10, 'Groupe de Joséba', 'Hello Josh', '31/01/2014', 'indy@indy.fr'),
 (11, 'Je suis pas ton pote mon gars', 'A bon ?', '31/01/2014', 'indy@indy.fr'),
 (12, 'Le groupe des Nachos', 'On aime les Nachos', '31/01/2014', 'indy@indy.fr'),
-(13, 'Jacky', 'BOGOSS', '31/01/2014', 'indy@indy.fr'),
 (14, 'Bonjour  Groupe', 'Bonjour', '31/01/2014', 'indy@indy.fr'),
-(15, 'Au revoir Groupe', 'Groupe', '31/01/2014', 'indy@indy.fr');
+(15, 'Au revoir Groupe', 'Groupe', '31/01/2014', 'indy@indy.fr'),
+(16, 'Mon énième groupe', '', '06/02/2014', 'indy@indy.fr');
 
 -- --------------------------------------------------------
 
@@ -145,6 +139,7 @@ DROP TABLE IF EXISTS `GroupeDocument`;
 CREATE TABLE `GroupeDocument` (
   `idGroupe` int(11) NOT NULL,
   `idDocument` int(11) NOT NULL,
+  `contenu` longtext NOT NULL,
   PRIMARY KEY (`idGroupe`,`idDocument`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -152,14 +147,16 @@ CREATE TABLE `GroupeDocument` (
 -- Contenu de la table `GroupeDocument`
 --
 
-INSERT INTO `GroupeDocument` (`idGroupe`, `idDocument`) VALUES
-(1, 1),
-(1, 2),
-(2, 3),
-(6, 1),
-(7, 1),
-(7, 3),
-(8, 2);
+INSERT INTO `GroupeDocument` (`idGroupe`, `idDocument`, `contenu`) VALUES
+(1, 1, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>'),
+(1, 2, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>'),
+(1, 4, 'contenu du pdf'),
+(2, 3, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>'),
+(3, 4, 'contenu du pdf'),
+(6, 1, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>'),
+(7, 1, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>'),
+(7, 3, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>'),
+(8, 2, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>');
 
 -- --------------------------------------------------------
 
@@ -184,7 +181,8 @@ INSERT INTO `GroupeUtilisateur` (`idGroupe`, `emailUtilisateur`, `dateInscriptio
 (2, 'indy@indy.fr', '25/01/2014'),
 (6, 'indy@indy.fr', '30/01/2014'),
 (7, 'indy@indy.fr', '30/01/2014'),
-(8, 'luis@luis.fr', '30/01/2014');
+(8, 'luis@luis.fr', '30/01/2014'),
+(16, 'indy@indy.fr', '06/02/2014');
 
 -- --------------------------------------------------------
 
@@ -233,7 +231,3 @@ INSERT INTO `Utilisateur` (`email`, `nom`, `prenom`, `mdp`) VALUES
 ('cart@man.us', 'Le mécano', 'Paulo', 'cartman'),
 ('indy@indy.fr', 'De Deken', 'Indy', 'indy'),
 ('luis@luis.fr', 'Luis', 'José', 'luis');
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
