@@ -71,6 +71,26 @@ class Model_document extends CI_Model {
 		return $data;
 	}
 	
+	/* A REFAIRE getTopDocuments	: récupérer tous les documents d'un utilisateur
+	 * A REFAIRE param1			: email de l'utilisateur
+	 * A REFAIRE return			: ensemble des données de chaque document
+	 */
+	public function getTopDocuments($email, $limite = NULL) {
+		if($limite == NULL)
+			$limite = 100;
+		
+		$param = array('GroupeUtilisateur.emailUtilisateur' => $email);
+		
+		$this->db->select('Document.id, GroupeDocument.idGroupe, Groupe.intitule, Document.titre, Document.auteur, Document.contenuOriginal, EtatDocument.libelle, Document.dateCreation');
+		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');
+		$this->db->join('GroupeDocument', 'GroupeDocument.idDocument = Document.id');
+		$this->db->join('GroupeUtilisateur', 'GroupeDocument.idGroupe = GroupeUtilisateur.idGroupe');
+		$this->db->join('Groupe', 'Groupe.id = GroupeUtilisateur.idGroupe');
+		$data = $this->db->get_where('Document', $param, $limite);
+		
+		return $data;
+	}
+	
 	/* getAllDocuments	: récupérer tous les documents d'un utilisateur
 	 * param1			: email de l'utilisateur
 	 * return			: ensemble des données de chaque document

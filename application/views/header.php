@@ -64,9 +64,13 @@
           		<a href="#" class="dropdown-toggle" data-toggle="dropdown"> Documents<span id="document-badge" class="badge pull-left"><?php if($this->session->userdata('nbDocumentsUtilisateur'))echo $this->session->userdata('nbDocumentsUtilisateur')?></span> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <?php if($this->session->userdata('logged')):?>
-                    <li><a href="#">1. Levi Strauss - Races et histoires</a></li>
-                    <li><a href="#">2. Vers un modèle computationnel unifié des émo...</a></li>
-                    <li><a href="#">3. Functionnal Genomics of nuclear receptors from...</a></li>
+                    <?php 
+					foreach($_SESSION['listeTopDocuments'] as $item) {
+					?>
+						<li><a href="<?=base_url('document').'/afficher/' . $item->id . '/groupe/' . $item->idGroupe?>"><?=$item->intitule?> - <?=$item->titre?></a></li>
+					<?php	
+					}
+					?>
                     <li role="presentation" class="divider"></li>                  	
                     <li><a href="<?=base_url('document')?>">Gestion de mes documents</a></li>
                     <li><a href="#">Uploader un document</a></li>
@@ -79,9 +83,13 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Groupes<span id="groupe-badge" class=" badge pull-left"><?php if($this->session->userdata('nbGroupesUtilisateur'))echo $this->session->userdata('nbGroupesUtilisateur')?></span> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                     <?php if($this->session->userdata('logged')):?>
-                    <li><a href="#">1. Evry Search - IBGBI</a></li>
-                    <li><a href="#">2. Fontainebleau Search</a></li>
-                    <li><a href="#">3. Markus Group</a></li>
+                    <?php 
+					foreach($_SESSION['listeTopGroupes'] as $item) {
+					?>
+						<li><a href="<?=base_url('groupe').'/afficher/' . $item->idGroupe?>"><?=$item->intitule?></a></li>
+					<?php	
+					}
+					?>
                     <li role="presentation" class="divider"></li>
                     <li><a href="<?=base_url('groupe')?>">Gestion de mes groupes</a></li>
                     <li><a href="<?=base_url('groupe/creer')?>">Créer un groupe</a></li>

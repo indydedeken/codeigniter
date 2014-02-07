@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+session_start();
+
 class Membre extends CI_Controller {
 
 	public function index() {
@@ -43,8 +45,6 @@ class Membre extends CI_Controller {
 						$prenom	= $item->prenom;
 					}
 					
-					
-					
 					$data = array(
 						'email'						=> $email,
 						'prenom'					=> $prenom,
@@ -53,8 +53,17 @@ class Membre extends CI_Controller {
 						'nbDocumentsUtilisateur'	=> $this->model_document->countDocuments($email, 'tous'),
 						'nbGroupesUtilisateur'		=> $this->model_groupe->countGroupes($email)
 					);
-					//$_SESSION['listeDocument'] = $this->model_document->getAllDocuments($this->session->userdata('email'), 5);
+					
+					
 					$this->session->set_userdata($data);
+					
+					/*
+					 * Ici on utilise la variable de session, car CI ne permet pas
+					 * de récupérer un array dans une variable de session
+					 */
+					// ATTENTION, les fonction getAllDoc/getAllGrp sont à créer pour récupérer les vraies info, ici c'est un exemple
+					$_SESSION['listeTopDocuments']	= $this->model_document->getTopDocuments($this->session->userdata('email'), 3)->result();
+					$_SESSION['listeTopGroupes']		= $this->model_groupe->getTopGroupes($this->session->userdata('email'), 3)->result();
 					
 					redirect(site_url().'home', $data);
 					
@@ -244,6 +253,8 @@ class Membre extends CI_Controller {
 		$this->session->set_userdata('prenom');
 		$this->session->set_userdata('email');
 		$this->session->set_userdata('logged');
+		unset($_SESSION['listeTopDocuments']);
+		unset($_SESSION['listeTopGroupes']);
 
 		$this->session->sess_destroy();
 		redirect(site_url()."membre");	// adresse a redéfinir, pas propre là

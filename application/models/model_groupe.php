@@ -25,6 +25,24 @@ class Model_groupe extends CI_Model {
 		return $data;	
 	}
 	
+	/* A REFAIRE getTopGroupe		: récupérer les top groupes
+	 * A REFAIRE param1			: email de l'utilisateur
+	 * A REFAIRE return			: ensemble des données de chaque Groupe
+	 */
+	public function getTopGroupes($email, $limite = NULL) {
+		if($limite == NULL)
+			$limite = 5;
+
+		$this->db->select('*, count(*) as nb');
+		$this->db->from('Groupe JOIN GroupeUtilisateur ON `GroupeUtilisateur`.`idGroupe` = `Groupe`.`id` ');
+		$this->db->where('Groupe.id IN (select idGroupe from GroupeUtilisateur WHERE emailUtilisateur = \''.$email.'\')');
+		$this->db->group_by('id');
+		$this->db->order_by('id', 'desc');
+		$data = $this->db->get();
+
+		return $data;
+	}
+	
 	/* getAllGroupes	: récupérer tous les groupes d'un utilisateur
 	 * param1			: email de l'utilisateur
 	 * return			: ensemble des données de chaque Groupe
