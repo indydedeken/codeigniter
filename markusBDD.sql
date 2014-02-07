@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Jeu 06 Février 2014 à 13:04
+-- Généré le: Ven 07 Février 2014 à 15:41
 -- Version du serveur: 5.5.25
 -- Version de PHP: 5.4.4
 
@@ -24,6 +24,7 @@ DROP TABLE IF EXISTS `Annotation`;
 CREATE TABLE `Annotation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idDocument` int(11) NOT NULL,
+  `idGroupe` int(11) NOT NULL,
   `emailUtilisateur` varchar(100) NOT NULL,
   `contenu` longtext NOT NULL,
   `coordX` varchar(10) DEFAULT NULL,
@@ -32,16 +33,17 @@ CREATE TABLE `Annotation` (
   `dateCreation` varchar(50) NOT NULL,
   `dateModification` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Contenu de la table `Annotation`
 --
 
-INSERT INTO `Annotation` (`id`, `idDocument`, `emailUtilisateur`, `contenu`, `coordX`, `coodY`, `idTypeAnnotation`, `dateCreation`, `dateModification`) VALUES
-(1, 1, 'indy@indy.fr', 'test de contenu', '100', '200', 0, '27/01/2014', ''),
-(2, 1, 'indy@indy.fr', 'test de contenu2', '100', '250', 0, '27/01/2014', ''),
-(3, 2, 'axel@axel.fr', 'test de contenu3', '100', '270', 0, '27/01/2014', '');
+INSERT INTO `Annotation` (`id`, `idDocument`, `idGroupe`, `emailUtilisateur`, `contenu`, `coordX`, `coodY`, `idTypeAnnotation`, `dateCreation`, `dateModification`) VALUES
+(1, 1, 1, 'indy@indy.fr', 'test de contenu', '100', '200', 0, '27/01/2014', ''),
+(2, 1, 0, 'indy@indy.fr', 'test de contenu2', '100', '250', 0, '27/01/2014', ''),
+(3, 2, 0, 'axel@axel.fr', 'test de contenu3', '100', '270', 0, '27/01/2014', ''),
+(5, 1, 2, 'indy@indy.fr', 'test de contenu', '100', '200', 0, '27/01/2014', '');
 
 -- --------------------------------------------------------
 
@@ -148,15 +150,15 @@ CREATE TABLE `GroupeDocument` (
 --
 
 INSERT INTO `GroupeDocument` (`idGroupe`, `idDocument`, `contenu`) VALUES
-(1, 1, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>'),
-(1, 2, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>'),
-(1, 4, 'contenu du pdf'),
-(2, 3, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>'),
-(3, 4, 'contenu du pdf'),
-(6, 1, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>'),
-(7, 1, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>'),
-(7, 3, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>'),
-(8, 2, '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>');
+(1, 1, ''),
+(1, 2, ''),
+(1, 4, ''),
+(2, 3, ''),
+(3, 4, ''),
+(6, 1, ''),
+(7, 1, ''),
+(7, 3, ''),
+(8, 2, '');
 
 -- --------------------------------------------------------
 

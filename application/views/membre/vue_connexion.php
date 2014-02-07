@@ -22,7 +22,7 @@
    -
 -->  
           <div class="tab-pane <?php if($this->uri->segment(2)=='signin') echo 'active in'; else echo "fade"?>" id="login">
-            <?php echo form_open('membre/signin', 'class="form-signin" role="form"')?>
+            <?php echo form_open('membre/signin', 'id="signin" class="form-signin" role="form"')?>
               <fieldset>
                   <div id="legend">
                       <legend class="text-muted">Saisir vos identifiants</legend>
@@ -48,7 +48,7 @@
    -
 -->
           <div class="tab-pane fade <?php if($this->uri->segment(2)=='register')echo 'active in'; else echo "fade"?>" id="create">
-            <?php echo form_open('membre/register', 'class="form-horizontal form-register" role="form"')?>
+            <?php echo form_open('membre/register', 'id="register" class="form-horizontal form-register" role="form"')?>
               <fieldset>
                 <div id="legend">
                 	<legend class="text-muted">Inscription aux services Marküs</legend>
@@ -60,29 +60,29 @@
                 <?php echo form_error('prenomInscription', '<span class="label label-warning">','</span><br/>'); ?>
                 <!-- nom prenom -->
                 <div class="control-group clear">
-                    <label for="nomInscription" class="col-md-5 control-label">Nom</label>
+                    <label for="nomInscription" class="col-md-5 control-label">Nom <em>*</em></label>
                     <div class="col-md-5 groupe">
                         <input type="text" class="form-control" id="nomInscription" name="nomInscription" placeholder="Nom" value="<?php echo set_value('nomInscription'); ?>">
                     </div>
-                    <label for="prenomInscription" class="col-md-5 control-label">Prénom</label>
+                    <label for="prenomInscription" class="col-md-5 control-label">Prénom <em>*</em></label>
                     <div class="col-md-5">
                         <input type="text" class="form-control" id="prenomInscription" name="prenomInscription" placeholder="Prénom" value="<?php echo set_value('prenomInscription'); ?>">
                     </div>
                 </div>
                  <!-- email -->
                 <div class="control-group clear">
-                    <label for="mailInscription" class="col-md-5 control-label">E-mail</label>
+                    <label for="mailInscription" class="col-md-5 control-label">E-mail <em>*</em></label>
                     <div class="col-md-5">
                         <input type="email" class="form-control" id="mailInscription" name="mailInscription" placeholder="E-mail" value="<?php echo set_value('mailInscription'); ?>">
                     </div>
                 </div>
                  <!-- mot de passe -->
                 <div class="control-group clear">
-                    <label for="passwordInscription1" class="col-md-5 control-label">Password</label>
+                    <label for="passwordInscription1" class="col-md-5 control-label">Password <em>*</em></label>
                     <div class="col-md-5 groupe">
                         <input type="password" class="form-control" id="passwordInscription1" name="passwordInscription1" placeholder="Password">
                     </div>
-                    <label for="passwordInscription2" class="col-md-5 control-label">Password vérification</label>
+                    <label for="passwordInscription2" class="col-md-5 control-label">Password vérification <em>*</em></label>
                     <div class="col-md-5">
                         <input type="password" class="form-control" id="passwordInscription2" name="passwordInscription2" placeholder="Vérification du password">
                     </div>
@@ -99,3 +99,54 @@
       </div>
     </div>
 </div>
+<script type="application/javascript"><!--
+	$(document).ready(function() {
+		
+		// Erreur formulaire connexion
+		$('#signin').submit(function(e){
+			
+			if(	$('#signin #email').val() == '' ||
+				$('#signin #mdp').val() == ''
+			) {
+				generateError('Wingardium Leviosa...<br>Non, la connexion n\'est pas encore magique !<br> Merci de saisir un email et un mot de passe, SVP.', 'signin');
+				return false;
+			} else 
+				return true;
+		});
+		
+		// Erreur formulaire inscription
+		$('#register').submit(function(e){
+			
+			if(	$('#register #nomInscription').val() == '' ||
+				$('#register #prenomInscription').val() == '' ||
+				$('#register #mailInscription').val() == '' ||
+				$('#register #passwordInscription1').val() == '' ||
+				$('#register #passwordInscription2').val() == ''
+			) {
+				generateError('Tous les champs doivent être indiqués avant validation !', 'register');
+				return false;
+			} else 
+				return true;
+		});
+	});
+--></script> 
+<script type="application/javascript"><!--
+	function generateError(msg, form) {
+		var n = noty({
+			text        : msg,
+			type        : 'warning',
+			dismissQueue: true,
+			layout      : 'top',
+			theme       : 'defaultTheme',
+			killer		: true,
+			maxVisible	: 1,
+			timeout		: 7000,
+			callback: {
+				onShow: function() { if(form == 'signin') $('#email').focus(); else if(form == 'register') $('#nomInscription').focus();},
+				afterShow: function() {},
+				onClose: function() { if(form == 'signin') $('#mdp').focus(); else if(form == 'register') $('#nomInscription').focus();},
+				afterClose: function() {}
+			}	
+		});
+	}
+--></script>

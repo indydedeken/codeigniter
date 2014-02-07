@@ -145,6 +145,11 @@ a.lienGroupe:hover {
 /* ./vue home */
 
 /* signin & register */
+
+form#register em {
+	color: red;
+}
+
 .form-signin,
 .form-register {
   padding: 15px;
