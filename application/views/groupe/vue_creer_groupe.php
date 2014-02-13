@@ -108,8 +108,7 @@ $(function() {
 			$item.append('<input type="hidden" id="doc_' + $idDocument + '" name="documents[]" value="' + $idDocument + '" />')
 			$item.append( recycle_icon ).appendTo( $list ).fadeIn(function() {
 				$item
-				.animate({ width: "150px" })
-				.animate({ height: "36px" });
+				.animate({ width: "150px" });
 			});
 		});
 	}
