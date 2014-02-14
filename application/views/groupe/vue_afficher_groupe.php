@@ -22,7 +22,7 @@
 			<?php } ?>
 			</div>
     </div>
-    <div class="justify col-sm-8 col-md-9">
+    <div id="contenuGroupe" class="justify col-sm-8 col-md-9">
     	<div style="margin-top:10px;margin-bottom:10px;text-align:left;">
 	    	<button id="triTitre" class="btn btn-xs" style="padding:0 10px;margin:0 20px;">Titre A-Z</button>
             <button id="triAuteur" class="btn btn-xs" style="padding:0 10px;margin:0 20px;">Auteur A-Z</button>
@@ -120,7 +120,7 @@
 		//lancer le pageSlide dès le début 
 		//$('.callModalWindow').trigger('click');
 		<!-- ./PageSlide
-				
+		
 		<!-- AJAX - Quitter le groupe
 		$('#quitGroupe').click(function() {
 			var form_data = {
@@ -157,6 +157,31 @@
 			return false;
 		});
 		<!-- ./AJAX		
+		
+		<!-- AJAX - Editer le groupe
+		$('#editGroupe').click(function() {
+			var form_data = {
+				email : '<?=$this->session->userdata("email")?>',
+				groupe : '<?=$idGroupe?>',
+				ajax : 	'1'
+			};
+			$.ajax({
+				url: "<?=site_url('groupe/ajax_ecran_edition_groupe'); ?>",
+				type		: 'POST', 
+				async 		: true, 
+				data		: form_data, 
+				dataType	: 'html', 
+				success		: function(data) { 
+					$('#contenuGroupe').html(data);
+				},
+				error: function() {
+					generateError('Une erreur s\'est produite.<br>Impossible de terminer la requête.');
+				}
+			});
+			return false;
+		});
+		<!-- ./AJAX	
+		
 	});
 --></script>
 <script type="application/javascript">

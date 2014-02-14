@@ -135,7 +135,8 @@ class Model_groupe extends CI_Model {
 
 	/*
 	 * addGroupe	: créer un groupe en table Groupe
-	 * param1		: ensemble des données à enregistrer
+	 * param1		: table où l'on doit insérer les donnees
+	 * param2		: ensemble des données à enregistrer
 	 * return		: idGroupe / 0
 	 */
 	public function addGroupe($table, $data) {
@@ -154,7 +155,27 @@ class Model_groupe extends CI_Model {
 		}	
 		// retour de la fonction en cas de réussite
 		return $insert_id;
+	}
 	
+	/*
+	 * updateGroupe	:
+	 * 
+	 */
+	public function updateGroupe($id, $data) {
+	
+		$this->db->trans_begin();	
+		
+		$this->db->where('id', $id);
+		
+		if( $this->db->update('Groupe', $data) ) {
+			// si l'insertion réussie
+			$this->db->trans_commit();
+			return true;
+		} else {
+			// si l'insertion échoue
+			$this->db->trans_rollback();
+			return 0;	
+		}
 	}
 	
 	/*
@@ -212,4 +233,5 @@ class Model_groupe extends CI_Model {
 			return false;		 	
 	 }
 	 */
+	 
 }

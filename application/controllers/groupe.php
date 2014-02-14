@@ -206,4 +206,69 @@ class Groupe extends CI_Controller {
 		}
 
 	}
+	
+	/****************************************************/
+	/* Méthode ajax										*/
+	/*													*/
+	/* BUT : 											*/
+	/* afficher le formulaire pour éditer un groupe		*/
+	/****************************************************/
+	public function ajax_ecran_edition_groupe() {
+
+		$data['email']	= $this->input->post('email');
+		$data['groupe']	= $this->input->post('groupe');
+		
+		if($this->input->post('ajax') == '1' && $data['email'] == $this->session->userdata('email') && $data['groupe']) {
+
+			if(!$this->model_groupe->estAdministrateur($data['groupe'], $data['email'])) {
+				
+				echo 'Action impossible. Vous n\'êtes pas administrateur.';	
+				
+			} else {
+				
+				$data['groupe'] = $this->model_groupe->getGroupe($data['groupe'], $data['email']);
+				$this->load->view('groupe/vue_edition_groupe', $data);
+				
+			}
+		} else {
+			echo 'Erreur : Vous ne disposez pas des droits suiffisants pour quitter le groupe.';
+		}
+
+	}
+	
+	/****************************************************/
+	/* Méthode ajax										*/
+	/*													*/
+	/* BUT : 											*/
+	/* édition  un groupe								*/
+	/****************************************************/
+	public function ajax_edit_groupe() {
+	
+		$data['email']			= $this->session->userdata('email');
+		$data['idGroupe']		= $this->input->post('idGroupe');
+		$data['intitule']		= $this->input->post('intitule');
+		$data['description']	= $this->input->post('description');
+		
+		if(	$this->input->post('ajax') == '1' && 
+			$data['email'] != "" &&
+			$data['idGroupe'] > 0 &&
+			$data['intitule'] != "" &&
+			$data['description'] != "" &&
+			$this->model_groupe->estAdministrateur($data['idGroupe'], $data['email'])
+		) {
+			$donnees = array(	'intitule'		=> $data['intitule'],
+								'description'	=> $data['description']
+			);
+			
+			if( $this->model_groupe->updateGroupe($data['idGroupe'], $donnees) ) {
+				echo "Succès : Les données du groupe ont correctement été mises à jour." ;
+			} else {
+				echo "Erreur : Il est impossible de modifier les informations du groupe.";	
+			}
+		} 
+		else {
+			echo "Erreur : Vous n'êtes pas autorisé à modifié les informations de ce groupe.";	
+		}
+	}
+	
 }
