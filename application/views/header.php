@@ -43,9 +43,9 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-logo" href="<?=base_url('home')?>">
+        <a class="navbar-logo" href="<?=base_url()?>">
         	<img id="logo" src="<?=base_url()?>/asset/img/logo.png" title="logo from http://drbl.in/bjYW"/></a>
-        <a class="navbar-brand" href="<?=base_url('home')?>">Markus</a>
+        <a class="navbar-brand" href="<?=base_url()?>">Markus</a>
       </div>
     
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -59,7 +59,7 @@
 		?>
       	
         <ul class="nav navbar-nav">
-        	<li class="<?php if($this->uri->segment(1) == "home") echo 'active'?>"><a href="<?=base_url('home')?>">Home</a></li>
+        	<li class="<?php if($this->uri->segment(1) == "home") echo 'active'?>"><a href="<?=base_url()?>">Home</a></li>
           	<li class="<?php if($this->uri->segment(1) == "document") echo 'active'?> dropdown">
           		<a href="#" class="dropdown-toggle" data-toggle="dropdown"> Documents<span id="document-badge" class="badge pull-left"><?php if($this->session->userdata('nbDocumentsUtilisateur'))echo $this->session->userdata('nbDocumentsUtilisateur')?></span> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
