@@ -18,7 +18,6 @@
 <link href="<?=base_url()?>asset/css/style.css" rel="stylesheet" type="text/css">
 <link href="<?=base_url()?>asset/css/jquery.pageslide.css" rel="stylesheet" type="text/css">
 
-
 <!-- Favicons -->
 <link rel="shortcut icon" href="<?=base_url()?>/asset/ico/favicon.ico" type="image/x-icon" />
 <link rel="apple-touch-icon" href="<?=base_url()?>/asset/ico/apple-touch-icon.png" />
@@ -73,7 +72,7 @@
 					?>
                     <li role="presentation" class="divider"></li>                  	
                     <li><a href="<?=base_url('document')?>">Gestion de mes documents</a></li>
-                    <li><a href="#">Uploader un document</a></li>
+                    <li><a href="<?=base_url('document/creer')?>">Uploader un document</a></li>
                     <?php else:?>
                         <li><a href="<?=base_url('membre')?>">Connexion</a></li></li>
                     <?php endif;?>
@@ -108,7 +107,7 @@
             <?php if($this->session->userdata('logged')):?>
               <li><a href="<?=base_url('membre')?>/profil">Profil <?=$this->session->userdata('email')?></a></li>
               <li><a href="<?=base_url('membre')?>">Mettre à jour</a></li>
-              <li><a href="<?=base_url('membre')?>">Uploader un document</a></li>
+              <li><a href="<?=base_url('document/creer')?>">Uploader un document</a></li>
               <li role="presentation" class="divider"></li>
               <li><a href="<?=base_url('membre/logout')?>">Déconnexion</a></li>
             <?php else:?>

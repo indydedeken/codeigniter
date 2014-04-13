@@ -17,8 +17,8 @@ class Document extends CI_Controller {
 	}
 
 	/************************************************/
-	/* document/gestion								*/
-	/*												*/
+	/* document/gestion				*/
+	/*						*/
 	/* BUT : gestion des document d'un utilisateur	*/
 	/************************************************/
 	public function gestion() {
@@ -28,8 +28,8 @@ class Document extends CI_Controller {
 			
 			$email = $this->session->userdata('email');
 			
-			$data['groupes']				= $this->model_groupe->getAllGroupes($email);
-			$data['documents']				= $this->model_document->getAllDocuments($email);
+			$data['groupes']		= $this->model_groupe->getAllGroupes($email);
+			$data['documents']		= $this->model_document->getAllDocuments($email);
 			//$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($email);
 			
 			$this->load->view('header', $data);
@@ -44,9 +44,9 @@ class Document extends CI_Controller {
 	}
 	
 	/****************************************/
-	/* document/afficher/<idDocument>		*/
-	/*										*/
-	/* BUT : afficher un document			*/
+	/* document/afficher/<idDocument>	*/
+	/*					*/
+	/* BUT : afficher un document		*/
 	/****************************************/
 	public function afficher() {
 		
@@ -63,9 +63,9 @@ class Document extends CI_Controller {
 						
 			if($this->model_document->getDocument($idDocument, $this->session->userdata('email'), $idGroupe)) {
 				
-				//$data['document'] 			= $this->model_document->getDocument($id, $this->session->userdata('email'));
+				//$data['document'] 		= $this->model_document->getDocument($id, $this->session->userdata('email'));
 				//$data['estAdministrateur'] 	= $this->model_document->estAdministrateur($id, $this->session->userdata('email'));
-				$data['idDocument']			= $idDocument;
+				$data['idDocument']		= $idDocument;
 
 				$this->load->view('header', $data);
 				$this->load->view('document/vue_afficher_document', $data);
@@ -83,11 +83,110 @@ class Document extends CI_Controller {
 			redirect(site_url().'membre');	
 		}
 	}
-
+	
+	/****************************************/
+	/* document/creer/			*/
+	/*					*/
+	/* BUT : formulaire d'upload de document*/
+	/* 		 			*/
+	/****************************************/
+	public function creer() {
+		
+		//$data['nav'] = "creer"; 
+		
+		// vérifier que l'utilisateur à le droit d'accès
+		if($this->session->userdata('email') && $this->session->userdata('logged')) {
+			
+			$data = "";
+			
+			$this->load->view('header', $data);
+			$this->load->view('document/vue_creer_document', $data);
+			$this->load->view('footer', $data);
+			
+		} else {
+			redirect(site_url().'membre');
+		}
+	}
+	
+	/****************************************/
+	/* document/upload/			*/
+	/*					*/
+	/* BUT : upload de document		*/
+	/* 		 			*/
+	/****************************************/
+	public function upload() {
+		if($this->session->userdata('email') && $this->session->userdata('logged'))  {
+			// paramétrage des règles d'upload
+			$config['upload_path'] 		= './fileUploaded/'; // personnaliser le dossier de réception...
+			$config['allowed_types'] 	= 'pdf';
+			$config['max_filename']		= '255';
+			$config['remove_spaces'] 	= 'true';
+			$config['overwrite']		= 'FALSE';
+			//$config['max_size']		= '10000';
+			
+			$this->load->library('upload', $config);
+			
+			$data = array(); 
+			
+			if ( ! $this->upload->do_upload() )
+			{
+				// consulter les erreurs
+				//$data = array('error' => $this->upload->display_errors());
+				
+				//si l'upload échoue on redirige vers la page d'upload de document
+				redirect(site_url().'document/creer');
+			}
+			else
+			{
+				$data = array('upload_data' => $this->upload->data());
+				// ['raw_name']	 = nom_du_fichier
+				// ['orig_name'] = nom_du_fichier.pdf
+				
+				if( $data['upload_data']['raw_name'] != '' ) {
+					$titreFichier = str_ireplace("_", " ", $data['upload_data']['raw_name']);
+					
+					if ($this->input->post('titre'))
+						$titre = $this->input->post('titre');
+					else	$titre = $titreFichier;
+					if ($this->input->post('auteur'))
+						$auteur = $this->input->post('auteur');
+					else	$auteur = "";
+					if ($this->input->post('description'))
+						$description = $this->input->post('description');
+					else	$description = "";
+					
+					// préparation des variables pour la creation du groupe
+					$donnees['emailUtilisateur']	= $this->session->userdata('email');
+					$donnees['titre'] 		= $titre;
+					$donnees['auteur']		= $auteur;
+					$donnees['description'] 	= $description;
+					$donnees['contenuOriginal']	= '<html>mon contenu original bla bla</html>'; // reception du pdf>html
+					$donnees['etat']		= 0;
+					$donnees['dateCreation'] 	= mdate("%d/%m/%Y", time());
+					// insertion du document en DB
+					$idDocument = $this->model_document->addDocument('Document', $donnees);
+					
+					$donneesDocGrp['idGroupe']	= 0; // groupe 0 est document personnel
+					$donneesDocGrp['idDocument']	= $idDocument;
+					$this->model_groupe->addDocGroupe($donneesDocGrp);
+					
+					if($idDocument>0) {
+						$this->load->view('header', $data);
+						$this->load->view('document/vue_creer_document_succes', $data);
+						$this->load->view('footer', $data);
+					} else {
+						$this->load->view('header', $data);
+						echo "erreur";
+						$this->load->view('footer', $data);
+					}
+				}
+			}
+		}		
+	}
 
 	/********************************************************/
-	/* membre/profil										*/
-	/*														*/
+	/* membre/profil					*/
+	/*							*/
 	/* BUT : administration des variables d'un utilisateur	*/
 	/********************************************************/
 	public function profil() {
@@ -109,10 +208,9 @@ class Document extends CI_Controller {
 		}
 	}
 	
-	
 	/****************************************************************/
-	/* membre/ajax_info_profil										*/
-	/*																*/
+	/* membre/ajax_info_profil					*/
+	/*								*/
 	/* BUT : mettre à jour le formulaire des données utilisateur	*/
 	/****************************************************************/
 	public function ajax_info_profil() {
@@ -139,8 +237,8 @@ class Document extends CI_Controller {
 	}
 
 	/****************************************/
-	/* membre/logout 						*/
-	/*										*/
+	/* membre/logout 			*/
+	/*					*/
 	/* BUT : déconnexion d'un utilisateur	*/
 	/****************************************/
 	function logout() { 

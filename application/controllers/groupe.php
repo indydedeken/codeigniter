@@ -122,10 +122,10 @@ class Groupe extends CI_Controller {
 				$donnees['dateCreation'] = mdate($datestring, time());
 				$donnees['emailAdministrateur'] = $this->session->userdata('email');
 				
-				$donneesGroupe = array(	'intitule'				=> $donnees['nom'],
-										'description'			=> $donnees['description'],
-										'dateCreation'			=> $donnees['dateCreation'],
-										'emailAdministrateur'	=> $donnees['emailAdministrateur']
+				$donneesGroupe = array(	'intitule' 		=> $donnees['nom'],
+							'description'		=> $donnees['description'],
+							'dateCreation'		=> $donnees['dateCreation'],
+							'emailAdministrateur'	=> $donnees['emailAdministrateur']
 				);
 				
 				// insertion du groupe en DB
@@ -133,16 +133,16 @@ class Groupe extends CI_Controller {
 				
 				if( $idGroupe > 0 ) {
 					// ajouter les documents	
-					$data['idGroupe'] = $idGroupe;
-					$data['creation'] = 1;
-					$data['nom'] = $this->input->post('nom');
-					$data['description'] = $this->input->post('description');
+					$data['idGroupe'] 	= $idGroupe;
+					$data['creation'] 	= 1;
+					$data['nom'] 		= $this->input->post('nom');
+					$data['description'] 	= $this->input->post('description');
 				}
 				
 				// insertion de l'utilisateur au groupe
-				$donneesGroupeUtilisateur = array(	'idGroupe'				=> $idGroupe,
-													'emailUtilisateur'		=> $this->session->userdata('email'),
-													'dateInscriptionGroupe'	=> $donnees['dateCreation']
+				$donneesGroupeUtilisateur = array(	'idGroupe'		=> $idGroupe,
+									'emailUtilisateur'	=> $this->session->userdata('email'),
+									'dateInscriptionGroupe'	=> $donnees['dateCreation']
 				);
 				$this->model_groupe->addGroupe('GroupeUtilisateur', $donneesGroupeUtilisateur);
 				

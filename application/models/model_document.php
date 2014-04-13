@@ -13,11 +13,23 @@ class Model_document extends CI_Model {
     }
 	
 	/* addDocument	: ajouter un document
-	 * param1		: data (tableau de données auteur, titre, contenu... ) 
-	 * return 		: true
+	 * param1	: table (nom en DB)
+	 * param2	: data (tableau de données auteur, titre, contenu... ) 
+	 * return 		: id
 	 */
-	public function addDocument($data) {
-		$this->db->insert('Document', $data);
+	public function addDocument($table, $data) {
+		$this->db->trans_begin();	
+		if( $this->db->insert($table, $data) ) {
+			// si l'insertion réussie
+			$insert_id = $this->db->insert_id();
+			$this->db->trans_commit();
+		} else {
+			// si l'insertion échoue
+			$this->db->trans_rollback();
+			return 0;
+		}	
+		// retour de la fonction en cas de réussite
+		return $insert_id;
 	}
 	
 	/* countDocuments	: connaitre le nombre de documents disponibles
@@ -134,13 +146,22 @@ class Model_document extends CI_Model {
 		
 		$param	= array( 'GroupeDocument.idDocument' => $idDocument);
 		
-		$this->db->select('*');
-		$this->db->join('GroupeUtilisateur', 'GroupeUtilisateur.idGroupe = GroupeDocument.idGroupe');
-		$this->db->join('Document', 'GroupeDocument.idDocument = Document.id');
-		$this->db->where('GroupeUtilisateur.emailUtilisateur', $email);
-		$this->db->where('GroupeUtilisateur.idGroupe', $idGroupe);
-		$data = $this->db->get_where('GroupeDocument', $param);
-		//$data =$this->db->group_by('GroupeDocument.idDocument');
+		if($idGroupe == 0) {
+			/*
+			* PASSER UNE REQUETE SQL POUR VERIFIER 
+			* QUE L'UTILISATEUR DEMANDANT L'ACCES AU DOCUMENT
+			* EST BIEN L'UPLOADEUR DE CE DOCUMENT
+			* S'il ne l'est pas : return FALSE
+			*/
+			return true;
+		} else {
+			$this->db->select('*');
+			$this->db->join('GroupeUtilisateur', 'GroupeUtilisateur.idGroupe = GroupeDocument.idGroupe');
+			$this->db->join('Document', 'GroupeDocument.idDocument = Document.id');
+			$this->db->where('GroupeUtilisateur.emailUtilisateur', $email);
+			$this->db->where('GroupeUtilisateur.idGroupe', $idGroupe);
+			$data = $this->db->get_where('GroupeDocument', $param);
+		}
 		if($data->num_rows()>0) {
 			return $data;
 		} else {
