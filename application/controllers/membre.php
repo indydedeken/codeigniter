@@ -61,9 +61,11 @@ class Membre extends CI_Controller {
 					 * Ici on utilise la variable de session, car CI ne permet pas
 					 * de récupérer un array dans une variable de session
 					 */
-					// ATTENTION, les fonction getAllDoc/getAllGrp sont à créer pour récupérer les vraies info, ici c'est un exemple
 					$_SESSION['listeTopDocuments']	= $this->model_document->getTopDocuments($this->session->userdata('email'), 3)->result();
-					$_SESSION['listeTopGroupes']		= $this->model_groupe->getTopGroupes($this->session->userdata('email'), 3)->result();
+					$_SESSION['listeTopGroupes']	= $this->model_groupe->getTopGroupes($this->session->userdata('email'), 3)->result();
+					
+					$_SESSION['listeGroupes']		= $this->model_groupe->getGroupes()->result();
+					$_SESSION['listeDocuments']		= $this->model_document->getDocuments()->result();
 					
 					redirect(site_url().'home', $data);
 					

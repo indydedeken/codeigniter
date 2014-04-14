@@ -29,7 +29,61 @@
 <link rel="apple-touch-icon" sizes="120x120" href="<?=base_url()?>/asset/ico/apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" sizes="144x144" href="<?=base_url()?>/asset/ico/apple-touch-icon-144x144.png" />
 <link rel="apple-touch-icon" sizes="152x152" href="<?=base_url()?>/asset/ico/apple-touch-icon-152x152.png" />
-
+<script>
+    $.widget(	
+		"custom.catcomplete", 
+		$.ui.autocomplete, 
+		{
+			_renderMenu: function( ul, items ) {
+				var that = this, currentCategory = "";
+				$.each( items, function( index, item ) {
+					if ( item.category != currentCategory ) {
+						ul.append( "<li class='ui-autocomplete-category' style='font-weight:bold; text-transform: capitalize; background:white;'>" + item.category + "</li>" );
+						currentCategory = item.category;
+					}
+					that._renderItemData( ul, item );
+				});
+			}
+		}
+	);
+</script>
+<script>
+$(function() {
+	// données qui alimentent le search du header
+    var data = [
+	// liste des groupes
+	<?php
+	foreach($_SESSION['listeGroupes'] as $item) {
+	?>
+	{ id: "<?=$item->id?>", label: "<?=str_replace('"', ' ', $item->intitule)?>", category: "groupe"},
+	<?php	
+	}
+	?>
+	// liste des documents
+	<?php
+	foreach($_SESSION['listeDocuments'] as $item) {
+	?>
+	{ id: "<?=$item->id?>", label: "<?=str_replace('"', '\"', $item->titre)?>", category: "document"},
+	<?php	
+	}
+	?>
+    ];
+	
+    $("#search").catcomplete({
+		delay: 0,
+		source: data,
+		select: function( event, ui ) {
+			// traitement de la recherche selectionnée
+			$("#search").value = ui.item.label;
+			$("#searchHidden")
+				.attr("data-id", ui.item.id)
+				.attr("data-label", ui.item.label)
+				.attr("data-category", ui.item.category);
+			return false;
+		}
+    });
+});
+</script>
 </head>
 <body>
 <header>
@@ -51,11 +105,11 @@
       <div class="collapse navbar-collapse navbar-ex1-collapse">
       
       	<?php
-			$nav = $this->uri->segment(1);
-			if($nav === FALSE || $nav == ""):
-				$nav = "home";
-			endif;
-		?>
+	    $nav = $this->uri->segment(1);
+	    if($nav === FALSE || $nav == ""):
+		    $nav = "home";
+	    endif;
+	?>
       	
         <ul class="nav navbar-nav">
         	<li class="<?php if($this->uri->segment(1) == "home") echo 'active'?>"><a href="<?=base_url()?>">Home</a></li>
@@ -64,12 +118,12 @@
                 <ul class="dropdown-menu">
                     <?php if($this->session->userdata('logged')):?>
                     <?php 
-					foreach($_SESSION['listeTopDocuments'] as $item) {
-					?>
-						<li><a href="<?=base_url('document').'/afficher/' . $item->id . '/groupe/' . $item->idGroupe?>"><?=$item->intitule?> - <?=$item->titre?></a></li>
-					<?php	
-					}
-					?>
+		    foreach($_SESSION['listeTopDocuments'] as $item) {
+		    ?>
+			    <li><a href="<?=base_url('document').'/afficher/' . $item->id . '/groupe/' . $item->idGroupe?>"><?=$item->intitule?> - <?=$item->titre?></a></li>
+		    <?php	
+		    }
+		    ?>
                     <li role="presentation" class="divider"></li>                  	
                     <li><a href="<?=base_url('document')?>">Gestion de mes documents</a></li>
                     <li><a href="<?=base_url('document/creer')?>">Uploader un document</a></li>
@@ -83,12 +137,12 @@
                 <ul class="dropdown-menu">
                     <?php if($this->session->userdata('logged')):?>
                     <?php 
-					foreach($_SESSION['listeTopGroupes'] as $item) {
-					?>
-						<li><a href="<?=base_url('groupe').'/afficher/' . $item->idGroupe?>"><?=$item->intitule?></a></li>
-					<?php	
-					}
-					?>
+		    foreach($_SESSION['listeTopGroupes'] as $item) {
+		    ?>
+			<li><a href="<?=base_url('groupe').'/afficher/' . $item->idGroupe?>"><?=$item->intitule?></a></li>
+		    <?php	
+		    }
+		    ?>
                     <li role="presentation" class="divider"></li>
                     <li><a href="<?=base_url('groupe')?>">Gestion de mes groupes</a></li>
                     <li><a href="<?=base_url('groupe/creer')?>">Créer un groupe</a></li>
@@ -116,13 +170,14 @@
             </ul>
           </li>
         </ul>
-        <form class="navbar-form navbar-right" role="search">
+        <form id="formSearch" class="navbar-form navbar-right" role="search">
           <div class="form-group">
-            <input type="search" class="form-control" placeholder="chercher un groupe..." spellcheck="true">
+            <input id="search" type="search" class="form-control" placeholder="chercher un groupe..." spellcheck="true" value="">
+            <input id="searchHidden" type="hidden">
           </div>
-          <?php /* Voir si la saisie de la touche "entrée" peut valider la recherche ?>
-		  <button type="submit" class="btn btn-default">go</button>
-		  <?php */?>
+          
+		  <!--<button type="submit" class="btn btn-default">go</button>-->
+		  
         </form>
       </div><!-- /.navbar-collapse -->
     </nav>

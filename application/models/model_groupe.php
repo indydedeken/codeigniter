@@ -43,6 +43,19 @@ class Model_groupe extends CI_Model {
 		return $data;
 	}
 	
+	/* getGroupes	: récupérer tous les groupes existant
+	 * return		: ensemble des données de chaque Groupe
+	 */
+	public function getGroupes() {
+		// récupère toutes les variables du groupe + nombre de collaborateur
+		$this->db->select('*');
+		$this->db->from('Groupe');
+		$this->db->group_by('id');
+		$data = $this->db->get();
+
+		return $data;
+	}
+	
 	/* getAllGroupes	: récupérer tous les groupes d'un utilisateur
 	 * param1			: email de l'utilisateur
 	 * return			: ensemble des données de chaque Groupe

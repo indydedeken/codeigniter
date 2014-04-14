@@ -103,6 +103,19 @@ class Model_document extends CI_Model {
 		return $data;
 	}
 	
+	/* getDocuments	: récupérer tous les documents d'un utilisateur
+	 * return		: ensemble des données de chaque document
+	 */
+	public function getDocuments() {
+		// récupère toutes les variables du document
+		$this->db->select('*');
+		$this->db->from('Document');
+		$this->db->group_by('id');
+		$data = $this->db->get();
+
+		return $data;
+	}
+	
 	/* getAllDocuments	: récupérer tous les documents d'un utilisateur
 	 * param1			: email de l'utilisateur
 	 * return			: ensemble des données de chaque document
@@ -122,6 +135,8 @@ class Model_document extends CI_Model {
 		
 		return $data;
 	}
+	
+	
 	
 	/* getAllDocuments	: récupérer tous les documents d'un utilisateur
 	 * param1			: email de l'utilisateur
