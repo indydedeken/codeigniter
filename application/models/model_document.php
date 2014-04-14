@@ -138,23 +138,25 @@ class Model_document extends CI_Model {
 	}
 	
 	/* getDocument	: récupérer un document
-	 * param1		: id du document
-	 * param2		: email de l'utilisateur
-	 * return		: ensemble des données du document
+	 * param1	: id du document
+	 * param2	: email de l'utilisateur
+	 * return	: ensemble des données du document
 	 */
 	public function getDocument($idDocument, $email, $idGroupe) {
 		
-		$param	= array( 'GroupeDocument.idDocument' => $idDocument);
+		
 		
 		if($idGroupe == 0) {
-			/*
-			* PASSER UNE REQUETE SQL POUR VERIFIER 
-			* QUE L'UTILISATEUR DEMANDANT L'ACCES AU DOCUMENT
-			* EST BIEN L'UPLOADEUR DE CE DOCUMENT
-			* S'il ne l'est pas : return FALSE
-			*/
-			return true;
+			$param	= array('Document.id' => $idDocument,
+					'Document.emailUtilisateur' => $email
+			);
+			
+			$this->db->select('*');
+			$data = $this->db->get_where('Document', $param);
+			
 		} else {
+			$param	= array( 'GroupeDocument.idDocument' => $idDocument);
+		
 			$this->db->select('*');
 			$this->db->join('GroupeUtilisateur', 'GroupeUtilisateur.idGroupe = GroupeDocument.idGroupe');
 			$this->db->join('Document', 'GroupeDocument.idDocument = Document.id');
@@ -162,6 +164,7 @@ class Model_document extends CI_Model {
 			$this->db->where('GroupeUtilisateur.idGroupe', $idGroupe);
 			$data = $this->db->get_where('GroupeDocument', $param);
 		}
+		
 		if($data->num_rows()>0) {
 			return $data;
 		} else {
