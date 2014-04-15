@@ -109,6 +109,46 @@ class Model_groupe extends CI_Model {
 	}
 
 	/*
+	 * getNbGroupePourDocument	: Obtenir le nombre de groupe dans lesquels un même document est présent
+	 * param1 					: id du document
+	 * return					: 
+	 */
+	public function getGroupePourUnDocument($idDocument) {
+		
+		$param = array('GD.idDocument' => $idDocument);
+		$this->db->join('Groupe GR', 'GR.id = GD.idGroupe');
+		$query = $this->db->get_where('GroupeDocument GD', $param);
+		
+		return $query->result();
+	}
+	
+	/*
+	 * authAccesGroupe	:
+	 * param1			:
+	 * param2			: 
+	 * return			: true/false
+	 */
+	public function authAccesGroupe($idGroupe, $email) {
+	/*
+		SELECT distinct GU.emailUtilisateur
+		FROM GroupeDocument GD, GroupeUtilisateur GU 
+		WHERE GD.idGroupe = GU.idGroupe 
+		AND GD.idGroupe = 1
+		AND GU.emailUtilisateur = '$email';
+	*/
+		$param = array('idGroupe' => $idGroupe,
+						'emailUtilisateur' => $email
+		);
+		$data = $this->db->get_where('GroupeUtilisateur', $param);
+		
+		if($data->num_rows() == 1) {
+			return true;
+		} else {
+			return false;	
+		}
+	}
+
+	/*
 	 * estAdministrateur	: savoir si un membre est admin du groupe
 	 * param1				: id du Groupe
 	 * param2				: email de l'utilisateur

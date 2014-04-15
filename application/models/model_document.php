@@ -159,8 +159,6 @@ class Model_document extends CI_Model {
 	 */
 	public function getDocument($idDocument, $email, $idGroupe) {
 		
-		
-		
 		if($idGroupe == 0) {
 			$param	= array('Document.id' => $idDocument,
 					'Document.emailUtilisateur' => $email
@@ -171,7 +169,7 @@ class Model_document extends CI_Model {
 			
 		} else {
 			$param	= array( 'GroupeDocument.idDocument' => $idDocument);
-		
+			
 			$this->db->select('*');
 			$this->db->join('GroupeUtilisateur', 'GroupeUtilisateur.idGroupe = GroupeDocument.idGroupe');
 			$this->db->join('Document', 'GroupeDocument.idDocument = Document.id');

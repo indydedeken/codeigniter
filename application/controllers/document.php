@@ -43,42 +43,84 @@ class Document extends CI_Controller {
 		}
 	}
 	
-	/****************************************/
-	/* document/afficher/<idDocument>	*/
-	/*					*/
-	/* BUT : afficher un document		*/
-	/****************************************/
+	/********************************************************/
+	/* document/afficher/<idDocument>/groupe/<idGroupe>		*/
+	/*														*/
+	/* BUT : afficher un document							*/
+	/********************************************************/
 	public function afficher() {
+		// Multiples possibilité pour arriver sur cette page :
+		// URI KO --> afficher l'ensemble des documents
+		// URI KO --> 
+		// URI OK --> pas dans le groupe :
+		//
+		//
 		
 		$data['nav'] = "afficher"; 
 		
-		// vérifier que l'utilisateur à le droit d'accès à ce document
+		// vérifier l'accès à la page
 		if($this->session->userdata('email') && $this->session->userdata('logged')) {
 			
 			$idDocument = $this->uri->segment(3);
 			$idGroupe = $this->uri->segment(5);
-			if($idGroupe == NULL)
-				$idGroupe = -1;
-				
-						
-			if($this->model_document->getDocument($idDocument, $this->session->userdata('email'), $idGroupe)) {
-				
-				//$data['document'] 		= $this->model_document->getDocument($id, $this->session->userdata('email'));
-				//$data['estAdministrateur'] 	= $this->model_document->estAdministrateur($id, $this->session->userdata('email'));
-				$data['idDocument']		= $idDocument;
-
-				$this->load->view('header', $data);
-				$this->load->view('document/vue_afficher_document', $data);
-				$this->load->view('footer', $data);
 			
-			} else {
-				// affichage d'une page d'erreur
-
-				$this->load->view('header', $data);
-				$this->load->view('document/vue_afficher_document_inaccessible', $data);
-				$this->load->view('footer', $data);
-			}	
-
+			if($idGroupe == NULL) 
+			{
+				// fonction qui calcule le nombre de document correspondant
+				// == 1 document 
+				// -------> redirection ici avec la variable idGroupe dans l'URL
+				// == +1 document
+				// -------> lister les groupes avec une demande d'accès
+				
+				$grpPourDocument = $this->model_groupe->getGroupePourUnDocument($idDocument);
+				$nbGroupe = count($grpPourDocument);
+				
+				if($nbGroupe == 1) 
+				{
+					// redirection vers l'unique document existant
+					$idGroupe = $grpPourDocument[0]->idGroupe;
+					redirect(site_url().'document/afficher/' . $idDocument . '/groupe/' . $idGroupe);	
+				} 
+				else if ($nbGroupe > 1)
+				{
+					// si pas d'idGroupe --> lister les groupes
+					$this->load->view('header', $data);
+					for($i=0; $i<$nbGroupe; $i++) 
+					{
+						// récupérer le titre des groupes ici
+						
+					}
+					$data['idDocument']		= $idDocument;
+					$data['nbGroupe']		= $nbGroupe;
+					$data['listeGroupe']	= $grpPourDocument;
+					$this->load->view('document/vue_afficher_document_liste_groupe', $data);
+					$this->load->view('footer', $data);
+				}
+			} 
+			else 
+			{
+				// si idGroupe + accès OK --> affiche le document
+				if($this->model_document->getDocument($idDocument, $this->session->userdata('email'), $idGroupe)) 
+				{
+				
+					//$data['document'] 		= $this->model_document->getDocument($id, $this->session->userdata('email'));
+					//$data['estAdministrateur'] 	= $this->model_document->estAdministrateur($id, $this->session->userdata('email'));
+					$data['idDocument']		= $idDocument;
+	
+					$this->load->view('header', $data);
+					$this->load->view('document/vue_afficher_document', $data);
+					$this->load->view('footer', $data);
+			
+				} 
+				else 
+				{
+					// si id Groupe + accès KO --> proposer de demander l'accès
+					$this->load->view('header', $data);
+					echo "proposer de demander l'accès à ce groupe";
+					//$this->load->view('document/vue_afficher_document_inaccessible', $data);
+					$this->load->view('footer', $data);
+				}	
+			}
 		} else {
 			redirect(site_url().'membre');	
 		}

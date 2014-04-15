@@ -51,14 +51,6 @@
 $(function() {
 	// données qui alimentent le search du header
     var data = [
-	// liste des groupes
-	<?php
-	foreach($_SESSION['listeGroupes'] as $item) {
-	?>
-	{ id: "<?=$item->id?>", label: "<?=str_replace('"', ' ', $item->intitule)?>", category: "groupe"},
-	<?php	
-	}
-	?>
 	// liste des documents
 	<?php
 	foreach($_SESSION['listeDocuments'] as $item) {
@@ -67,10 +59,19 @@ $(function() {
 	<?php	
 	}
 	?>
+	// liste des groupes
+	<?php
+	foreach($_SESSION['listeGroupes'] as $item) {
+	?>
+	{ id: "<?=$item->id?>", label: "<?=str_replace('"', ' ', $item->intitule)?>", category: "groupe"},
+	<?php	
+	}
+	?>
     ];
 	
     $("#search").catcomplete({
 		delay: 0,
+		minLength: 2,
 		source: data,
 		select: function( event, ui ) {
 			// traitement de la recherche selectionnée
@@ -125,7 +126,7 @@ $(function() {
 		    }
 		    ?>
                     <li role="presentation" class="divider"></li>                  	
-                    <li><a href="<?=base_url('document')?>">Gestion de mes documents</a></li>
+                    <li><a href="<?=base_url('document')?>">Mes documents</a></li>
                     <li><a href="<?=base_url('document/creer')?>">Uploader un document</a></li>
                     <?php else:?>
                         <li><a href="<?=base_url('membre')?>">Connexion</a></li></li>
@@ -144,7 +145,7 @@ $(function() {
 		    }
 		    ?>
                     <li role="presentation" class="divider"></li>
-                    <li><a href="<?=base_url('groupe')?>">Gestion de mes groupes</a></li>
+                    <li><a href="<?=base_url('groupe')?>">Mes groupes</a></li>
                     <li><a href="<?=base_url('groupe/creer')?>">Créer un groupe</a></li>
                     <?php else:?>
                         <li><a href="<?=base_url('membre')?>">Connexion</a></li></li>
@@ -172,7 +173,7 @@ $(function() {
         </ul>
         <form id="formSearch" class="navbar-form navbar-right" role="search">
           <div class="form-group">
-            <input id="search" type="search" class="form-control" placeholder="chercher un groupe..." spellcheck="true" value="">
+            <input id="search" type="search" class="form-control" placeholder="chercher un groupe..." spellcheck="true" value="" autocomplete="off">
             <input id="searchHidden" type="hidden">
           </div>
           

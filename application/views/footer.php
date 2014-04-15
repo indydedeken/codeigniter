@@ -3,12 +3,25 @@
 </nav>
 <script src="<?=base_url()?>asset/js/bootstrap.js"></script>
 <script>
+<!--
 	// Soumission du formulaire de Search dans le header
 	$( "#formSearch" ).submit(function( event ) {
-		var element = $("#searchHidden");
-		alert("J'en fais quoi des données ??? \n" + element.data('id') + "_" + element.data('label') + "_"  + element.data('category'));
-		event.preventDefault();
+		var element		= $("#searchHidden");
+		var category	= element.data('category');
+		var idElement	= element.data('id');
+		var label		= element.data('label');
+		
+		// possibilité d'utiliser la recherche pour : GROUPE, DOCUMENT
+		if (category == "groupe") {
+			$(location).attr('href',"<?=base_url('groupe/afficher')?>/" + idElement);
+		} else if (category == "document") {
+			$(location).attr('href',"<?=base_url('document/afficher')?>/" + idElement);
+		}
+		
+		// empeche le formulaire de se valider
+		event.preventDefault();	
 	});
+-->
 </script>
 <?php if($this->uri->segment(1) == "home"): ?>
 <script>
