@@ -5,7 +5,7 @@
 		</div>
 		<div class="justify col-sm-8 col-md-9">
 			<?php echo form_open_multipart('document/upload', 'class="form-horizontal" role="form"');?>
-			<div class="form-group">
+			<div class="form-group dropzone">
 				<input type="file" id="userfile" name="userfile" size="20" />
 			</div>
 			<div id="infoComplementaires" style="display: none;">

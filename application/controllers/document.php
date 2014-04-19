@@ -73,27 +73,32 @@ class Document extends CI_Controller {
 				// -------> lister les groupes avec une demande d'accès
 				
 				$grpPourDocument = $this->model_groupe->getGroupePourUnDocument($idDocument);
+				
 				$nbGroupe = count($grpPourDocument);
 				
-				if($nbGroupe == 1) 
+				if($nbGroupe == 1 || $grpPourDocument == NULL) 
 				{
 					// redirection vers l'unique document existant
-					$idGroupe = $grpPourDocument[0]->idGroupe;
+					if ($grpPourDocument == NULL)
+						$idGroupe = 0;
+					else
+						$idGroupe = $grpPourDocument[0]->idGroupe;
 					redirect(site_url().'document/afficher/' . $idDocument . '/groupe/' . $idGroupe);	
 				} 
 				else if ($nbGroupe > 1)
 				{
 					// si pas d'idGroupe --> lister les groupes
-					$this->load->view('header', $data);
-					for($i=0; $i<$nbGroupe; $i++) 
-					{
-						// récupérer le titre des groupes ici
-						
-					}
 					$data['idDocument']		= $idDocument;
 					$data['nbGroupe']		= $nbGroupe;
 					$data['listeGroupe']	= $grpPourDocument;
+					
+					$this->load->view('header', $data);
 					$this->load->view('document/vue_afficher_document_liste_groupe', $data);
+					$this->load->view('footer', $data);
+				}
+				else {
+					$this->load->view('header', $data);
+					echo "OLA";	
 					$this->load->view('footer', $data);
 				}
 			} 
@@ -211,6 +216,10 @@ class Document extends CI_Controller {
 					$donneesDocGrp['idGroupe']	= 0; // groupe 0 est document personnel
 					$donneesDocGrp['idDocument']	= $idDocument;
 					$this->model_groupe->addDocGroupe($donneesDocGrp);
+					
+					// réinitialise les résultats de la search
+					$_SESSION['listeGroupes']		= $this->model_groupe->getGroupes()->result();
+					$_SESSION['listeDocuments']		= $this->model_document->getDocuments()->result();
 					
 					if($idDocument>0) {
 						$this->load->view('header', $data);
