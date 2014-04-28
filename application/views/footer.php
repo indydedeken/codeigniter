@@ -23,16 +23,8 @@
 	});
 -->
 </script>
-<?php if($this->uri->segment(1) == "home"): ?>
-<script>
-<!-- 
-	(function($) {
-	
-		
-		
-	})(jQuery);
--->
-</script>
+<?php if($this->uri->segment(1) == "document" && $this->uri->segment(2) == "creer"): ?>
+<script></script>
 <?php elseif($this->uri->segment(1) == "membre" || $this->uri->segment(1) == "creer") : ?>
 <script>
 <!-- 

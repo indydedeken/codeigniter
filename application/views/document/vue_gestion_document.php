@@ -17,6 +17,7 @@
 			<?php
 			}
 			?>
+			<li><a href="#groupe0">Bibliothèque personnelle</a></li>
 		</ul>
 	</div>
 </div>
@@ -40,6 +41,23 @@
 						par <?=$item->auteur?><span class="badge pull-right"><?=$item->libelle?></span>
 					</a>			   
 				<?php } ?>
+				<h2 id="groupe0"><small>Bibliothèque personnelle</small></h2>	
+				<?php 
+				$idGroupeTmp = 0;
+				foreach($documentsPersonnels->result() as $item) { 
+					if($item->idGroupe != $idGroupeTmp){
+						$idGroupeTmp = $item->idGroupe;
+					?>
+						
+					<?php
+					}
+					?>	
+					<a id="document_<?=$item->id?>" class="list-group-item" href="<?=base_url('document/afficher/'.$item->id.'/groupe/'.$item->idGroupe)?>" title="document">
+						<?=$item->titre?><br>
+						par <?=$item->auteur?><span class="badge pull-right"><?=$item->libelle?></span>
+					</a>			   
+				<?php } ?>
+				
 			</div>
 		</div>
 	</div>

@@ -30,6 +30,7 @@ class Document extends CI_Controller {
 			
 			$data['groupes']		= $this->model_groupe->getAllGroupes($email);
 			$data['documents']		= $this->model_document->getAllDocuments($email);
+			$data['documentsPersonnels']	= $this->model_document->getDocumentsPerso($email);
 			//$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($email);
 			
 			$this->load->view('header', $data);
@@ -223,7 +224,7 @@ class Document extends CI_Controller {
 					
 					if($idDocument>0) {
 						$this->load->view('header', $data);
-						$this->load->view('document/vue_creer_document_succes', $data);
+						$this->load->view('document/vue_creer_document', $data);
 						$this->load->view('footer', $data);
 					} else {
 						$this->load->view('header', $data);
@@ -235,60 +236,8 @@ class Document extends CI_Controller {
 		}		
 	}
 
-	/********************************************************/
-	/* membre/profil					*/
-	/*							*/
-	/* BUT : administration des variables d'un utilisateur	*/
-	/********************************************************/
-	public function profil() {
-		if($this->session->userdata('email') && $this->session->userdata('logged'))  {
-			$data['nav'] = 'profil';
-			
-			// remettre nav=membre car on refait le tableau
-			$data['nav'] = "membre"; 
-			
-			$this->session->set_userdata($data);
-			
-			// affichage des vues
-			$this->load->view('header', $data);
-			$this->load->view('membre/vue_profil', $data);
-			$this->load->view('footer', $data);
-				
-		} else {
-			redirect(site_url().'membre/register');
-		}
-	}
-	
-	/****************************************************************/
-	/* membre/ajax_info_profil					*/
-	/*								*/
-	/* BUT : mettre à jour le formulaire des données utilisateur	*/
-	/****************************************************************/
-	public function ajax_info_profil() {
-		if($this->input->post('ajax') == '1') {
-			
-			$this->form_validation->set_rules('nom', 'nom', 'trim|required|xss_clean');
-			$this->form_validation->set_rules('prenom', 'prenom', 'trim|required|xss_clean');
-			
-			$this->form_validation->set_message('required', 'Erreur : Merci de saisir tous les champs !');
-			if($this->form_validation->run() == FALSE) {
-				// message d'erreur
-				echo validation_errors();
-				
-			} else {
-				// mise à jour des données
-				$data['nom'] 	= $this->input->post('nom');
-				$data['prenom'] = $this->input->post('prenom');
-				$this->model_membre->maj_info_unite($data);
-				// mise à jour des var de session
-				$this->session->set_userdata($data);
-				echo 'Succès : Données utilisateur mises à jour';
-			}
-		}
-	}
-
 	/****************************************/
-	/* membre/logout 			*/
+	/* document/logout 			*/
 	/*					*/
 	/* BUT : déconnexion d'un utilisateur	*/
 	/****************************************/

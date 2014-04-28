@@ -117,8 +117,8 @@ class Model_document extends CI_Model {
 	}
 	
 	/* getAllDocuments	: récupérer tous les documents d'un utilisateur
-	 * param1			: email de l'utilisateur
-	 * return			: ensemble des données de chaque document
+	 * param1		: email de l'utilisateur
+	 * return		: ensemble des données de chaque document
 	 */
 	public function getAllDocuments($email, $limite = NULL) {
 		if($limite == NULL)
@@ -136,7 +136,23 @@ class Model_document extends CI_Model {
 		return $data;
 	}
 	
-	
+	/* getDocumentsPerso	: récupérer tous les documents uploadés par l'utilisateur
+	 * param1		: email de l'utilisateur
+	 * return		: ensemble des données de chaque document
+	 */
+	public function getDocumentsPerso($email, $limite = NULL) {
+		if($limite == NULL)
+			$limite = 100;
+		$param = array('Document.emailUtilisateur' => $email, 'Groupe.id' => '0');
+		
+		$this->db->select('Document.id, GroupeDocument.idGroupe, Groupe.intitule, Document.titre, CASE WHEN Document.auteur = "" THEN "anonyme" ELSE Document.auteur END as auteur, Document.contenuOriginal, EtatDocument.libelle, Document.dateCreation', false);
+		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');
+		$this->db->join('GroupeDocument', 'GroupeDocument.idDocument = Document.id');
+		$this->db->join('Groupe', 'Groupe.id = GroupeDocument.idGroupe');
+		$data = $this->db->get_where('Document', $param, $limite);
+		
+		return $data;
+	}
 	
 	/* getAllDocuments	: récupérer tous les documents d'un utilisateur
 	 * param1			: email de l'utilisateur

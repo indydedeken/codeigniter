@@ -330,3 +330,25 @@ ul#listeMembre {
 	float:right;
 }
 /* ./groupe */
+
+/* upload */
+.dropzone {
+    margin-left: 0 !important;
+    margin-top: 10px;
+}
+form#uploadDocument {
+  margin-bottom : 20px;
+}
+.groupProgress {
+  width:100px;
+  height:10px;
+  border:1px solid #999;
+  background:#eee;
+}
+#barreProgress {
+  width:0px;
+  height:10px;
+  background:red;
+}
+</style>
+/* ./upload */
