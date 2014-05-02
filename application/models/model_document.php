@@ -202,22 +202,67 @@ class Model_document extends CI_Model {
 	}
 	
 	/* delDocument	: supprimer un document
-	 * param1		: id du document
-	 * param2		: email de l'utilisateur
-	 * return		: true
+	 * param1	: id du document
+	 * param2	: email de l'utilisateur
+	 * return	: true
 	 */
 	 public function delDocument($idDocument, $email) {
 		
-		/* PRÉVOIR SI LE MEMBRE EST ADMIN, ALORS 		*/
+		/* PRÉVOIR SI LE MEMBRE EST ADMIN, ALORS 	*/
 		/* ON FAIT LE NÉCESSAIRE DANS TOUTES LES TABLES */
-		$param = array(	'id'	=> $idDocument,
-						'email'	=> $email 
-		);
-	 	if($this->db->delete('Document', $param))
-			return true;
-		else
-			return false;		 	
+		$this->db->trans_begin();
+		
+		$this->db->select('*');
+		$this->db->where('Document.emailUtilisateur', $email);
+		$this->db->where('Document.id', $idDocument);
+		$data = $this->db->get('Document');
+		
+		if($data->num_rows() != 1)
+		{
+			$this->db->trans_rollback();
+			return FALSE;
+		}
+		
+		// TABLE markus.document
+		$this->db->where('id', $idDocument);
+		$this->db->where('emailUtilisateur', $email);
+		$this->db->delete('Document');
+		
+		// TABLE markus.GroupeDocument
+		$this->db->where('idDocument', $idDocument);
+		$this->db->delete('GroupeDocument');
+		
+	 	if($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			return FALSE;
+	 	}
+		else {
+			// effecer le fichier
+			//unlink('./files/' . $file->filename);
+			$this->db->trans_commit();
+			return TRUE;
+		}
 	 }
+	 
+	 /* Ne pas appeller cette fonction depuis le controleur
+	  * seulement depuis document_model
+	  * 
+	 public function delDoc($idDocument, $email) {
+		// TABLE markus.document
+		$this->db->where('id', $idDocument);
+		$this->db->where('emailUtilisateur', $email);
+		$this->db->delete('Document');
+	 }
+	 */
+	 
+	 /* Ne pas appeller cette fonction depuis le controleur
+	  * seulement depuis document_model
+	  * 
+	 public function delGrpDoc($idDocument, $email) {
+		// TABLE markus.GroupeDocument
+		$this->db->where('idDocument', $idDocument);
+		$this->db->delete('GroupeDocument');
+	 }*/
 	 
 	 /*
 	 * delDocumentAnnexe	: supprimer un document dans les autres tables que Document

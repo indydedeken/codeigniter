@@ -45,9 +45,9 @@ class Document extends CI_Controller {
 	}
 	
 	/********************************************************/
-	/* document/afficher/<idDocument>/groupe/<idGroupe>		*/
-	/*														*/
-	/* BUT : afficher un document							*/
+	/* document/afficher/<idDocument>/groupe/<idGroupe>	*/
+	/*							*/
+	/* BUT : afficher un document				*/
 	/********************************************************/
 	public function afficher() {
 		// Multiples possibilité pour arriver sur cette page :
@@ -164,28 +164,42 @@ class Document extends CI_Controller {
 	/****************************************/
 	public function upload() {
 		if($this->session->userdata('email') && $this->session->userdata('logged'))  {
+			
+			$status	= ""; // indique le status de la requete (success, error)
+			$msg	= ""; // message retourné sur la page d'upload
+			$file_element_name = 'userfile';
+			$directory = "./filesUploaded/user_" . md5($this->session->userdata('email')) . "/";
+			
+			if(!file_exists($directory))
+			{
+				// création du dossier de l'utilisateur
+				mkdir($directory);
+			}
+			
 			// paramétrage des règles d'upload
-			$config['upload_path'] 		= './fileUploaded/'; // personnaliser le dossier de réception...
+			$config['upload_path'] 		= $directory;//'./fileUploaded/'; // personnaliser le dossier de réception...
 			$config['allowed_types'] 	= 'pdf';
+			$config['max_size'] 		= 1024*15;
 			$config['max_filename']		= '255';
-			$config['remove_spaces'] 	= 'true';
-			$config['overwrite']		= 'FALSE';
-			//$config['max_size']		= '10000';
+			$config['remove_spaces'] 	= 'TRUE';
+			$config['overwrite']		= 'TRUE';
 			
 			$this->load->library('upload', $config);
 			
 			$data = array(); 
 			
-			if ( ! $this->upload->do_upload() )
+			if ( !$this->upload->do_upload() )
 			{
 				// consulter les erreurs
-				//$data = array('error' => $this->upload->display_errors());
+				//echo $this->upload->display_errors();
 				
+				$status = 'error';
+				$msg = ':( Seuls les documents PDF sont autorisés ici. Réessaye !';
 				//si l'upload échoue on redirige vers la page d'upload de document
-				redirect(site_url().'document/creer');
+				//redirect(site_url().'document/creer');
 			}
 			else
-			{
+			{		
 				$data = array('upload_data' => $this->upload->data());
 				// ['raw_name']	 = nom_du_fichier
 				// ['orig_name'] = nom_du_fichier.pdf
@@ -219,38 +233,53 @@ class Document extends CI_Controller {
 					$this->model_groupe->addDocGroupe($donneesDocGrp);
 					
 					// réinitialise les résultats de la search
-					$_SESSION['listeGroupes']		= $this->model_groupe->getGroupes()->result();
-					$_SESSION['listeDocuments']		= $this->model_document->getDocuments()->result();
+					$_SESSION['listeGroupes']	= $this->model_groupe->getGroupes()->result();
+					$_SESSION['listeDocuments']	= $this->model_document->getDocuments()->result();
 					
 					if($idDocument>0) {
-						$this->load->view('header', $data);
-						$this->load->view('document/vue_creer_document', $data);
-						$this->load->view('footer', $data);
+						$status = "success";
+						$msg = "Bien joué ! Le document PDF est dans votre bibliothèque.";
 					} else {
-						$this->load->view('header', $data);
-						echo "erreur";
-						$this->load->view('footer', $data);
+						unlink($data['full_path']);
+						$status = "error";
+						$msg = "Une erreur s'est produite";	
 					}
+					//@unlink($_FILES[$file_element_name]);
 				}
 			}
+			echo json_encode(array('status' => $status, 'msg' => $msg));
 		}		
 	}
 
-	/****************************************/
-	/* document/logout 			*/
-	/*					*/
-	/* BUT : déconnexion d'un utilisateur	*/
-	/****************************************/
-	function logout() { 
+	/************************************************/
+	/* document/files/				*/
+	/*						*/
+	/* BUT : afficher la bibliotheque perso (ajax)	*/
+	/************************************************/
+	public function files()
+	{
+	    $files = $this->model_document->getDocumentsPerso($this->session->userdata('email'));
+	    $this->load->view('document/vue_document_uploaded', array('files' => $files->result()));
+	}
 	
-		// supprimer les variables de session	
-		$this->session->set_userdata('nom');
-		$this->session->set_userdata('prenom');
-		$this->session->set_userdata('email');
-		$this->session->set_userdata('logged');
-
-		$this->session->sess_destroy();
-		redirect(site_url()."membre");	// adresse a redéfinir, pas propre là
+	/****************************************/
+	/* document/delete_file/<id>		*/
+	/*					*/
+	/* BUT : suppression d'un document	*/
+	/****************************************/
+	public function delete_file($file_id)
+	{
+	    if ($this->model_document->delDocument($file_id, $this->session->userdata('email')))
+	    {
+		$status = 'success';
+		$msg = 'Le fichier a été détruit, comme vous le souhaitiez !';
+	    }
+	    else
+	    {
+		$status = 'error';
+		$msg = 'Une erreur s\'est produite, veuillez réessayez s\il vous plait.';
+	    }
+	    echo json_encode(array('status' => $status, 'msg' => $msg));
 	}
 
 	

@@ -4,6 +4,20 @@
 			<h1>Uploader un document</h1>
 		</div>
 		<div class="justify col-sm-8 col-md-9">
+			<!-- DEBUT INFORMATION FICHIER UPLOADÉ -->
+			<?php if (isset($upload_data)) { ?>
+				<div>
+					<?php echo $upload_data['raw_name'];?>
+					<p>Document uploadé :</p>
+					<ul>
+					<?php foreach ($upload_data as $item => $value): ?>
+						<li><?php echo $item;?> : <?php echo $value;?></li>
+					<?php endforeach; ?>
+					</ul>
+				</div>
+			<?php } ?>
+			<!-- FIN INFORMATION FICHIER UPLOADÉ -->
+			
 			<!-- DEBUT FORMULAIRE UPLOAD -->
 			<?php echo form_open_multipart('document/upload', 'id="uploadDocument" class="form-horizontal" role="form"');?>
 				<div class="form-group dropzone">
@@ -25,45 +39,22 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label">Description</label>
 						<div class="col-md-9">
-							<textarea name="description" style="max-width:100%;" class="form-control" placeholder="Synthèse du document"></textarea>
+							<textarea id="description" name="description" style="max-width:100%;" class="form-control" placeholder="Synthèse du document"></textarea>
 						</div>
 					</div>
 				</div>
 				<br>
-				<input type="submit" class="btn btn-lg btn-success" style="width:100%;" value="upload" />
+				<button type="submit" id="upload_file" class="btn btn-lg btn-success" style="width:100%;">Upload</button>
 			</form>
 			<!-- ./FIN FORMULAIRE UPLOAD -->
 			
-			<!-- DEBUT INFORMATION FICHIER UPLOADÉ -->
-			<?php if (isset($upload_data)) { ?>
-				<div>
-					<?php echo $upload_data['raw_name'];?>
-					<p>Document uploadé :</p>
-					<ul>
-					<?php foreach ($upload_data as $item => $value): ?>
-						<li><?php echo $item;?> : <?php echo $value;?></li>
-					<?php endforeach; ?>
-					</ul>
-				</div>
-			<?php } ?>
-			<!-- FIN INFORMATION FICHIER UPLOADÉ -->
+			<!-- DEBUT LISTE DOCUMENTS -->
+			<div id="files"></div>
+			<!-- ./FIN LISTE DOCUMENTS -->
+			
 		</div>
 	</div>
-</div>
-<script type="application/javascript"><!--
-	
-	// affichage des champs titre, auteur...
-	$('input#userfile[type="file"]').on('change', function(event){ 
-		$('input[type="submit"]').prop("disabled", false);
-		$('#infoComplementaires').show({duration: 750, complete: saisirInfoComplementaires});
-		$('input#titre').focus();
-		
-	});
-	
-	function saisirInfoComplementaires() {
-		generateAlert("Personnalisez votre document en indiquant son titre, l'auteur...");
-	}
---></script> 
+</div> 
 <script type="application/javascript">
 	/*
 	 * Préparation des boites de notification

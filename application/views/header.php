@@ -6,17 +6,119 @@
 <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
 <!-- IE SWAGG -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Markus - Outils d'annotation de pdf</title>
+<title>Mark us - Outils d'annotation de pdf</title>
 <script src="<?=base_url()?>asset/js/jquery-1.10.2.min.js"></script>
 <script src="<?=base_url()?>asset/js/jquery-ui-1.10.4.custom.min.js"></script> 
-<script src="<?=base_url()?>asset/js/jquery.noty.packaged.min.js"></script> 
+<script src="<?=base_url()?>asset/js/jquery.noty.packaged.min.js"></script>
+<?php if($this->uri->segment(1) == "document" && $this->uri->segment(2) == "creer"): ?>
+    <script type="text/javascript">
+    // refresh_files permet de mettre à jour la liste des documents uploadés par l'utilisateur
+    refresh_files();
+    
+    $(function() {
+	// affichage des champs titre, auteur...
+	$('input#userfile[type="file"]').on('change', function(event){ 
+		$('input[type="submit"]').prop("disabled", false);
+		$('#infoComplementaires').show({duration: 750, complete: saisirInfoComplementaires});
+		$('input#titre').focus();
+		
+	});
+	
+	function saisirInfoComplementaires() {
+		generateAlert("Personnalisez votre document en indiquant son titre, l'auteur...");
+	}
+	
+	$('#uploadDocument').submit(function(e) {
+	    e.preventDefault();
+	    $.ajaxFileUpload({
+		url             :'<?=base_url()?>document/upload/',
+		secureuri       :false,
+		fileElementId   :'userfile',
+		dataType        :'json',
+		data            : {
+		  'titre' : $('#titre').val(),
+		  'auteur' : $('#auteur').val(),
+		  'description' : $('#description').val()
+		},
+		success : function (data, status)
+		{
+		    if(data.status != 'error')
+		    {
+			$('#files').html('<p>Chargement...</p>');
+			refresh_files();
+			$('#titre').val('');
+			$('#auteur').val('');
+			$('#description').val('');
+		    }
+		    if (data.status == "success") {
+			generateSuccess(data.msg);
+		    } else {
+			generateError(data.msg);
+			$("#userfile").val(''); // vider input type=file
+		    }
+		},
+		error : function (data, status)
+		{
+		    $("#userfile").val(''); // vider input type=file
+		    alert(status);
+		}
+	    });
+	    return false;
+	});
+	
+	$(document).on('click', '.lien_suppression_document', function(e) {
+	    e.preventDefault();
+	    if (confirm('En supprimant ce document, vous perdrez toutes ses annotations.\n' +
+			'Êtes vous certain de vouloir perdre toutes les informations liées à ce document ?\n\n'+
+			'Cette action est irréversible !!!'))
+	    {
+		
+		var link = $(this);
+		$.ajax({
+		    url         : '<?=base_url()?>document/delete_file/' + link.data('file_id'),
+		    dataType    : 'json',
+		    success     : function (data)
+		    {
+			files = $('div#' + link.data('file_id'));
+			if (data.status === "success")
+			{
+			    files.fadeOut('slow', function() {
+				$(this).remove();
+				if (files.length == 0)
+				{
+				    files.parent(div).html('<p>Aucun fichier</p>');
+				}
+			    });
+			    generateSuccess(data.msg);
+			    //refresh_files();
+			}
+			else
+			{
+			    alert(data.msg);
+			}
+		    }
+		});
+	    }
+	});	
+    });
+    
+    function refresh_files() {    
+	$.get('<?=base_url()?>document/files').success(function (data) {
+	    $('#files').html(data);
+	});
+	$("#userfile").val(''); // vider le fichier
+    }
+    </script>
+<?php endif;?>
 <script src="<?=base_url()?>asset/js/dataTables.js"></script>
+<script src="<?=base_url()?>asset/js/ajaxfileupload.js"></script>
 
 <!-- CSS -->
 <link href="<?=base_url()?>asset/css/jquery-ui-1.10.4.custom.css" rel="stylesheet" type="text/css">
 <link href="<?=base_url()?>asset/css/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="<?=base_url()?>asset/css/style.css" rel="stylesheet" type="text/css">
 <link href="<?=base_url()?>asset/css/jquery.pageslide.css" rel="stylesheet" type="text/css">
+<link href="<?=base_url()?>asset/css/style.css" rel="stylesheet" />
 
 <!-- Favicons -->
 <link rel="shortcut icon" href="<?=base_url()?>/asset/ico/favicon.ico" type="image/x-icon" />

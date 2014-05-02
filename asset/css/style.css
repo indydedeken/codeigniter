@@ -339,16 +339,10 @@ ul#listeMembre {
 form#uploadDocument {
   margin-bottom : 20px;
 }
-.groupProgress {
-  width:100px;
-  height:10px;
-  border:1px solid #999;
-  background:#eee;
+#files_uploaded .texte {
+  text-align: left;
 }
-#barreProgress {
-  width:0px;
-  height:10px;
-  background:red;
+#files_uploaded .dropdown-toggle {
+  height: 54px !important;
 }
-</style>
 /* ./upload */
