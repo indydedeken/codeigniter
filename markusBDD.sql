@@ -1,17 +1,19 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 4.1.9
 -- http://www.phpmyadmin.net
 --
--- Client: localhost
--- Généré le: Ven 07 Février 2014 à 15:41
--- Version du serveur: 5.5.25
--- Version de PHP: 5.4.4
+-- Client :  localhost:8889
+-- Généré le :  Ven 02 Mai 2014 à 19:00
+-- Version du serveur :  5.5.34
+-- Version de PHP :  5.5.10
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
--- Base de données: `markus`
+-- Base de données :  `markus`
 --
 
 -- --------------------------------------------------------
@@ -63,7 +65,7 @@ CREATE TABLE `Document` (
   `dateCreation` varchar(50) NOT NULL,
   `dateModification` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
 
 --
 -- Contenu de la table `Document`
@@ -73,7 +75,12 @@ INSERT INTO `Document` (`id`, `emailUtilisateur`, `auteur`, `titre`, `descriptio
 (1, 'indy@indy.fr', 'Axel Ajavon & Luis Braga Miguel Seixas José & Indy De Deken', 'Un titre de document peut-être très long comme celui-ci. Alors comment est-ce que l''affichage réagit ?', '', '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>', 0, '25/01/2014', ''),
 (2, 'luis@luis.fr', 'Guy de Maupassant', 'Pierre et Jean', '', '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>', 2, '26/01/2014', ''),
 (3, 'indy@indy.fr', 'Guy de Maupassant', 'Le horlat', '', '<html><head><style>p{color:red;}</style></head><body><h1>Ma Vie</h1><p>Bonjour, c''est ma vie. Voilà le texte qui sert de test.</p></body></html>', 0, '27/01/2014', ''),
-(4, 'indy@indy.fr', 'Pedro Porto', 'La cuisine portugaise au Moyen-Âge', 'Ce recueil de poésie datant du XXIè siècle est une ôde à la maçonnerie contractuelle.\r\nLes jambes de mon fauteuil sont en vinyl de soie.', 'contenu du pdf', 1, '30/01/2014', NULL);
+(4, 'indy@indy.fr', 'Pedro Porto', 'La cuisine portugaise au Moyen-Âge', 'Ce recueil de poésie datant du XXIè siècle est une ôde à la maçonnerie contractuelle.\r\nLes jambes de mon fauteuil sont en vinyl de soie.', 'contenu du pdf', 1, '30/01/2014', NULL),
+(7, 'indy@indy.fr', '', 'Calendrier Evry L3 Miage 2012 2013', '', '<html>mon contenu original bla bla</html>', 0, '13/04/2014', NULL),
+(8, 'indy@indy.fr', 'Auteur//Indy', 'Titre"Calendrier de la MIAGE', 'Description//Mon calendrier de MIAGE', '<html>mon contenu original bla bla</html>', 0, '13/04/2014', NULL),
+(9, 'indy@indy.fr', '', 'Calendrier Evry L3 Miage 2012 2013', '', '<html>mon contenu original bla bla</html>', 0, '13/04/2014', NULL),
+(10, 'indy@indy.fr', 'Université d''Évry', 'Consignes Projet de Conception', '', '<html>mon contenu original bla bla</html>', 0, '16/04/2014', NULL),
+(25, 'indy@indy.fr', 'Indy', '[Demo] StarUML', '', '<html>mon contenu original bla bla</html>', 0, '02/05/2014', NULL);
 
 -- --------------------------------------------------------
 
@@ -117,6 +124,7 @@ CREATE TABLE `Groupe` (
 --
 
 INSERT INTO `Groupe` (`id`, `intitule`, `description`, `dateCreation`, `emailAdministrateur`) VALUES
+(0, 'Bibliothèque', 'Bibliothèque personnelles', '16/04/2014', ''),
 (1, 'Faculté d''Évry', 'Ce groupe est un rassemblement de professeurs issus de l''université d''Évry', '25/01/2014', 'indy@indy.fr'),
 (2, 'MIAGE Université d''Évry Val d''Essonne', 'Groupement des élèves de toutes les promotions MIAGE.', '25/01/2014', 'indy@indy.fr'),
 (3, 'hello GRP', 'description ', '30/01/2014', 'indy@indy.fr'),
@@ -150,6 +158,8 @@ CREATE TABLE `GroupeDocument` (
 --
 
 INSERT INTO `GroupeDocument` (`idGroupe`, `idDocument`, `contenu`) VALUES
+(0, 1, ''),
+(0, 25, ''),
 (1, 1, ''),
 (1, 2, ''),
 (1, 4, ''),
@@ -180,7 +190,9 @@ CREATE TABLE `GroupeUtilisateur` (
 
 INSERT INTO `GroupeUtilisateur` (`idGroupe`, `emailUtilisateur`, `dateInscriptionGroupe`) VALUES
 (1, 'indy@indy.fr', '25/01/2014'),
+(1, 'luis@luis.fr', '12/04/2014'),
 (2, 'indy@indy.fr', '25/01/2014'),
+(3, 'indy@indy.fr', '12/04/2014'),
 (6, 'indy@indy.fr', '30/01/2014'),
 (7, 'indy@indy.fr', '30/01/2014'),
 (8, 'luis@luis.fr', '30/01/2014'),
@@ -233,3 +245,4 @@ INSERT INTO `Utilisateur` (`email`, `nom`, `prenom`, `mdp`) VALUES
 ('cart@man.us', 'Le mécano', 'Paulo', 'cartman'),
 ('indy@indy.fr', 'De Deken', 'Indy', 'indy'),
 ('luis@luis.fr', 'Luis', 'José', 'luis');
+COMMIT;
