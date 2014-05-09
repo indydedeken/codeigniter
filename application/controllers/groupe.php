@@ -53,7 +53,18 @@ class Groupe extends CI_Controller {
 			
 			$idGroupe = $this->uri->segment(3);
 
-			if($this->model_groupe->getGroupe($idGroupe, $this->session->userdata('email'))) {
+			if( $idGroupe == 0 )
+			{
+				$data = '';
+				$data['groupe'] 			= $this->model_groupe->getGroupe($idGroupe, $this->session->userdata('email'));
+				$data['idGroupe']			= $idGroupe;
+				$data['documents']			= $this->model_document->getAllDocumentsPerso($idGroupe, $this->session->userdata('email'));
+				
+				$this->load->view('header', $data);
+				$this->load->view('groupe/vue_afficher_groupe_perso', $data);
+				$this->load->view('footer', $data);
+				
+			} else if( $this->model_groupe->getGroupe( $idGroupe, $this->session->userdata('email') ) ) {
 				
 				$data['groupe'] 			= $this->model_groupe->getGroupe($idGroupe, $this->session->userdata('email'));
 				$data['membresGroupe'] 		= $this->model_groupe->getAllMembresGroupe($idGroupe);

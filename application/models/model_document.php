@@ -83,6 +83,33 @@ class Model_document extends CI_Model {
 		return $data;
 	}
 	
+	/* getAllDocumentsPerso		: récupérer tous les documents uploadé (perso)
+	 * param1					: id du groupe 
+	 * param2					: email de l'utilisateur
+	 * return					: ensemble des données de chaque document
+	 */
+	public function getAllDocumentsPerso($idGroupe, $email) {
+		$this->db->select('	Document.id as idDocument, 
+							Document.emailUtilisateur, 
+							Document.auteur, 
+							Document.titre, 
+							Document.description,
+							Document.dateCreation, 
+							Document.etat, 
+							EtatDocument.libelle');
+		$this->db->from('Document');
+		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');
+		$this->db->join('GroupeDocument', 'Document.id = GroupeDocument.idDocument');
+		$this->db->join('Groupe', 'GroupeDocument.idGroupe = Groupe.id');
+		$this->db->where('Document.emailUtilisateur', $email);
+		$this->db->where('Groupe.id', $idGroupe);
+		$this->db->group_by('GroupeDocument.idDocument');
+		$data = $this->db->get();
+		
+		return $data;
+	
+	}
+	
 	/* A REFAIRE getTopDocuments	: récupérer tous les documents d'un utilisateur
 	 * A REFAIRE param1			: email de l'utilisateur
 	 * A REFAIRE return			: ensemble des données de chaque document

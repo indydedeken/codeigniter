@@ -168,7 +168,7 @@ class Document extends CI_Controller {
 			$status	= ""; // indique le status de la requete (success, error)
 			$msg	= ""; // message retourné sur la page d'upload
 			$file_element_name = 'userfile';
-			$directory = "./filesUploaded/user_" . md5($this->session->userdata('email')) . "/";
+			$directory	= "./filesUploaded/user_" . md5($this->session->userdata('email')) . "/";
 			
 			if(!file_exists($directory))
 			{
@@ -205,6 +205,21 @@ class Document extends CI_Controller {
 				// ['orig_name'] = nom_du_fichier.pdf
 				
 				if( $data['upload_data']['raw_name'] != '' ) {
+					
+					/*
+					// image magik
+					$pdf = $directory . $data['upload_data']['orig_name'];
+					$_SESSION['debug_pdf'] = $pdf;
+					$dest = $directory . $data['upload_data']['raw_name'] . ".png";
+					$_SESSION['debug_dest'] = $dest;
+					
+					$im = new Imagick("../../." . $pdf);
+					$im->setIteratorIndex(0); // 0 pour avoir la 1ere page
+					$im->setCompression(Imagick::COMPRESSION_LZW);
+					$im->setCompressionQuality(90);
+					$im->writeImage($dest);
+					*/
+					
 					$titreFichier = str_ireplace("_", " ", $data['upload_data']['raw_name']);
 					
 					if ($this->input->post('titre'))
