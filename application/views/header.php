@@ -14,7 +14,7 @@
     <script type="text/javascript">
     // refresh_files permet de mettre à jour la liste des documents uploadés par l'utilisateur
     refresh_files();
-    
+	
     $(function() {
 	// affichage des champs titre, auteur...
 	$('input#userfile[type="file"]').on('change', function(event){ 
@@ -79,23 +79,23 @@
 		    dataType    : 'json',
 		    success     : function (data)
 		    {
-			files = $('div#' + link.data('file_id'));
-			if (data.status === "success")
-			{
-			    files.fadeOut('slow', function() {
-				$(this).remove();
-				if (files.length == 0)
+				var files = $('#element'+ link.data('file_id'));
+				if (data.status === "success")
 				{
-				    files.parent(div).html('<p>Aucun fichier</p>');
+					files.fadeOut('slow', function() {
+					$(this).remove();
+					if (files.length == 0)
+					{
+						files.parent(div).html('<p>Aucun fichier</p>');
+					}
+					});
+					generateSuccess(data.msg);
+					//refresh_files();
 				}
-			    });
-			    generateSuccess(data.msg);
-			    //refresh_files();
-			}
-			else
-			{
-			    alert(data.msg);
-			}
+				else
+				{
+					alert(data.msg);
+				}
 		    }
 		});
 	    }

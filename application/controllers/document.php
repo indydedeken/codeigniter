@@ -133,10 +133,10 @@ class Document extends CI_Controller {
 	}
 	
 	/****************************************/
-	/* document/creer/			*/
-	/*					*/
+	/* document/creer/						*/
+	/*										*/
 	/* BUT : formulaire d'upload de document*/
-	/* 		 			*/
+	/* 		 								*/
 	/****************************************/
 	public function creer() {
 		
@@ -157,10 +157,10 @@ class Document extends CI_Controller {
 	}
 	
 	/****************************************/
-	/* document/upload/			*/
-	/*					*/
-	/* BUT : upload de document		*/
-	/* 		 			*/
+	/* document/upload/						*/
+	/*										*/
+	/* BUT : upload de document				*/
+	/* 		 								*/
 	/****************************************/
 	public function upload() {
 		if($this->session->userdata('email') && $this->session->userdata('logged'))  {
@@ -177,7 +177,7 @@ class Document extends CI_Controller {
 			}
 			
 			// paramétrage des règles d'upload
-			$config['upload_path'] 		= $directory;//'./fileUploaded/'; // personnaliser le dossier de réception...
+			$config['upload_path'] 		= $directory;
 			$config['allowed_types'] 	= 'pdf';
 			$config['max_size'] 		= 1024*15;
 			$config['max_filename']		= '255';
@@ -205,21 +205,16 @@ class Document extends CI_Controller {
 				// ['orig_name'] = nom_du_fichier.pdf
 				
 				if( $data['upload_data']['raw_name'] != '' ) {
-					
 					/*
-					// image magik
-					$pdf = $directory . $data['upload_data']['orig_name'];
-					$_SESSION['debug_pdf'] = $pdf;
-					$dest = $directory . $data['upload_data']['raw_name'] . ".png";
-					$_SESSION['debug_dest'] = $dest;
-					
-					$im = new Imagick("../../." . $pdf);
-					$im->setIteratorIndex(0); // 0 pour avoir la 1ere page
-					$im->setCompression(Imagick::COMPRESSION_LZW);
-					$im->setCompressionQuality(90);
-					$im->writeImage($dest);
-					*/
-					
+					$config['image_library'] = 'ImageMagick';
+					$config['library_path'] = '/etc/paths.d/';
+					$config['source_image'] = '/filesUploaded/user_a5e673e5d6dfd2aed96f51881037fe89/Extrait_du_diagramme_de_classe.pdf';
+					$config['source_image'] = 'test.jpg';
+					$config['width'] = 75;
+					$config['height'] = 50;
+					$this->load->library('image_lib', $config);
+					$this->image_lib->resize();*/
+						
 					$titreFichier = str_ireplace("_", " ", $data['upload_data']['raw_name']);
 					
 					if ($this->input->post('titre'))
