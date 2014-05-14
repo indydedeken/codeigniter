@@ -1,64 +1,56 @@
 <?php
-/*
- * Cette vue permet d'afficher l'ensemble
- * de la bibliothèque personnelle d'un utilisateur.
- * Cette vue est chargée via ajax.
- * Cette vue permet la suppression d'un document.
- *
- */
+	/*
+	* Cette vue permet d'afficher l'ensemble
+	* de la bibliothèque personnelle d'un utilisateur.
+	* Cette vue est chargée via ajax.
+	* Cette vue permet la suppression d'un document.
+	*
+	*/
 
-if (isset($files) && count($files))
-{
-    ?>
+	if (isset($files) && count($files))
+	{
+?>
+    
     <form id="files_uploaded" class="well-white well-large">
         <h3>Les documents uploadés</h3>
-        <ul>
+        <div id="accordion" class="panel-group">
             <?php
             //var_dump($files);
             $sizeMax = 80;
-            
-            foreach ($files as $file)
+		
+		   	foreach ($files as $file)
             {
                 $titre = (strlen($file->titre)>$sizeMax ? substr($file->titre, 0, $sizeMax)."..." : $file->titre)
-                
                 ?>
-                <div id="<?=$file->id?>" class="btn-group">
-                    <br>
-                    <button class="btn btn-info texte"><b><?=$titre?>.pdf</b><br><i><?=$file->auteur?></i></button>
-                    <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a href="<?=base_url()?>document/afficher/<?=$file->id?>">
-                            Accéder au document
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Modifier les informations
-                            </a>
-                        </li>
-                        <li>
-                            <a class="lien_suppression_document" data-file_id="<?=$file->id?>">
-                                Supprimer le document
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+                  <div class="panel panel-default" id="element<?=$file->id?>">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?=$file->id?>">
+                          <?=$titre?>.pdf
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapse<?=$file->id?>" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <div class="list-group">
+                                <a href="<?=base_url()?>document/afficher/<?=$file->id?>" class="list-group-item">Accéder au document</a>
+                                <a href="#" class="list-group-item">Modifier les informations</a>
+                                <a class="list-group-item list-group-item-danger lien_suppression_document" data-file_id="<?=$file->id?>">Supprimer le document</a>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
                 <?php
             }
             ?>
-        </ul>
-        
+        </div>
     </form>
-    
-    <?php
-}
-else
-{
-    ?>
-    <p>No Files Uploaded</p>
-    <?php
-}
+<?php
+	}
+	else
+	{
+?>
+    <p>Aucun fichier ici :'(</p>
+<?php
+	}
 ?>

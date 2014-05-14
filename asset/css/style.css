@@ -348,13 +348,17 @@ ul#listeMembre li input{
     margin-left: 0 !important;
     margin-top: 10px;
 }
+
 form#uploadDocument {
   margin-bottom : 20px;
 }
-#files_uploaded .texte {
+/*#files_uploaded .texte {
   text-align: left;
 }
 #files_uploaded .dropdown-toggle {
   height: 54px !important;
+}*/
+div#accordion.panel-group a.list-group-item {
+	font-weight:400;
 }
 /* ./upload */

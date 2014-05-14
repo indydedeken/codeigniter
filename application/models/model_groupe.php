@@ -78,11 +78,13 @@ class Model_groupe extends CI_Model {
 	 * return		: ensemble des données du Groupe
 	 */
 	public function getGroupe($idGroupe, $email) {
-		$param = array(	'id'				=> $idGroupe,
-						'emailUtilisateur'	=> $email
+		$param = array(	'id'				=> $idGroupe
+						//'emailUtilisateur'	=> $email
 		);
 		
-		$this->db->join('GroupeUtilisateur', 'GroupeUtilisateur.idGroupe = Groupe.id');
+		if($idGroupe != 0)
+			$this->db->join('GroupeUtilisateur', 'GroupeUtilisateur.idGroupe = Groupe.id');
+		
 		$data = $this->db->get_where('Groupe', $param);
 		
 		if($data->num_rows() == 1) {
