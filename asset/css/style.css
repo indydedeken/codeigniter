@@ -319,11 +319,23 @@ form#creationGroupe.form-horizontal div.form-group div.input-group input.form-co
 
 ul#listeMembre {
 	width: 190px; 
-	height: 80px; 
-	overflow: scroll; 
+	height: 200px;
+	overflow: scroll;
+	overflow-x: hidden;
 	border: 1px solid rgb(102, 102, 102); 
 	list-style: none outside none; 
 	padding: 0px 0px 0px 3px;
+}
+
+ul#listeMembre li input{
+	/*margin-left: 0px;*/
+	position: relative;
+	float:left;
+	left:-4px;
+}
+
+#delMember {
+	width: 100%;
 }
 
 #table_filter {

@@ -185,6 +185,23 @@ class Model_groupe extends CI_Model {
 			return false;
 
 	}
+	
+	/*
+	 * supprimer des membres d'un groupe
+	 * param1			: id du Groupe
+	 * param2			: liste des emails utilisateur
+	 * return			: true/false
+	 */
+	public function supprimerMembre($idGroupe, $email) {
+
+		
+		$this->db->where_in('emailUtilisateur', $email);
+		if($this->db->delete('GroupeUtilisateur'))
+			return true;
+		else
+			return false;
+
+	}
 
 	/*
 	 * addGroupe	: créer un groupe en table Groupe

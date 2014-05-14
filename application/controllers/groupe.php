@@ -202,7 +202,37 @@ class Groupe extends CI_Controller {
 				}
 			}
 		} else {
-			echo 'Erreur : Vous ne disposez pas des droits suiffisants pour quitter le groupe.';
+			echo 'Erreur : Vous ne disposez pas des droits suffisants pour quitter le groupe.';
+		}
+
+	}
+	
+	/********************************************/
+	/* Méthode ajax								*/
+	/*											*/
+	/* BUT : action + affichage du message		*/
+	/* lorsqu'on supprime un membre du groupe	*/
+	/********************************************/
+	public function ajax_supprimer_membre() {
+
+		$tab = $this->input->post('list');
+		$data['email']	= $tab[0];
+		$data['groupe']	= $tab[1];
+		
+		$emails = array();
+		for($i=2; $i<count($tab); $i++)
+		{
+			array_push($emails, $tab[$i]);
+		}
+
+		//print_r($emails);
+		if($this->model_groupe->supprimerMembre($data['groupe'], $emails)) {
+				
+			$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroupes($data['email']));
+			echo 'Succès : Les utilisateurs ont bien été supprimé du groupe.<br>Vous allez être redirigé.';
+				
+		} else {
+			echo 'Erreur : Vous ne pouvez supprimer ces utilisateurs.';			
 		}
 
 	}

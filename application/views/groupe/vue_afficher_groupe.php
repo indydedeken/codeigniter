@@ -62,11 +62,29 @@
     
     <!-- affichage des membres du groupe -->
     <ul id="listeMembre">
-        <?php 
+        <?php
+		$attributes = array('class' => 'test', 'id' => 'myform');
+		echo form_open('groupe/ajax_supprimer_membre');
             foreach($membresGroupe->result() as $item) { ?>
-                <li><?=ucfirst($item->prenom)?> <?=ucfirst($item->nom)?> (<?=$item->emailUtilisateur?>)</li>
-        <?php } ?>
+			<li>
+				<?php if($estAdministrateur): ?>
+					<?php if($item->emailUtilisateur == $this->session->userdata('email')): ?>
+						<p><?=$item->prenom." ".$item->nom." (".$item->emailUtilisateur.")"?></p>
+					<?php else :
+					?>
+						<input id="checkMember" type="checkbox" name="option[]" value="<?=$item->emailUtilisateur?>"> <?=$item->prenom." ".$item->nom." (".$item->emailUtilisateur.")"?>
+					<?php endif;?>	
+				<?php else : ?>
+						<?=ucfirst($item->prenom)?> <?=ucfirst($item->nom)?> (<?=$item->emailUtilisateur?>)
+				<?php endif; ?>
+				
+			</li>
+                
+        <?php }	echo form_close();?>			
     </ul>
+	<?php if($estAdministrateur): ?>
+			<button id="delMember" class="btn btn-default btn-primary" type="button">supprimer</button>
+	<?php endif;?>
 </div>
 <script src="<?=base_url()?>asset/js/jquery.pageslide.min.js"></script>
 <script type="application/javascript"><!--
@@ -157,6 +175,59 @@
 			return false;
 		});
 		<!-- ./AJAX		
+		
+		<!-- AJAX - supprimer membre du groupe
+		$('#delMember').click(function() {
+		
+			var selected = new Array();
+			selected.push('<?=$this->session->userdata("email")?>');
+			selected.push('<?=$idGroupe?>');
+
+			$('input[name="option[]"]:checked').each(function() {
+			selected.push(this.value);
+			});
+			//alert(selected[1]);
+			
+			/* debut redirection*/
+			var url = window.location.origin;
+			var pathArray = window.location.pathname
+			//alert(url + pathArray); 
+			/* fin redirection */
+			
+			$.ajax({
+				url: "<?=site_url('groupe/ajax_supprimer_membre'); ?>",
+				type: 'POST',
+				async : true,
+				data: {list:selected},
+				success: function(msg) {
+					// /!\ laisser le mot "erreur" dans msg pour afficher la bonne notification 
+					if (/rreur/.test(msg)) {
+					  generateError(msg);	 
+					} else {
+						generateSuccess(msg);	
+						$(document).one('click', function(){
+							// décrémenter la bulle
+							$('#groupe-badge').html($('#groupe-badge').text()-1);
+							// modifier l'id du bouton pour stopper l'action de quitter
+							$('#groupe-badge').attr("id", "groupe-badge-ok");
+							$("button, input").attr("disabled", true);
+							//var direction = 'window.location.replace("<?php echo base_url('groupe/gestion');?>");';
+							var direction = 'window.location.replace(url+pathArray)';
+							setTimeout(direction, 3000); 
+						}).trigger('click'); // simuler click pour décrémenter la variable
+					}
+				},
+				error: function() {
+					generateError('Veuillez sellectionner des utilisateurs!');
+				}
+			});
+			
+			return false;
+			
+		});
+		
+		<!-- ./AJAX
+		
 		
 		<!-- AJAX - Editer le groupe
 		$('#editGroupe').click(function() {
