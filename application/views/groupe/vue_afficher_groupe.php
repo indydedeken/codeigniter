@@ -72,7 +72,7 @@
 						<p><?=$item->prenom." ".$item->nom." (".$item->emailUtilisateur.")"?></p>
 					<?php else :
 					?>
-						<input id="checkMember" type="checkbox" name="option[]" value="<?=$item->emailUtilisateur?>"> <?=$item->prenom." ".$item->nom." (".$item->emailUtilisateur.")"?>
+						<input id="<?=$item->emailUtilisateur?>" type="checkbox" name="option[]" value="<?=$item->emailUtilisateur?>"> <?=$item->prenom." ".$item->nom." (".$item->emailUtilisateur.")"?>
 					<?php endif;?>	
 				<?php else : ?>
 						<?=ucfirst($item->prenom)?> <?=ucfirst($item->nom)?> (<?=$item->emailUtilisateur?>)
@@ -184,50 +184,31 @@
 			selected.push('<?=$idGroupe?>');
 
 			$('input[name="option[]"]:checked').each(function() {
-			selected.push(this.value);
+				selected.push(this.value);
 			});
-			//alert(selected[1]);
-			
-			/* debut redirection*/
-			var url = window.location.origin;
-			var pathArray = window.location.pathname
-			//alert(url + pathArray); 
-			/* fin redirection */
 			
 			$.ajax({
 				url: "<?=site_url('groupe/ajax_supprimer_membre'); ?>",
 				type: 'POST',
 				async : true,
-				data: {list:selected},
+				data: { list:selected },
 				success: function(msg) {
 					// /!\ laisser le mot "erreur" dans msg pour afficher la bonne notification 
 					if (/rreur/.test(msg)) {
-					  generateError(msg);	 
+						generateError(msg);	 
 					} else {
-						generateSuccess(msg);	
-						$(document).one('click', function(){
-							// décrémenter la bulle
-							$('#groupe-badge').html($('#groupe-badge').text()-1);
-							// modifier l'id du bouton pour stopper l'action de quitter
-							$('#groupe-badge').attr("id", "groupe-badge-ok");
-							$("button, input").attr("disabled", true);
-							//var direction = 'window.location.replace("<?php echo base_url('groupe/gestion');?>");';
-							var direction = 'window.location.replace(url+pathArray)';
-							setTimeout(direction, 3000); 
-						}).trigger('click'); // simuler click pour décrémenter la variable
+						generateSuccess(msg);
+						var direction = 'window.location.replace("<?php echo base_url('groupe/afficher');?>/' + selected[1] + '");';
+						setTimeout(direction, 2000); 
 					}
 				},
 				error: function() {
-					generateError('Veuillez sellectionner des utilisateurs!');
+					generateError('Veuillez sélectionner au moins un utilisateur !');
 				}
 			});
-			
 			return false;
-			
 		});
-		
-		<!-- ./AJAX
-		
+		<!-- ./AJAX suppression de membre au groupe
 		
 		<!-- AJAX - Editer le groupe
 		$('#editGroupe').click(function() {

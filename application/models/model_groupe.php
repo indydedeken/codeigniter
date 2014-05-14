@@ -192,7 +192,6 @@ class Model_groupe extends CI_Model {
 	 * return			: true/false
 	 */
 	public function supprimerMembre($idGroupe, $email) {
-
 		
 		$this->db->where_in('emailUtilisateur', $email);
 		if($this->db->delete('GroupeUtilisateur'))

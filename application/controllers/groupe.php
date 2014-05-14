@@ -227,25 +227,21 @@ class Groupe extends CI_Controller {
 	public function ajax_supprimer_membre() {
 
 		$tab = $this->input->post('list');
-		$data['email']	= $tab[0];
-		$data['groupe']	= $tab[1];
+		$data['groupe']	= $tab[0];
+		$data['email']	= $tab[1];
 		
 		$emails = array();
-		for($i=2; $i<count($tab); $i++)
+		for($i=1; $i<count($tab); $i++)
 		{
 			array_push($emails, $tab[$i]);
 		}
-
-		//print_r($emails);
+	
 		if($this->model_groupe->supprimerMembre($data['groupe'], $emails)) {
-				
 			$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroupes($data['email']));
-			echo 'Succès : Les utilisateurs ont bien été supprimé du groupe.<br>Vous allez être redirigé.';
-				
+			echo 'Succès ! Souhaitons bonne chance aux ex-membres du groupe.';
 		} else {
 			echo 'Erreur : Vous ne pouvez supprimer ces utilisateurs.';			
 		}
-
 	}
 	
 	/****************************************************/
