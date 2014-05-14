@@ -78,8 +78,8 @@ class Model_groupe extends CI_Model {
 	 * return		: ensemble des données du Groupe
 	 */
 	public function getGroupe($idGroupe, $email) {
-		$param = array(	'id'				=> $idGroupe
-						//'emailUtilisateur'	=> $email
+		$param = array(	'id'				=> $idGroupe,
+						'emailUtilisateur'	=> $email
 		);
 		
 		if($idGroupe != 0)
