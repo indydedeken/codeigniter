@@ -74,20 +74,17 @@ class Model_groupe extends CI_Model {
 	
 	/* getGroupe	: récupérer les informations d'un groupe
 	 * param1		: id du Groupe
-	 * param2		: email de l'utilisateur
 	 * return		: ensemble des données du Groupe
 	 */
-	public function getGroupe($idGroupe, $email) {
-		$param = array(	'id'				=> $idGroupe,
-						'emailUtilisateur'	=> $email
-		);
+	public function getGroupe($idGroupe) {
+		$param = array(	'id' => $idGroupe);
 		
 		if($idGroupe != 0)
 			$this->db->join('GroupeUtilisateur', 'GroupeUtilisateur.idGroupe = Groupe.id');
 		
-		$data = $this->db->get_where('Groupe', $param);
+		$data = $this->db->get_where('Groupe', $param, 1);
 		
-		if($data->num_rows() == 1) {
+		if($data->num_rows() > 0) {
 			return $data;
 		} else {
 			return false;	

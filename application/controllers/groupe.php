@@ -45,38 +45,49 @@ class Groupe extends CI_Controller {
 	/* groupe 								*/
 	/****************************************/
 	public function afficher() {
-		
-		$data['nav'] = "afficher"; 
-		
-		// vérifier que l'utilisateur à le droit d'accès à ce document
-		if($this->session->userdata('email') && $this->session->userdata('logged')) {
-			
-			$idGroupe = $this->uri->segment(3);
-
-			if($this->model_groupe->getGroupe($idGroupe, $this->session->userdata('email'))) {
-				
-				$data['groupe'] 			= $this->model_groupe->getGroupe($idGroupe, $this->session->userdata('email'));
-				$data['membresGroupe'] 		= $this->model_groupe->getAllMembresGroupe($idGroupe);
-				$data['estAdministrateur'] 	= $this->model_groupe->estAdministrateur($idGroupe, $this->session->userdata('email'));
-				$data['idGroupe']			= $idGroupe;
-				$data['documents']			= $this->model_document->getAllDocumentsGroupe($idGroupe, $this->session->userdata('email'));
-				
-				$this->load->view('header', $data);
-				$this->load->view('groupe/vue_afficher_groupe', $data);
-				$this->load->view('footer', $data);
-			
-			} else {
-				// affichage d'une page d'erreur
-
-				$this->load->view('header', $data);
+ 		
+ 		$data['nav'] = "afficher"; 
+ 		
+ 		// vérifier que l'utilisateur à le droit d'accès à ce document
+ 		if($this->session->userdata('email') && $this->session->userdata('logged')) {
+ 			
+ 			$idGroupe = $this->uri->segment(3);
+ 
+ 			if( $idGroupe == 0 )
+ 			{
+ 				$data = '';
+ 				$data['groupe'] 			= $this->model_groupe->getGroupe($idGroupe);
+ 				$data['idGroupe']			= $idGroupe;
+ 				$data['documents']			= $this->model_document->getAllDocumentsPerso($idGroupe, $this->session->userdata('email'));
+ 				
+ 				$this->load->view('header', $data);
+ 				$this->load->view('groupe/vue_afficher_groupe_perso', $data);
+ 				$this->load->view('footer', $data);
+ 				
+ 			} else if( $this->model_groupe->getGroupe( $idGroupe ) ) {
+ 				
+ 				$data['groupe'] 			= $this->model_groupe->getGroupe($idGroupe);
+ 				$data['membresGroupe'] 		= $this->model_groupe->getAllMembresGroupe($idGroupe);
+ 				$data['estAdministrateur'] 	= $this->model_groupe->estAdministrateur($idGroupe, $this->session->userdata('email'));
+ 				$data['idGroupe']			= $idGroupe;
+ 				$data['documents']			= $this->model_document->getAllDocumentsGroupe($idGroupe, $this->session->userdata('email'));
+ 				
+ 				$this->load->view('header', $data);
+ 				$this->load->view('groupe/vue_afficher_groupe', $data);
+ 				$this->load->view('footer', $data);
+ 			
+ 			} else {
+ 				// affichage d'une page d'erreur
+ 
+ 				$this->load->view('header', $data);
 				$this->load->view('groupe/vue_afficher_groupe_inaccessible', $data);
-				$this->load->view('footer', $data);
-			}	
-
-		} else {
-			redirect(site_url().'membre');	
-		}
-	}
+ 				$this->load->view('footer', $data);
+ 			}	
+ 
+ 		} else {
+ 			redirect(site_url().'membre');	
+ 		}
+ 	}
 	
 	/****************************************/
 	/* groupe/creer/						*/
@@ -92,7 +103,7 @@ class Groupe extends CI_Controller {
 		if($this->session->userdata('email') && $this->session->userdata('logged')) {
 			
 			$data['documents'] = $this->model_document->getBibliotheque($this->session->userdata('email'));
-				
+			
 			$this->load->view('header', $data);
 			$this->load->view('groupe/vue_creer_groupe', $data);
 			$this->load->view('footer', $data);
@@ -256,7 +267,7 @@ class Groupe extends CI_Controller {
 				
 			} else {
 				
-				$data['groupe'] = $this->model_groupe->getGroupe($data['groupe'], $data['email']);
+				$data['groupe'] = $this->model_groupe->getGroupe($data['groupe']);
 				$this->load->view('groupe/vue_edition_groupe', $data);
 				
 			}
