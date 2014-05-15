@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost:8889
--- Généré le :  Ven 02 Mai 2014 à 19:00
+-- Généré le :  Ven 16 Mai 2014 à 00:41
 -- Version du serveur :  5.5.34
 -- Version de PHP :  5.5.10
 
@@ -65,7 +65,7 @@ CREATE TABLE `Document` (
   `dateCreation` varchar(50) NOT NULL,
   `dateModification` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 --
 -- Contenu de la table `Document`
@@ -79,8 +79,8 @@ INSERT INTO `Document` (`id`, `emailUtilisateur`, `auteur`, `titre`, `descriptio
 (7, 'indy@indy.fr', '', 'Calendrier Evry L3 Miage 2012 2013', '', '<html>mon contenu original bla bla</html>', 0, '13/04/2014', NULL),
 (8, 'indy@indy.fr', 'Auteur//Indy', 'Titre"Calendrier de la MIAGE', 'Description//Mon calendrier de MIAGE', '<html>mon contenu original bla bla</html>', 0, '13/04/2014', NULL),
 (9, 'indy@indy.fr', '', 'Calendrier Evry L3 Miage 2012 2013', '', '<html>mon contenu original bla bla</html>', 0, '13/04/2014', NULL),
-(10, 'indy@indy.fr', 'Université d''Évry', 'Consignes Projet de Conception', '', '<html>mon contenu original bla bla</html>', 0, '16/04/2014', NULL),
-(25, 'indy@indy.fr', 'Indy', '[Demo] StarUML', '', '<html>mon contenu original bla bla</html>', 0, '02/05/2014', NULL);
+(25, 'indy@indy.fr', 'Indy', '[Demo] StarUML', '', '<html>mon contenu original bla bla</html>', 0, '02/05/2014', NULL),
+(28, 'indy@indy.fr', '', 'TEST', '', '<html>mon contenu original bla bla</html>', 0, '15/05/2014', NULL);
 
 -- --------------------------------------------------------
 
@@ -102,6 +102,36 @@ INSERT INTO `EtatDocument` (`id`, `libelle`) VALUES
 (0, 'Ouvert'),
 (1, 'Publié'),
 (2, 'Terminé');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `GestionAcces`
+--
+
+DROP TABLE IF EXISTS `GestionAcces`;
+CREATE TABLE `GestionAcces` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idGroupe` int(11) NOT NULL,
+  `emailAdministrateur` varchar(250) NOT NULL,
+  `emailUtilisateur` varchar(250) NOT NULL,
+  `dateDemande` varchar(250) NOT NULL,
+  `dateValidation` varchar(250) DEFAULT NULL,
+  `avis` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+--
+-- Contenu de la table `GestionAcces`
+--
+
+INSERT INTO `GestionAcces` (`id`, `idGroupe`, `emailAdministrateur`, `emailUtilisateur`, `dateDemande`, `dateValidation`, `avis`) VALUES
+(1, 8, 'luis@luis.fr', 'indy@indy.fr', '15/05/2014', NULL, 2),
+(2, 1, 'indy@indy.fr', 'luis@luis.fr', '15/05/2014', NULL, 0),
+(3, 1, 'indy@indy.fr', 'axel@axel.fr', '15/05/2014', NULL, 0),
+(4, 2, 'indy@indy.fr', 'luis@luis.fr', '15/05/2014', NULL, 0),
+(5, 3, 'indy@indy.fr', 'luis@luis.fr', '15/05/2014', NULL, 0),
+(7, 1, 'indy@indy.fr', 'jean.gui@gmail.com', '16/05/2014', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -134,7 +164,7 @@ INSERT INTO `Groupe` (`id`, `intitule`, `description`, `dateCreation`, `emailAdm
 (9, 'Groupe de Indy', 'Bienvenue dans le groupe', '31/01/2014', 'indy@indy.fr'),
 (10, 'Groupe de Joséba', 'Hello Josh', '31/01/2014', 'indy@indy.fr'),
 (11, 'Je suis pas ton pote mon gars', 'A bon ?', '31/01/2014', 'indy@indy.fr'),
-(12, 'Le groupe des Nachos', 'On aime les Nachos', '31/01/2014', 'indy@indy.fr'),
+(12, 'Le groupe des Nachos', 'On aime les Nachos', '31/01/2014', 'luis@luis.fr'),
 (14, 'Bonjour  Groupe', 'Bonjour', '31/01/2014', 'indy@indy.fr'),
 (15, 'Au revoir Groupe', 'Groupe', '31/01/2014', 'indy@indy.fr'),
 (16, 'Mon énième groupe', '', '06/02/2014', 'indy@indy.fr');
@@ -159,7 +189,14 @@ CREATE TABLE `GroupeDocument` (
 
 INSERT INTO `GroupeDocument` (`idGroupe`, `idDocument`, `contenu`) VALUES
 (0, 1, ''),
+(0, 2, ''),
+(0, 3, ''),
+(0, 4, ''),
+(0, 7, ''),
+(0, 8, ''),
+(0, 9, ''),
 (0, 25, ''),
+(0, 28, ''),
 (1, 1, ''),
 (1, 2, ''),
 (1, 4, ''),
@@ -189,13 +226,14 @@ CREATE TABLE `GroupeUtilisateur` (
 --
 
 INSERT INTO `GroupeUtilisateur` (`idGroupe`, `emailUtilisateur`, `dateInscriptionGroupe`) VALUES
+(1, 'axel@axel.fr', ''),
 (1, 'indy@indy.fr', '25/01/2014'),
-(1, 'luis@luis.fr', '12/04/2014'),
 (2, 'indy@indy.fr', '25/01/2014'),
 (3, 'indy@indy.fr', '12/04/2014'),
 (6, 'indy@indy.fr', '30/01/2014'),
 (7, 'indy@indy.fr', '30/01/2014'),
-(8, 'luis@luis.fr', '30/01/2014'),
+(8, 'luis@luis.fr', ''),
+(12, 'luis@luis.fr', '15/05/2014'),
 (16, 'indy@indy.fr', '06/02/2014');
 
 -- --------------------------------------------------------
