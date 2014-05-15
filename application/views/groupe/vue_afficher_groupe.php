@@ -61,27 +61,38 @@
     <h4>Collaborateurs</h4> 
     
     <!-- affichage des membres du groupe -->
-    <ul id="listeMembre">
-        <?php
+    <?php
 		$attributes = array('class' => 'test', 'id' => 'myform');
 		echo form_open('groupe/ajax_supprimer_membre');
-            foreach($membresGroupe->result() as $item) { ?>
+	?>
+    <ul id="listeMembre">
+        <?php
+			$i=0;
+            foreach($membresGroupe->result() as $item) { 
+			?>
 			<li>
 				<?php if($estAdministrateur): ?>
 					<?php if($item->emailUtilisateur == $this->session->userdata('email')): ?>
-						<p><?=$item->prenom." ".$item->nom." (".$item->emailUtilisateur.")"?></p>
+						<p><?=$item->prenom." ".$item->nom." ".$item->emailUtilisateur.""?></p>
 					<?php else :
 					?>
-						<input id="<?=$item->emailUtilisateur?>" type="checkbox" name="option[]" value="<?=$item->emailUtilisateur?>"> <?=$item->prenom." ".$item->nom." (".$item->emailUtilisateur.")"?>
+						<input id="<?=$i?>" type="checkbox" name="option[]" value="<?=$item->emailUtilisateur?>">
+						<label for="<?=$i?>"><?=$item->prenom." ".$item->nom." ".$item->emailUtilisateur?></label>
 					<?php endif;?>	
 				<?php else : ?>
-						<?=ucfirst($item->prenom)?> <?=ucfirst($item->nom)?> (<?=$item->emailUtilisateur?>)
+						<?=ucfirst($item->prenom)?> <?=ucfirst($item->nom)?> <?=$item->emailUtilisateur?>
 				<?php endif; ?>
 				
 			</li>
                 
-        <?php }	echo form_close();?>			
+        <?php 
+			$i++;
+			}	
+		?>			
     </ul>
+    <?php 
+		echo form_close();
+	?>
 	<?php if($estAdministrateur): ?>
 			<button id="delMember" class="btn btn-default btn-primary" type="button">supprimer</button>
 	<?php endif;?>
