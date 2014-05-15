@@ -94,7 +94,7 @@
                 <ul>
                     <?php 
                         if(!$groupes['ko']) {
-                            echo 'Aucun groupe ne vous a refuséaccepté :(';
+                            echo 'Aucun groupe ne vous a refusé :(';
                         } else {
                             foreach($groupes['ko'] as $item) {
                                 ?>
