@@ -38,7 +38,7 @@ class Model_groupe extends CI_Model {
 		$this->db->where('Groupe.id IN (select idGroupe from GroupeUtilisateur WHERE emailUtilisateur = \''.$email.'\')');
 		$this->db->group_by('id');
 		$this->db->order_by('id', 'desc');
-		$data = $this->db->get();
+		$data = $this->db->get('', $limite);
 
 		return $data;
 	}
@@ -79,9 +79,25 @@ class Model_groupe extends CI_Model {
 	public function getGroupe($idGroupe) {
 		$param = array(	'id' => $idGroupe);
 		
-		if($idGroupe != 0)
-			$this->db->join('GroupeUtilisateur', 'GroupeUtilisateur.idGroupe = Groupe.id');
+		if($idGroupe != 0) {
+			$this->db->join('GroupeUtilisateur', 'GroupeUtilisateur.idGroupe = Groupe.id AND GroupeUtilisateur.emailUtilisateur = "' . $this->session->userdata('email') .'"');
+		}
+		$data = $this->db->get_where('Groupe', $param, 1);
 		
+		if($data->num_rows() > 0) {
+			return $data;
+		} else {
+			return false;	
+		}
+	}
+	
+	// permet de recuperer des info sans être l'admin d'un groupe
+	public function getGroupeVisiteur($idGroupe) {
+		$param = array(	'id' => $idGroupe);
+		
+		if($idGroupe != 0) {
+			$this->db->select('id, emailAdministrateur');
+		}
 		$data = $this->db->get_where('Groupe', $param, 1);
 		
 		if($data->num_rows() > 0) {

@@ -78,7 +78,9 @@ class Groupe extends CI_Controller {
  			
  			} else {
  				// affichage d'une page d'erreur
- 
+ 				
+				$data['groupe'] = $this->model_groupe->getGroupeVisiteur($idGroupe)->result();
+				
  				$this->load->view('header', $data);
 				$this->load->view('groupe/vue_afficher_groupe_inaccessible', $data);
  				$this->load->view('footer', $data);
@@ -231,7 +233,11 @@ class Groupe extends CI_Controller {
 		$data['email']	= $tab[1];
 		
 		$emails = array();
-		for($i=1; $i<count($tab); $i++)
+		/* on commence à $i=2 car
+		 * $i=0 : email admin
+		 * $i=1 : id du groupe
+		 */ 
+		for($i=2; $i<count($tab); $i++)
 		{
 			array_push($emails, $tab[$i]);
 		}

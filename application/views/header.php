@@ -250,6 +250,7 @@ $(function() {
                     <li><a href="<?=base_url('groupe').'/afficher/0';?>">Biliothèque personnelle</a></li>
                     <li role="presentation" class="divider"></li>
                     <li><a href="<?=base_url('groupe')?>">Mes groupes</a></li>
+                    <li><a href="<?=base_url('acces')?>">Les accès aux groupes</a></li>
                     <li><a href="<?=base_url('groupe/creer')?>">Créer un groupe</a></li>
                     <?php else:?>
                         <li><a href="<?=base_url('membre')?>">Connexion</a></li></li>

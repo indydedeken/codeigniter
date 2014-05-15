@@ -363,3 +363,72 @@ div#accordion.panel-group a.list-group-item {
 	font-weight:400;
 }
 /* ./upload */
+
+/* acces */
+.blocGroupes {
+	background: #FFF;
+	display:inline-block; 
+	margin-bottom: 30px;
+	width:90%;
+}
+.blocGroupes div h6 {
+	padding-left: 5px;
+}
+.blocGroupes div {
+	background: #F2F2F2;
+	overflow: scroll; 
+	margin-left: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	height: 100px;
+	position: relative; 
+	display: block; 
+	float: left;
+}
+.blocGroupes div:nth-child(odd) {
+	background: #E5E5E5;
+}
+.blocEnAttente, .blocAccepte, .blocRefuse {
+	display:inline-block;
+	margin-left:1px;
+	height:250px;
+	overflow: scroll;
+	margin-left: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	border-right: 1px solid #EFEFEF;
+}
+.col-md-3-perso {
+	width: 32.5%;
+}
+.col-md-2-perso {
+	width: 49%;
+}
+.col-md-1-perso {
+	width: 99%;
+}
+.blocAccesUser {
+	background: #FFF;
+	display:inline-block; 
+	margin-bottom: 30px;
+	width:90%;
+}
+.blocEnAttente .lead {
+	background:#C7E8EA;
+}
+.blocAccepte .lead{
+	background:#C9EAE0;
+}
+.blocRefuse .lead {
+	background:#F3D2D1;
+}
+.blocAccesUser .lead {
+	font-weight: bold;
+	padding: 5px;
+}
+@media (max-width: 700px) {
+	.col-md-1-perso, .col-md-2-perso, .col-md-3-perso {
+		width: 99%;
+	}
+}
+/* ./acces */
