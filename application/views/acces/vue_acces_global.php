@@ -7,6 +7,7 @@
         <?php 
 			
 			$tabGrp = array();
+			//var_dump($groupesPerso);
 			
 			// rangement des données
 			foreach($groupesPerso as $item) {
@@ -29,6 +30,7 @@
 					$taille = 2;
 				else if ( ($nbGroupe % 3) == 0 )
 					$taille = 3;
+					
 		?>
 			<div class="col-md-<?=$taille?>-perso" >
                 <h6><?=$groupe['intitule'][0]?></h6>
@@ -37,9 +39,15 @@
 						// boucle sur les demandes d'utilisateur
 						foreach($groupe['emailUtilisateur'] as $utilisateur) { 
 							$superString = md5($utilisateur . $groupe['intitule'][0]);
+							
+							$urlValidation = base_url('acces') . "/validation";
+							$urlValidation .= "/param1/" . $groupe['idGroupe'][0];
+							$urlValidation .= "/param2/" . str_replace('@', '-', $this->session->userdata('email'));
+							$urlValidation .= "/param3/" . str_replace('@', '-', $utilisateur);
+							$urlValidation .= "/param4/1";
 					?>
 						<li id="<?=$superString?>">
-                            <?=$utilisateur?>
+                            <a href="<?=$urlValidation?>"><?=$utilisateur?></a>
                         </li>
 					<?php
 						}
@@ -48,6 +56,19 @@
             </div>	
 		<?php
         	}
+		?>
+        
+        
+        <?php 
+			if(empty($tabGrp)) {
+		?>
+        	<p style="padding:20px;">
+            	Personne ne demande l'accès à vos groupes.
+            	<br><br>
+            	<a href="#" class="btn btn-primary btn-lg" role="button">Invitez des amis</a>
+            </p>
+        <?php
+			}
 		?>
         </div>
     </div>

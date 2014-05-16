@@ -1,0 +1,1 @@
+<p>Le membre a bien été accepté dans le groupe !</p>

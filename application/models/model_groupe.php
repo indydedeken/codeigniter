@@ -202,6 +202,32 @@ class Model_groupe extends CI_Model {
 	}
 	
 	/*
+	 * ajouter un membres au groupe
+	 * param1			: id du Groupe
+	 * param2			: liste des emails utilisateur
+	 * return			: true/false
+	 */
+	public function ajouterMembre($idGroupe, $email) {
+		
+		$data = array(	'idGroupe'				=> $idGroupe,
+						'emailUtilisateur'		=> $email,
+						'dateInscriptionGroupe'	=> date("d/m/Y"));
+		
+		$this->db->trans_begin();
+		if( $this->db->insert('GroupeUtilisateur', $data) ) {
+			// si l'insertion réussie
+			$this->db->trans_commit();
+		} else {
+			// si l'insertion échoue
+			$this->db->trans_rollback();
+			return false;
+		}	
+		// retour de la fonction en cas de réussite
+		return true;
+
+	}
+	
+	/*
 	 * supprimer des membres d'un groupe
 	 * param1			: id du Groupe
 	 * param2			: liste des emails utilisateur

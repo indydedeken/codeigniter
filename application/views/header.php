@@ -242,11 +242,11 @@ $(function() {
                     <?php 
 		    foreach($_SESSION['listeTopGroupes'] as $item) {
 		    ?>
-			<li><a href="<?=base_url('groupe').'/afficher/' . $item->idGroupe?>"><?=$item->intitule?></a></li>
+				<!--<li><a href="<?=base_url('groupe').'/afficher/' . $item->idGroupe?>"><?=$item->intitule?></a></li>-->
 		    <?php	
 		    }
 		    ?>
-                    <li role="presentation" class="divider"></li>
+                    <!--<li role="presentation" class="divider"></li>-->
                     <li><a href="<?=base_url('groupe').'/afficher/0';?>">Biliothèque personnelle</a></li>
                     <li role="presentation" class="divider"></li>
                     <li><a href="<?=base_url('groupe')?>">Mes groupes</a></li>

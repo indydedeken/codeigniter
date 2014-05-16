@@ -80,20 +80,48 @@ class Acces extends CI_Controller {
 	/* BUT : valider ou non l'acces d'un membre		*/
 	/************************************************/
 	public function validation() {
-		/*
-		$data['nav'] = "validationAcces"; 
-		if($this->session->userdata('email') && $this->session->userdata('logged')) {
-			
-			$idGroupe = $this->uri->segment(3);
-			
-			$this->load->view('header', $data);
-			echo "idGroupe:" . $idGroupe . "<br>";
-			//$this->load->view('document/vue_gestion_document', $data);
-			$this->load->view('footer', $data);
 		
+		if ($this->session->userdata('email') && $this->session->userdata('logged')) {
+		
+			$data['nav'] = "validationAcces"; 
+			
+			$param = $this->uri->uri_to_assoc();
+			
+			// vérification des variables en parametre de la page
+			if (isset($param['param1']) && isset($param['param2']) && isset($param['param3']) && isset($param['param4'])
+				&& $param['param1'] != "" && $param['param2'] != "" && $param['param3'] != "" && $param['param4']
+			) {
+				$idGroupe				= $param['param1'];
+				$emailAdministrateur	= str_replace("-", "@", $param['param2']);
+				$emailUtilisateur		= str_replace("-", "@", $param['param3']);
+				$avis					= $param['param4'];
+			} else {
+				redirect(site_url().'home');
+			}
+			
+			$requeteUpdate = $this->model_acces->validationAccesGroupe(	$idGroupe, 
+																		$emailAdministrateur, 
+																		$emailUtilisateur,
+																		$avis);
+			
+			$requeteInsert = $this->model_groupe->ajouterMembre(	$idGroupe, 
+																	$emailUtilisateur
+			);
+																	
+			if($requeteUpdate > 0 && $requeteInsert)
+			{
+				$this->load->view('header', $data);
+				$this->load->view('acces/vue_acces_validation', $data);
+				$this->load->view('footer', $data);
+			} else 
+			{
+				$this->load->view('header', $data);
+				echo "controller/acces.php validation()--> echec de la requete...";
+				$this->load->view('footer', $data);
+			}
 		} else {
 			// si non loggé && sans email
 			redirect(site_url().'home');
-		}*/
+		}
 	}
 }

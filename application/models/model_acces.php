@@ -112,4 +112,32 @@ class Model_acces extends CI_Model {
 		// retour de la fonction en cas de réussite
 		return $insert_id;
 	}
+	
+	
+	public function validationAccesGroupe($idGroupe, $emailAdministrateur, $emailUtilisateur, $avis) {
+		// l'état de la demande est à 
+		// avis=1 : accepté
+		// avis=2 : refusé
+		
+		$data = array(
+               'avis'			=> $avis,
+               'dateValidation' => date('d/m/Y')
+        );
+		$where = array(	'idGroupe'				=> $idGroupe, 
+						'emailAdministrateur'	=> $emailAdministrateur,
+						'emailUtilisateur'		=> $emailUtilisateur
+		);
+		
+		$this->db->trans_begin();	
+		if( $this->db->update('GestionAcces', $data, $where) ) {
+			// si l'insertion réussie
+			$this->db->trans_commit();
+		} else {
+			// si l'insertion échoue
+			$this->db->trans_rollback();
+			return 0;
+		}	
+		// retour de la fonction en cas de réussite
+		return 1;
+	}
 }
