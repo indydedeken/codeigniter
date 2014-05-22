@@ -286,7 +286,7 @@ $(function() {
     ];
     $("#searchMemberOnAcces").autocomplete({
 		delay: 0,
-		minLength: 2,
+		minLength: 5,
 		source: dataM,
 		select: function( event, ui ) {
 			// traitement de la recherche selectionnée
