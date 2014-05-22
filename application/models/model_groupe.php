@@ -56,6 +56,7 @@ class Model_groupe extends CI_Model {
 		return $data;
 	}
 	
+	
 	/* getAllGroupes	: récupérer tous les groupes d'un utilisateur
 	 * param1			: email de l'utilisateur
 	 * return			: ensemble des données de chaque Groupe
@@ -91,6 +92,22 @@ class Model_groupe extends CI_Model {
 		}
 	}
 	
+	/* getGroupe	: recuperer tous les groupe où l'tulisateur est admin
+	 * param1		: id de l'utilisateur
+	 * return		: ensemble des données du Groupe
+	 */
+	public function getGroupeAdmin() {
+		$param = array(	'emailAdministrateur' => $this->session->userdata('email'));
+		
+		$data = $this->db->get_where('Groupe', $param);
+		
+		if($data->num_rows() > 0) {
+			return $data;
+		} else {
+			return false;	
+		}
+	}
+	
 	// permet de recuperer des info sans être l'admin d'un groupe
 	public function getGroupeVisiteur($idGroupe) {
 		$param = array(	'id' => $idGroupe);
@@ -117,7 +134,7 @@ class Model_groupe extends CI_Model {
 		$this->db->select('*');
 		$this->db->from('`GroupeUtilisateur` JOIN `Utilisateur` ON `GroupeUtilisateur`.`emailUtilisateur` = `Utilisateur`.`email`');
 		$this->db->where('idGroupe', $idGroupe);
-		$this->db->order_by('dateInscriptionGroupe', 'desc');
+		$this->db->order_by('dateInscriptionGroupe', 'asc');
 		$data = $this->db->get();
 
 		return $data;
@@ -224,8 +241,8 @@ class Model_groupe extends CI_Model {
 		}	
 		// retour de la fonction en cas de réussite
 		return true;
-
 	}
+	
 	
 	/*
 	 * supprimer des membres d'un groupe

@@ -65,12 +65,54 @@
         	<p style="padding:20px;">
             	Personne ne demande l'accès à vos groupes.
             	<br><br>
-            	<a href="#" class="btn btn-primary btn-lg" role="button">Invitez des amis</a>
+            	<!--<a href="#" class="btn btn-primary btn-lg" role="button">Invitez des amis</a>-->
+				<!--<button id="popupAddMember" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display:none"></button>-->
+				<button id="addMemberOnAcces" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal1" type="button">Inviter des amis</button>
+
             </p>
         <?php
 			}
 		?>
         </div>
+		
+		<!-- Modal : POPUP POUR INVITER MEMBRE DANS LE GROUPE-->
+				
+			<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+						<p>
+						<h5 class="modal-title" id="popupTitre1">Inviter un membre dans le groupe </h5> 
+						</p>
+						</div>
+					<div class="modal-body">
+						<form id="formSearchMemberOnAcces" class="navbar-form navbar-right" role="search">
+							<p>
+								Groupe &nbsp;:
+								<SELECT id="selectionGroupeOnAcces" name="selectionGroupeOnAcces" size="1" class="btn btn-default dropdown-toggle" >
+								<option value="0" selected disabled> Sélectionner un groupe </option>
+								<?php foreach($groupesUtilisateur->result() as $item) { ?>
+									<OPTION value="<?=$item->id?>"> <?=$item->intitule?> </OPTION>	
+								<?php } ?>
+								</SELECT>
+							</p>
+							<p>
+								Membre :
+								<input id="searchMemberOnAcces" type="search" class="form-control" placeholder="chercher un membre..." spellcheck="false" value="" autocomplete="off">
+								<input id="searchHiddenMemberOnAcces" type="hidden">
+							</p>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+						<button id='invitMembreOnAcces' type="button" class="btn btn-primary">Inviter Membre</button>
+					</div>
+					</div>
+				</div>
+			</div>
+		
+		
     </div>
     <div>
     	<div class="annonce">
@@ -130,3 +172,135 @@
         </div>
     </div>
 </div>
+
+
+<script type="application/javascript"><!--
+		<!-- AJAX - Inviter un membre
+		$('#invitMembreOnAcces').click(function() {
+			var getMembre = document.getElementById("searchMemberOnAcces").value; 
+			var select = $("#selectionGroupeOnAcces")[0];
+			var valeur = select.options[select.selectedIndex].value;
+
+			var form_data = {
+				email : '<?=$this->session->userdata("email")?>',
+				groupe : valeur,
+				membre : getMembre,
+				ajax : 	'1'
+			};
+			//console.log(form_data.membre);
+			//console.log(form_data.groupe);
+			console.log(valeur);
+
+			$.ajax({
+				url: "<?=site_url('groupe/ajax_inviter_membre'); ?>",
+				type: 'POST',
+				async : true,
+				data: form_data,
+				success: function(msg) {
+					// /!\ laisser le mot "erreur" dans msg pour afficher la bonne notification 
+					if (/rreur/.test(msg)) {
+					  generateError(msg);	 
+					} else {
+						generateSuccess(msg);	
+						$(document).one('click', function(){ 
+							// décrémenter la bulle
+							$('#groupe-badge').html($('#groupe-badge').text()-1);
+							// modifier l'id du bouton pour stopper l'action de quitter
+							$('#groupe-badge').attr("id", "groupe-badge-ok");
+							$("button, input").attr("disabled", true);
+							//var direction = 'window.location.replace("<?php echo base_url('groupe/afficher');?>/' + form_data.groupe + '");';
+							var direction = 'window.location.replace("<?php echo base_url('acces');?>);';
+							setTimeout(direction, 2000); 
+						}).trigger('click'); // simuler click pour décrémenter la variable
+					}
+				},
+				error: function() {
+					generateError('Une erreur s\'est produite.<br>Impossible de terminer la requête.');
+				}
+			});
+			return false;
+		});
+		<!-- ./AJAX	
+--></script>
+<script type="application/javascript">
+	/*
+	 * Préparation des boites de notification
+	 * generateAlert()
+	 * generateSuccess()
+	 * generateError()
+	 */
+	 
+	//
+	function generateAlert(msg) {
+		var n = noty({
+			text        : msg,
+			type        : 'alert',
+			dismissQueue: true,
+			layout      : 'topCenter',
+			theme       : 'defaultTheme',
+			closeWith	: ['click'],
+			maxVisible	: 3,
+			timeout		: 10000
+		});
+	}
+	function generateSuccess(msg) {
+		var n = noty({
+			text        : msg,
+			type        : 'success',
+			dismissQueue: true,
+			layout      : 'topCenter',
+			theme       : 'defaultTheme',
+			closeWith	: ['click'],
+			maxVisible	: 3,
+			timeout		: 3000
+		});
+	}
+	//
+	function generateError(msg) {
+		var n = noty({
+			text        : msg,
+			type        : 'warning',
+			dismissQueue: true,
+			layout      : 'topCenter',
+			theme       : 'defaultTheme',
+			closeWith	: ['click'],
+			maxVisible	: 3,
+			timeout		: false
+		});
+	}
+</script>
+
+<script>	
+$(function() {
+	// données qui alimentent le search du popup inviter membre
+    var dataM = [
+	// liste des membres
+	<?php
+	foreach($_SESSION['listeMembres'] as $item) {
+	?>
+	
+	{ id: "<?=$item->email?>", label: "<?=$item->email?>", category: "membre"},
+	<?php	
+	}
+	?>
+    ];
+    $("#searchMemberOnAcces").autocomplete({
+		delay: 0,
+		minLength: 2,
+		source: dataM,
+		select: function( event, ui ) {
+			// traitement de la recherche selectionnée
+			//$("#searchMember").value = ui.item.label;
+			$("#searchMemberOnAcces").attr("value", ui.item.label);
+			$("#searchHiddenMemberOnAcces")
+				.attr("data-id", ui.item.id)
+				.attr("data-label", ui.item.label)
+				.attr("data-category", ui.item.category)
+				.attr("value", ui.item.label);
+			return false;
+		}
+    });
+});	
+	
+//$( "#SearchMember" ).autocomplete( "option", "appendTo", "#formSearchMember" );	
+</script>

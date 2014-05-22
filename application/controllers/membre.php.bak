@@ -67,8 +67,6 @@ class Membre extends CI_Controller {
 					$_SESSION['listeGroupes']		= $this->model_groupe->getGroupes()->result();
 					$_SESSION['listeDocuments']		= $this->model_document->getDocuments()->result();
 					
-					$_SESSION['listeMembres']		= $this->model_membre->getMembres()->result();
-					
 					redirect(site_url().'home', $data);
 					
 				} else {

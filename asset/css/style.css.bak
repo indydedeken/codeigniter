@@ -321,6 +321,7 @@ ul#listeMembre {
 	width: 190px; 
 	height: 200px;
 	overflow: scroll;
+	overflow-x: hidden;
 	border: 1px solid rgb(102, 102, 102); 
 	list-style: none outside none; 
 	padding: 0px 0px 0px 3px;
@@ -334,54 +335,13 @@ ul#listeMembre li input{
 	left:-4px;
 }
 
-#delMember, #addMember {
+#delMember {
 	width: 100%;
-}
-/*myModalLabel*/
-#popupTitre1 {
-	display: inline;
-}
-
-#popupTitre2 {
-	display: inline;
-	color: #F2853C;
-}
-.ui-autocomplete-input {
-  z-index: 1511;
-}
-
-.ui-autocomplete {
-  z-index: 1510 !important;
-}
-
-.modal-header{
-	text-align: left;
-}
-
-.modal-header  .close{
-	border: 2px solid black;
-}
-
-#myModal1 .modal-body{
-	height: 100px;
-}
-
-#formSearchMember {
-	position:fixed;
-	margin-left:100px;
-	margin-right:100px;
-	margin-top:-10px;
-}
-
-#formSearchMemberOnAcces {
-	position:fixed;
-	margin-top:-10px;
 }
 
 #table_filter {
 	float:right;
 }
-
 /* ./groupe */
 
 /* upload */

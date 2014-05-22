@@ -250,6 +250,69 @@ class Groupe extends CI_Controller {
 		}
 	}
 	
+	/************************************************/
+	/* Méthode ajax									*/
+	/*												*/
+	/* BUT : action + affichage du message			*/
+	/* lorsqu'on invite un membre ddans le groupe	*/
+	/************************************************/
+	public function ajax_inviter_membre() {
+
+		$data['email']	= $this->input->post('email');
+		$data['groupe']	= $this->input->post('groupe');
+		$data['membre']	= $this->input->post('membre');
+		
+		// on met touts les membre du groupe dans le tableau $membregroup
+		// pour vérifier si le membre choisis fait deja partie du groupe
+		$membregroupe = array();
+		foreach($this->model_groupe->getAllMembresGroupe($data['groupe'])->result() as $item){
+			array_push($membregroupe, $item->emailUtilisateur);
+		}
+		
+		if($data['groupe'] > 0) {
+			if(empty($data['membre']))	{
+				echo 'Erreur : Veuillez selectionez un membre.';
+			}
+			else	{
+				if($this->model_membre->check_membre($data['membre'])) { 			//on verifie si le membre choisis fait partie de la DB
+					if(in_array($data['membre'],$membregroupe)) {					//on verifie si le membre choisis fait deja partie du groupe
+						echo 'Erreur : Le membre est déja présent dans le groupe.';
+					}
+					else {
+						if($this->model_groupe->estAdministrateur($data['groupe'], $data['email'])) {
+							if($this->model_groupe->ajouterMembre($data['groupe'], $data['membre'])) {
+									$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroupes($data['email']));
+									echo 'Succès ! '.$data['membre'].' a été ajouter au groupe.';
+								
+							} else {
+								echo 'Erreur : Membre incorrecte, veuillez selectionez un membre.';			
+							}
+						}
+						else {
+							//Si un membre invite un autre membre, alors on recupère l'email de ladmin du groupe
+							foreach($this->model_groupe->getGroupeVisiteur($data['groupe'])->result() as $item) {
+								$adminGroupe = $item->emailAdministrateur;
+							}
+							if($this->model_acces->nouvelleDemandeAccesGroupe($data['groupe'],$adminGroupe, $data['membre'])) {
+									echo 'Succès ! Une demande de validation a été envoyer a l\'administrateur du groupe.';
+								
+							} else {
+								echo 'Erreur : Membre incorrecte, veuillez selectionez un membre.';			
+							}
+						}
+					}
+				}
+				else {
+					echo 'Erreur : Le membre n\'existe pas, veuillez selectionez un membre.';
+				}	
+			}
+		}
+		else {
+			echo 'Erreur : Veuillez selectionner un groupe.';
+		}
+	}
+	
+	
 	/****************************************************/
 	/* Méthode ajax										*/
 	/*													*/

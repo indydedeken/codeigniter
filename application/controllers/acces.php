@@ -15,7 +15,7 @@ class Acces extends CI_Controller {
 			$data['groupes']['ko']		= $this->model_acces->getGroupeKO($this->session->userdata('email'));
 			
 			$data['groupesPerso']		= $this->model_acces->getMembresAValider($this->session->userdata('email'));
-			
+			$data['groupesUtilisateur']	= $this->model_groupe->getGroupeAdmin();
 			
 			$this->load->view('header', $data);
 			$this->load->view('acces/vue_acces_global', $data);
