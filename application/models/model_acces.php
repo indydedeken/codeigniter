@@ -11,7 +11,7 @@ class Model_acces extends CI_Model {
         // Call the Model constructor
         parent::__construct();
     }
-
+	
 	/*
 	 * retourne les groupes : 
 	 * + où l'utilisateur est admin
@@ -28,9 +28,10 @@ class Model_acces extends CI_Model {
 		return $data;
 	}*/
 	
-	/*
-	 * retourne les demandes de membre pour un groupe 
-	 */
+	/************************************************************/
+	/* Used by	: acces/										*/
+	/* Goal		: retourne les demandes de membre par groupe	*/
+	/************************************************************/
 	public function getMembresAValider($email) {
 		$data = array();
 		
@@ -44,9 +45,11 @@ class Model_acces extends CI_Model {
 		return $data->result();
 	}
 	
-	/*
-	 * retourne les groupes où l'acces du membre n'est pas refusé, ni accepté
-	 */
+	/************************************************************************/
+	/* Used by	: acces/													*/
+	/* Goal		: retourne les groupes où l'acces du membre 				*/
+	/*				n'est pas refusé, ni accepté							*/
+	/************************************************************************/
 	public function getGroupeWait($email) {		
 		$data	= array();
 		$param	= array(	'emailUtilisateur' => $email, 
@@ -59,9 +62,10 @@ class Model_acces extends CI_Model {
 		return $data->result();
 	}
 	
-	/*
-	 * retourne les groupes où l'acces du membre a été validé
-	 */
+	/************************************************************************/
+	/* Used by	: acces/													*/
+	/* Goal		: retourne les groupes où l'acces du membre a été validé	*/
+	/************************************************************************/
 	public function getGroupeOK($email) {
 		$data	= array();
 		$param	= array(	'emailUtilisateur' => $email, 
@@ -74,9 +78,10 @@ class Model_acces extends CI_Model {
 		return $data->result();
 	}
 	
-	/*
-	 * retourne les groupes où l'acces du membre a été refusé
-	 */
+	/************************************************************************/
+	/* Used by	: acces/													*/
+	/* Goal		: retourne les groupes où l'acces du membre a été refusé	*/
+	/************************************************************************/
 	public function getGroupeKO($email) {
 		$data	= array();
 		$param	= array(	'emailUtilisateur' => $email, 
@@ -89,7 +94,10 @@ class Model_acces extends CI_Model {
 		return $data->result();
 	}
 	
-	
+	/************************************************************/
+	/* Used by	: acces/demande/....							*/
+	/* Goal		: création d'une demande d'accès à un groupe	*/
+	/************************************************************/
 	public function nouvelleDemandeAccesGroupe($idGroupe, $emailAdministrateur, $emailUtilisateur) {
 		// l'état de la demande est à 0
 		$table = 'GestionAcces';
@@ -113,7 +121,10 @@ class Model_acces extends CI_Model {
 		return $insert_id;
 	}
 	
-	
+	/************************************************************/
+	/* Used by	: acces/validation								*/
+	/* Goal		: autorise l'accès au groupe après une demande	*/
+	/************************************************************/
 	public function validationAccesGroupe($idGroupe, $emailAdministrateur, $emailUtilisateur, $avis) {
 		// l'état de la demande est à 
 		// avis=1 : accepté
@@ -129,23 +140,22 @@ class Model_acces extends CI_Model {
 		);
 		
 		$this->db->trans_begin();	
-		if( $this->db->update('GestionAcces', $data, $where) ) {
-			// si l'insertion réussie
+		if( $this->db->update('GestionAcces', $data, $where) ) 
+		{
 			$this->db->trans_commit();
-		} else {
-			// si l'insertion échoue
+		} else 
+		{
 			$this->db->trans_rollback();
 			return 0;
 		}	
-		// retour de la fonction en cas de réussite
+		
 		return 1;
 	}
 	
-	/****************************************************/
-	/* acces/suppressionDemandeAcces					*/
-	/*													*/
-	/* BUT : supprimer une ligne d'accès (GestionAcces)	*/
-	/****************************************************/
+	/************************************************************/
+	/* Used by	: groupe/ajax_supprimer_membre					*/
+	/* Goal		: supprimer une ligne d'accès (GestionAcces)	*/
+	/************************************************************/
 	public function suppressionDemandeAcces($idGroupe, $emails) {
 		
 		$this->db->where_in('emailUtilisateur', $emails);
