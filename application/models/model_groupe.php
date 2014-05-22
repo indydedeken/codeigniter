@@ -250,14 +250,14 @@ class Model_groupe extends CI_Model {
 	 * param2			: liste des emails utilisateur
 	 * return			: true/false
 	 */
-	public function supprimerMembre($idGroupe, $email) {
+	public function supprimerMembre($idGroupe, $emails) {
 		
-		$this->db->where_in('emailUtilisateur', $email);
+		$this->db->where_in('emailUtilisateur', $emails);
+		$this->db->where('idGroupe', $idGroupe);
 		if($this->db->delete('GroupeUtilisateur'))
 			return true;
 		else
 			return false;
-
 	}
 
 	/*

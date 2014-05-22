@@ -229,8 +229,10 @@ class Groupe extends CI_Controller {
 	public function ajax_supprimer_membre() {
 
 		$tab = $this->input->post('list');
-		$data['groupe']	= $tab[0];
-		$data['email']	= $tab[1];
+		$data['email']	= $tab[0];
+		$data['idGroupe']	= $tab[1];
+		
+		//echo "email:" . $data['email'] . " || idGroupe:" . $data['idGroupe'];
 		
 		$emails = array();
 		/* on commence à $i=2 car
@@ -241,8 +243,10 @@ class Groupe extends CI_Controller {
 		{
 			array_push($emails, $tab[$i]);
 		}
-	
-		if($this->model_groupe->supprimerMembre($data['groupe'], $emails)) {
+		
+		if(	$this->model_groupe->supprimerMembre($data['idGroupe'], $emails) && 
+			$this->model_acces->suppressionDemandeAcces($data['idGroupe'], $emails)) 
+		{
 			$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroupes($data['email']));
 			echo 'Succès ! Souhaitons bonne chance aux ex-membres du groupe.';
 		} else {

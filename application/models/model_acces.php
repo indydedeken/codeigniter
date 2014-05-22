@@ -140,4 +140,30 @@ class Model_acces extends CI_Model {
 		// retour de la fonction en cas de réussite
 		return 1;
 	}
+	
+	/****************************************************/
+	/* acces/suppressionDemandeAcces					*/
+	/*													*/
+	/* BUT : supprimer une ligne d'accès (GestionAcces)	*/
+	/****************************************************/
+	public function suppressionDemandeAcces($idGroupe, $emails) {
+		
+		$this->db->where_in('emailUtilisateur', $emails);
+		$this->db->where('idGroupe', $idGroupe);
+		
+		$this->db->trans_begin();	
+		if( $this->db->delete('GestionAcces') ) 
+		{
+			// si l'insertion réussie
+			$this->db->trans_commit();
+			
+		} else 
+		{
+			// si l'insertion échoue
+			$this->db->trans_rollback();
+			return false;
+		}
+		
+		return true;
+	}
 }
