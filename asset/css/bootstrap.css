@@ -5950,7 +5950,7 @@ td.visible-print {
   transition: opacity 0.15s linear;
 }
 .fade.in {
-  opacity: 1;
+  opacity: 0.9;
 }
 .collapse {
   display: none;

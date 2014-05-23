@@ -252,6 +252,11 @@ class Model_groupe extends CI_Model {
 	 */
 	public function supprimerMembre($idGroupe, $emails) {
 		
+		if(empty($emails)) 
+		{
+			return false;
+		}
+		
 		$this->db->where_in('emailUtilisateur', $emails);
 		$this->db->where('idGroupe', $idGroupe);
 		if($this->db->delete('GroupeUtilisateur'))
@@ -281,7 +286,10 @@ class Model_groupe extends CI_Model {
 	
 		}	
 		// retour de la fonction en cas de réussite
-		return $insert_id;
+		if($insert_id == 0)
+			return true;
+		else
+			return $insert_id;
 	}
 	
 	/*
@@ -335,7 +343,8 @@ class Model_groupe extends CI_Model {
 	 * param2		: email de l'utilisateur
 	 * return		: true
 	 */
-	 public function delGroupe($idGroupe, $email) {
+	public function delGroupe($idGroupe, $email) {
+
 		$param = array(	'id'	=> $idGroupe,
 						'email'	=> $email 
 		);

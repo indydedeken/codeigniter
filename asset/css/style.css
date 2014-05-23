@@ -381,6 +381,9 @@ ul#listeMembre li input{
 #table_filter {
 	float:right;
 }
+#liste-document .list-group-item {
+	cursor:pointer;
+}
 
 /* ./groupe */
 

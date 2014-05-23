@@ -84,11 +84,11 @@ class Model_document extends CI_Model {
 	}
 	
 	/* getAllDocumentsPerso		: récupérer tous les documents uploadé (perso)
-	 * param1					: id du groupe 
+	 * param1					: id du groupe -------> 0 si on veut les doc perso !!!!!!
 	 * param2					: email de l'utilisateur
 	 * return					: ensemble des données de chaque document
 	 */
-	public function getAllDocumentsPerso($idGroupe, $email) {
+	public function getAllDocumentsPerso($idGroupe, $email, $documents = NULL) {
 		$this->db->select('	Document.id as idDocument, 
 							Document.emailUtilisateur, 
 							Document.auteur, 
@@ -101,8 +101,11 @@ class Model_document extends CI_Model {
 		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');
 		$this->db->join('GroupeDocument', 'Document.id = GroupeDocument.idDocument');
 		$this->db->join('Groupe', 'GroupeDocument.idGroupe = Groupe.id');
+		if(!empty($documents)) {
+			$this->db->where_not_in('GroupeDocument.idDocument', $documents);
+		}
 		$this->db->where('Document.emailUtilisateur', $email);
-		$this->db->where('Groupe.id', $idGroupe);
+		$this->db->where('Groupe.id', $idGroupe);		
 		$this->db->group_by('GroupeDocument.idDocument');
 		$data = $this->db->get();
 		

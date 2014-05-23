@@ -3,8 +3,8 @@
   <br>
   <br>
   <div id="" class="annonce">
-    <div class="col col-sm-4 col-md-3">
-      <h1>Mon groupe</h1>
+    <div class="col-sm-4 col-md-3">
+      <h1 class="col">Mon groupe</h1>
       <!-- affichage des informations du groupe -->
             <div style="text-align:center;">
             <?php 
@@ -12,6 +12,10 @@
                 	<h5><?=$item->intitule?></h5>
 					Depuis le <?=$item->dateCreation?><br>
 					<br><?=$item->description?><br><br>
+                    <div class="btn-group" style="width:100%;" >
+						<button id="addDocument" class="btn btn-lg btn-primary" type="button" data-toggle="modal" data-target="#nouveauDocument" style="width:100%;" >Nouveau document</button>
+			        </div>
+                    <br><br>
 					<div id="actions" class="btn-group" style="width:100%">
 						<button id="quitGroupe" class="btn btn-default btn-primary" type="button">Quitter</button>
 						<?php if($estAdministrateur): ?>
@@ -21,6 +25,60 @@
 			        </div>
 			<?php } ?>
 			</div>
+            
+            <!-- Modal #addDocument -->
+            <div class="modal fade" id="nouveauDocument" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Bibliothèque personnelle</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div id="liste-document" role="toolbar" class="btn-toolbar list-group">
+                    	<p>Sélectionner les documents que vous souhaitez partager avec ce groupe.</p>
+                        <?php
+							if(isset($documentsAAjouter))
+							{
+						?>
+                        <form id="ajouterDocument">
+                        <?php
+	                        	foreach($documentsAAjouter->result() as $item) { 
+						?>
+                            <div id="document_<?=$item->idDocument?>" class="list-group-item">
+                                <label><?=$item->titre?></label>
+                                <input type="checkbox" name="optionDoc[]" value="<?=$item->idDocument?>" style="display:none;"><br>
+                                par <?=$item->auteur?><span class="badge pull-right"><?=$item->libelle?></span>
+                            </div>
+                        <?php
+								} // ./foreach
+							} else {
+						?>
+                        	<p>Vous n'avez aucun document :( <br></p>
+                         	<a class="btn btn-lg btn-success" href="http://localhost/markus/document/creer" title="Uploader un document" style="width:100%;">
+                            	Nouveau document
+                            </a>
+                        <?php
+							} // ./if
+    					?>
+                        </form>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <?php
+							if($documentsAAjouter->result())
+							{
+					?>
+                    <button id="valideAjouterDocument" type="button" class="btn btn-primary">Ajouter</button>
+                  	<?php 
+							}
+					?>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ./ Fin modal #addDocument -->
 
 			<!-- Button trigger modal : BOUTON POUR INVITER MEMBRE DANS LE GROUPE-->
 			<button id="popupAddMember" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="display:none"></button>
@@ -78,8 +136,7 @@
                 <?php } ?>
 				</tbody>
 			</table>
-        </div>   
-        
+        </div>
 	</div>
 </div>
 <div id="modalPageSlide">
@@ -130,7 +187,7 @@
 <script type="application/javascript"><!--
 	$('#addMember').click(function() {
 			$('#popupAddMember').trigger('click');
-		});
+	});
 
 	$(document).ready(function() {
 		
@@ -183,6 +240,52 @@
 		//$('.callModalWindow').trigger('click');
 		<!-- ./PageSlide
 		
+		<!-- AJAX - Ajouter un document
+		$('#valideAjouterDocument').click(function(e) {
+			
+			e.preventDefault();
+					
+			var tab = new Array();
+			tab.push({emailUtilisateur: '<?=$this->session->userdata("email")?>'});
+			tab.push({idGroupe: '<?=$idGroupe?>'});
+			
+			var selected = new Array();
+			$('input[name="optionDoc[]"]:checked').each(function(e) {
+				
+				selected.push(this.value);
+			});
+			tab.push(selected);
+			
+			//console.log(tab);
+			
+			$.ajax({
+				url: "<?=site_url('groupe/ajax_ajouter_document'); ?>",
+				type: 'POST',
+				async : true,
+				data: { 
+						email: tab[0].emailUtilisateur,
+						idGroupe: tab[1].idGroupe,
+						listeDocument: selected 
+				},
+				success: function(msg) {
+					// /!\ laisser le mot "erreur" dans msg pour afficher la bonne notification 
+					if (/rreur/.test(msg)) {
+						generateError(msg);	 
+					} else {
+						generateSuccess(msg);
+						var direction = 'window.location.replace("<?php echo base_url('groupe/afficher');?>/' + tab[1].idGroupe + '");';
+						setTimeout(direction, 2000); 
+					}
+				},
+				error: function() {
+					generateError('Aucun document sélectionné !');
+				}
+			});
+			
+			return false;
+		});
+		<!-- ./AJAX - Ajouter un document
+		
 		<!-- AJAX - Quitter le groupe
 		$('#quitGroupe').click(function() {
 			var form_data = {
@@ -218,7 +321,7 @@
 			});
 			return false;
 		});
-		<!-- ./AJAX		
+		<!-- ./AJAX - quitter le groupe
 		
 		<!-- AJAX - supprimer membre du groupe
 		$('#delMember').click(function() {
@@ -318,8 +421,8 @@
 			return false;
 		});
 		<!-- ./AJAX	
-		
 	});
+	<!-- ./ document.ready()
 --></script>
 <script type="application/javascript">
 	/*
@@ -367,6 +470,28 @@
 			timeout		: false
 		});
 	}
+</script>
+<script>
+$(function() {
+	/*
+	 * Selection des documents à ajouter au groupe
+	 */
+	$( "#liste-document div" ).on( "click", function() {
+		
+		var input = $(this).children( 'input' )[0];
+		
+		if(input.checked) 
+		{
+			input.checked = false;
+			$( this ).css('background', "none");
+		} 
+		else
+		{ 
+			input.checked = true;
+			$( this ).css('background', "#90EE90");
+		}	
+	});
+});
 </script>
 <script>	
 $(function() {

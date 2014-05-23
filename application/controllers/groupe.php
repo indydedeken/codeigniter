@@ -52,6 +52,7 @@ class Groupe extends CI_Controller {
  		if($this->session->userdata('email') && $this->session->userdata('logged')) {
  			
  			$idGroupe = $this->uri->segment(3);
+ 			$email = $this->session->userdata('email');
  
  			if( $idGroupe == 0 )
  			{
@@ -65,13 +66,31 @@ class Groupe extends CI_Controller {
  				$this->load->view('footer', $data);
  				
  			} else if( $this->model_groupe->getGroupe( $idGroupe ) ) {
- 				
+				
  				$data['groupe'] 			= $this->model_groupe->getGroupe($idGroupe);
  				$data['membresGroupe'] 		= $this->model_groupe->getAllMembresGroupe($idGroupe);
- 				$data['estAdministrateur'] 	= $this->model_groupe->estAdministrateur($idGroupe, $this->session->userdata('email'));
+ 				$data['estAdministrateur'] 	= $this->model_groupe->estAdministrateur($idGroupe, $email);
  				$data['idGroupe']			= $idGroupe;
- 				$data['documents']			= $this->model_document->getAllDocumentsGroupe($idGroupe, $this->session->userdata('email'));
- 				
+ 				$data['documents']			= $this->model_document->getAllDocumentsGroupe($idGroupe, $email);
+				
+				// récuperation document deja dans le groupe
+				$tab = $data['documents']->result();
+				
+				$documentDansGroupe = array();
+				foreach($tab as $item)
+				{
+					array_push($documentDansGroupe, $item->idDocument);	
+				}
+				
+				if( empty($documentDansGroupe) ) 
+				{	// si aucun document dans le groupe, recuperation de l'ensemble de la biblio perso
+					$data['documentsAAjouter']	= $this->model_document->getAllDocumentsPerso(0, $email);
+				} 
+				else 
+				{	// si deja document(s) dans le groupe, recuperation de la biblio perso - document deja dans groupe
+					$data['documentsAAjouter']	= $this->model_document->getAllDocumentsPerso(0, $email, $documentDansGroupe);
+				}
+				
  				$this->load->view('header', $data);
  				$this->load->view('groupe/vue_afficher_groupe', $data);
  				$this->load->view('footer', $data);
@@ -224,16 +243,69 @@ class Groupe extends CI_Controller {
 	/* Méthode ajax								*/
 	/*											*/
 	/* BUT : action + affichage du message		*/
+	/* lorsqu'on ajoute un document au groupe	*/
+	/********************************************/
+	public function ajax_ajouter_document() {
+		
+		$idGroupe		= $this->input->post('idGroupe');
+		$email			= $this->input->post('email');
+		$listeDocument	= $this->input->post('listeDocument');
+		
+		//echo "email:" . $email . " || idGroupe:" . $idGroupe;
+		//var_dump($listeDocument);
+		
+		$nbDocument = count($listeDocument);
+		$data = array();
+	
+		// si il y a des documents, alors insertion des documents au groupe
+		if(!empty($listeDocument)) {
+			// boucle sur chaque document
+			foreach($listeDocument as $idDoc) {
+				
+				$donnees['idDocument'] = array(	'idGroupe'		=> $idGroupe,
+												'idDocument' 	=> $idDoc
+				);
+				
+				// Ajout du document dans GroupeDocument
+				$retour = $this->model_groupe->addGroupe('GroupeDocument', $donnees['idDocument']);		
+			}
+			
+			// Gestion des messages de retour
+			if($retour > 0)
+			{
+				if($nbDocument > 1)
+					echo "Succès : GRANDIOSE ! Merci d'avoir ajouté ces " . $nbDocument . " PDF<br>";
+				else
+					echo "Succès : SUPER ! Merci d'avoir ajouté ce document (:<br>";
+			} 
+			else 
+			{
+				if($nbDocument > 1)
+					echo "Erreur : Impossible d'ajouter les PDF ): ".$retour."<br>";
+				else
+					echo "Erreur : Impossible d'ajouter le PDF :( ".$retour."<br>";
+			}
+		} 
+		else
+		{
+			echo "Erreur : Aucun PDF sélectionné !<br>";	
+		}
+	}
+	
+	/********************************************/
+	/* Méthode ajax								*/
+	/*											*/
+	/* BUT : action + affichage du message		*/
 	/* lorsqu'on supprime un membre du groupe	*/
 	/********************************************/
 	public function ajax_supprimer_membre() {
-
+		
 		$tab = $this->input->post('list');
 		$data['email']	= $tab[0];
 		$data['idGroupe']	= $tab[1];
-		
+
 		//echo "email:" . $data['email'] . " || idGroupe:" . $data['idGroupe'];
-		
+
 		$emails = array();
 		/* on commence à $i=2 car
 		 * $i=0 : email admin
@@ -248,7 +320,7 @@ class Groupe extends CI_Controller {
 			$this->model_acces->suppressionDemandeAcces($data['idGroupe'], $emails)) 
 		{
 			$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroupes($data['email']));
-			echo 'Succès ! Souhaitons bonne chance aux ex-membres du groupe.';
+			echo 'Succès ! Souhaitons bonne chance aux ex-membres du groupe :D';
 		} else {
 			echo 'Erreur : Vous ne pouvez supprimer ces utilisateurs.';			
 		}
