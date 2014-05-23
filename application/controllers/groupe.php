@@ -100,6 +100,9 @@ class Groupe extends CI_Controller {
  				
 				$data['groupe'] = $this->model_groupe->getGroupeVisiteur($idGroupe)->result();
 				
+				$data['check']	=	$this->model_acces->checkNouvelleDemandeAccesGroupe(	$idGroupe,  
+																							$email);
+				
  				$this->load->view('header', $data);
 				$this->load->view('groupe/vue_afficher_groupe_inaccessible', $data);
  				$this->load->view('footer', $data);

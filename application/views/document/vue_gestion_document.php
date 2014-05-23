@@ -53,7 +53,7 @@
 					}
 					?>	
 					<a id="document_<?=$item->id?>" class="list-group-item" href="<?=base_url('document/afficher/'.$item->id.'/groupe/'.$item->idGroupe)?>" title="document">
-						<?=$item->titre?><br>
+						<strong><?=$item->titre?></strong><br>
 						par <?=$item->auteur?><span class="badge pull-right"><?=$item->libelle?></span>
 					</a>			   
 				<?php } ?>

@@ -384,7 +384,21 @@ ul#listeMembre li input{
 #liste-document .list-group-item {
 	cursor:pointer;
 }
-
+.groupelien {
+	font-size:16px;
+	margin-top:40px;
+	font-weight:600;
+}
+.groupelien a {
+	color:#333;
+	text-decoration:none;
+}
+.groupelien a:hover,
+.groupelien a:focus,
+.groupelien a:active {
+	color:#999;
+	text-decoration:none;
+}
 /* ./groupe */
 
 /* upload */
@@ -439,6 +453,9 @@ div#accordion.panel-group a.list-group-item {
 	margin-top: 5px;
 	margin-bottom: 5px;
 	border-right: 1px solid #EFEFEF;
+	font-family: Helvetica;
+    font-size: 16px;
+    font-weight: 300;
 }
 .col-md-3-perso {
 	width: 32.5%;

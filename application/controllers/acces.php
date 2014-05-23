@@ -30,9 +30,9 @@ class Acces extends CI_Controller {
 	/****************************************************/
 	/* acces/demande/param1/<a>/param2/<b>/param3/<c>	*/
 	/*													*/
-	/*	ATTENTION - les adresses mails dans l'url : "@" est remplacé par "-" */
+	/*	ATTENTION - les adresses mails dans l'url : 	*/
+	/*				"@" est remplacé par "-" 			*/
 	/*													*/
-	/* BUT : 				*/
 	/****************************************************/
 	public function demande() {
 		
@@ -52,16 +52,16 @@ class Acces extends CI_Controller {
 			} else {
 				redirect(site_url().'home');
 			}
-			
+																				
 			$requete = $this->model_acces->nouvelleDemandeAccesGroupe(	$idGroupe, 
 																		$emailAdministrateur, 
 																		$emailUtilisateur);
 			
 			if($requete > 0)
 			{
-				$this->load->view('header', $data);
-				$this->load->view('acces/vue_acces_demande', $data);
-				$this->load->view('footer', $data);
+				//$this->load->view('acces/vue_acces_demande', $data);
+				redirect(base_url('groupe/afficher') . "/" . $idGroupe);
+				
 			} else 
 			{
 				$this->load->view('header', $data);

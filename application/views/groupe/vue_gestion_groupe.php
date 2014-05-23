@@ -4,14 +4,15 @@
   <div id="" class="annonce">
     <div class="col col-sm-4 col-md-3">
       <h1>Gestion des groupes</h1>
-      <br>
-      <br>
+      <div class="groupelien">
       	<a href="<?=site_url()?>groupe/creer">
-      		<button type="button" class="btn btn-success btn-lg" style="width:230px;border-radius:0;">Créer un nouveau groupe</button>
+      		Créer un nouveau groupe
     	</a>
+        <hr style="margin:10px 0px 10px 0; background:#666666; height:1px;opacity:0.45;">
       	<a href="<?=base_url('acces')?>">
-      		<button type="button" class="btn btn-lg" style="width:230px;border:1px solid #BBB;border-radius:0;">Les accès aux groupes</button>
+      		Les accès aux groupes
     	</a>
+      </div>
     </div>
     <div class="justify col-sm-8 col-md-9">
       	<div class="bloc_profil_infoPerso">

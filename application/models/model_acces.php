@@ -94,6 +94,25 @@ class Model_acces extends CI_Model {
 		return $data->result();
 	}
 	
+	/****************************************************************/
+	/* Used by	: acces/demande/....								*/
+	/* Goal		: vérifié qu'une demande d'acces n'est pas en cours */
+	/****************************************************************/
+	public function checkNouvelleDemandeAccesGroupe($idGroupe, $emailUtilisateur) {
+		$table = 'GestionAcces';
+		$data = array(	'idGroupe'			=> $idGroupe, 
+						'emailUtilisateur'	=> $emailUtilisateur
+		);
+		
+		$result = $this->db->get_where($table, $data);
+		
+		if($result->num_rows() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/************************************************************/
 	/* Used by	: acces/demande/....							*/
 	/* Goal		: création d'une demande d'accès à un groupe	*/

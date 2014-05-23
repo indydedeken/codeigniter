@@ -91,7 +91,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
 						<?php foreach($groupe->result() as $item) ?>
 						<p>
-						<h5 class="modal-title" id="popupTitre1">Inviter un membre dans le groupe <h4 id="popupTitre2"><?=$item->intitule ?></h4></h5> 
+						<h5 class="modal-title" id="popupTitre1">Invitation au groupe <span id="popupTitre2"><?=$item->intitule ?></span></h5> 
 						</p>
 						</div>
 					<div class="modal-body">
@@ -141,7 +141,7 @@
 </div>
 <div id="modalPageSlide">
     <a href="javascript:$.pageslide.close()" style="float:right">
-    	<button type="button" class="btn btn-xs">Fermer</button>
+    	<button type="button" class="btn btn-xs" style="margin-top:-3px;">X</button>
    	</a>
     <h4>Collaborateurs</h4> 
     

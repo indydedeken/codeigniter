@@ -83,7 +83,7 @@
 						<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
 						<p>
-						<h5 class="modal-title" id="popupTitre1">Inviter un membre dans le groupe </h5> 
+						<h5 class="modal-title" id="popupTitre1">Invitation au groupe </h5> 
 						</p>
 						</div>
 					<div class="modal-body">
@@ -116,7 +116,7 @@
     </div>
     <div>
     	<div class="annonce">
-        	<h1>Les groupes auxquelles vous voulez accéder...</h1>
+        	<h1>Les groupes auxquels vous voulez accéder...</h1>
         </div>
         <!--<div class="blocAccesUser">-->
         	<div class="blocAccesUser">
