@@ -77,15 +77,15 @@
 		
 		<!-- Modal : POPUP POUR INVITER MEMBRE DANS LE GROUPE-->
 				
-			<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-						<p>
+						
 						<h5 class="modal-title" id="popupTitre1">Invitation au groupe </h5> 
-						</p>
-						</div>
+						
+                        </div>
 					<div class="modal-body">
 						<form id="formSearchMemberOnAcces" class="navbar-form navbar-right" role="search">
 							<p>
@@ -122,56 +122,68 @@
         	<div class="blocAccesUser">
               <div class="col-md-3-perso blocEnAttente">
                 <p class="lead">En attente</p>
-                <ul>
                     <?php 
                         if(!$groupes['wait']) {
                             echo 'Aucune demande n\'est en cours !';
                         } else {
+					?>
+                        <ul>
+                	<?php
                             foreach($groupes['wait'] as $item) {
                                 ?>
                                 <li><?=$item->intitule?></li>
                                 <?php
                             }
+					?>
+                        </ul>
+                	<?php
                         }
                     ?>
-                </ul>
               </div>
               <div class="col-md-3-perso blocAccepte">
-                <p class="lead">Accepté</p>
-                <ul>
-                    <?php 
-                        if(!$groupes['ok']) {
-                            echo 'Aucun groupe ne vous a accepté :(';
-                        } else {
-                            foreach($groupes['ok'] as $item) {
-                                ?>
-                                <li><?=$item->intitule?></li>
-                                <?php
-                            }
+                <p class="lead">Accepté</p>            
+                <?php 
+                    if(!$groupes['ok']) {
+                        echo 'Aucun groupe ne vous a accepté :(';
+                    } else {
+                ?>
+                        <ul>
+                <?php
+                        foreach($groupes['ok'] as $item) {
+                            ?>
+                            <li><?=$item->intitule?></li>
+                            <?php
                         }
-                    ?>
-                </ul>
+                ?>
+                        </ul>
+                <?php
+                    }
+                ?>
               </div>
               <div class="col-md-3-perso blocRefuse">
                 <p class="lead">Refusé</p>
-                <ul>
+                
                     <?php 
                         if(!$groupes['ko']) {
                             echo 'Aucun groupe ne vous a refusé :(';
                         } else {
+					?>
+                        <ul>
+                	<?php
                             foreach($groupes['ko'] as $item) {
                                 ?>
                                 <li><?=$item->intitule?></li>
                                 <?php
                             }
+					?>
+                        </ul>
+               		<?php
                         }
                     ?>
-                </ul>
               </div>
 			<!--</div>-->
         </div>
     </div>
-</div>
 
 
 <script type="application/javascript"><!--

@@ -1,6 +1,6 @@
 
 <div class="container">
-	<div id="" class="annonce">
+	<div class="annonce">
 		<div class="col col-sm-4 col-md-3">
 			<h1>Uploader un document</h1>
 		</div>

@@ -1,6 +1,6 @@
 <div class="container"> <br>
   <br>
-  <div id="" class="annonce">
+  <div class="annonce">
     <div class="col col-sm-4 col-md-3">
       <h1>Création de groupe :</h1>
     </div>

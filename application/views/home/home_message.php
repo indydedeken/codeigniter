@@ -42,3 +42,25 @@
       (Ici se tiendront des informations générées par les autres membres sur les groupes auxquels le membre est associé. Nous pouvons imaginés avoir des informations d'ordre statistique, qualitatives...) </div>
   </div>
 </div>
+
+<script>
+	// Détection du support
+	if(typeof localStorage!='undefined') {
+		// au clic sur le lien
+		$(".close").on('click', function() {
+			localStorage.setItem('AboutUs', 'hide');
+			return false;
+		});
+		
+		// si l'utilisateur a choisi de masquer la pub
+		if(localStorage.getItem('AboutUs') != undefined) {
+			var AboutUs = localStorage.getItem('AboutUs');
+			// si on ne veut plus voir la pub
+			if(AboutUs == 'hide') {
+				$('#aboutUs').remove();
+			}
+		}
+	} else {
+		alert("localStorage n'est pas supporté");
+	}
+</script>

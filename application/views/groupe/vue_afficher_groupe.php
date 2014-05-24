@@ -2,7 +2,7 @@
 <a href="#modalPageSlide" class="callModalWindow">&nbsp;&nbsp;+</a>
   <br>
   <br>
-  <div id="" class="annonce">
+  <div class="annonce">
     <div class="col-sm-4 col-md-3">
       <h1 class="col">Mon groupe</h1>
       <!-- affichage des informations du groupe -->

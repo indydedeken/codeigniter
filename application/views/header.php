@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
 <!-- IE SWAGG -->
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
 <title>Mark us - Outils d'annotation de pdf</title>
 <script src="<?=base_url()?>asset/js/jquery-1.10.2.min.js"></script>
 <script src="<?=base_url()?>asset/js/jquery-ui-1.10.4.custom.min.js"></script> 
@@ -200,7 +200,7 @@ $(function() {
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-logo" href="<?=base_url()?>">
-        	<img id="logo" src="<?=base_url()?>/asset/img/logo.png" title="logo from http://drbl.in/bjYW"/></a>
+        	<img id="logo" src="<?=base_url()?>asset/img/logo.png" alt="logo" title="from http://drbl.in/bjYW"/></a>
         <a class="navbar-brand" href="<?=base_url()?>">Markus</a>
       </div>
     

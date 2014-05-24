@@ -41,4 +41,5 @@
 -->
 </script>
 <?php endif; ?>
+</div>
 </body></html>
