@@ -64,7 +64,6 @@ class Document extends CI_Controller {
 			
 			$idDocument = $this->uri->segment(3);
 			$idGroupe = $this->uri->segment(5);
-			$email = $this->session->userdata('email');
 			
 			if($idGroupe == NULL) 
 			{
@@ -109,7 +108,7 @@ class Document extends CI_Controller {
 				// si idGroupe + accès OK --> affiche le document
 				if($this->model_document->getDocument($idDocument, $this->session->userdata('email'), $idGroupe)) 
 				{
-					$data['documents']		= $this->model_document->getDocument($idDocument, $email, $idGroupe);
+				
 					//$data['document'] 		= $this->model_document->getDocument($id, $this->session->userdata('email'));
 					//$data['estAdministrateur'] 	= $this->model_document->estAdministrateur($id, $this->session->userdata('email'));
 					$data['idDocument']		= $idDocument;
@@ -228,10 +227,10 @@ class Document extends CI_Controller {
 						$description = $this->input->post('description');
 					else	$description = "";
 					
-					
-					
-					//Conversion du PDF au format HTML
 					/*
+					
+					Conversion du PDF au format HTML
+					
 					
 					exec('/usr/local/bin/pdftohtml -s '.$data['orig_name'].' 2>&1');
         
@@ -240,8 +239,10 @@ class Document extends CI_Controller {
 					{
         				$documentHTML .= fgets($fichier, 4096);
 					}
-					*/
-					$documentHTML = "toto";
+				*/
+					
+					
+					
 					
 					// préparation des variables pour la creation du groupe
 					$donnees['emailUtilisateur']	= $this->session->userdata('email');

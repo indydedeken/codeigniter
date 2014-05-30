@@ -24,7 +24,9 @@ class Model_membre extends CI_Model {
 	/* verifier qu'un membre est présent en DB */
 	public function check_membre($email, $mdp = NULL) {
 		$this->db->where('email', $email);
-		//$this->db->where('mdp', $mdp);
+		if(!($mdp == NULL)) {
+			$this->db->where('mdp', $mdp);
+		}
 		$data = $this->db->get('Utilisateur');
 		if($data->num_rows() == 1) {
 			return true;

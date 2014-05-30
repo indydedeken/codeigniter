@@ -9,6 +9,10 @@
       	<div class="bloc_groupe">
       		<!-- affichage des informations du document -->
             info document <?=$idDocument?>
+			<?php foreach($documents->result() as $item) { ?>
+                	<?=$item->contenuOriginal?>
+			
+			<?php } ?>
             <dl class="dl-horizontal">
 			</dl>
         </div>
