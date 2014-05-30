@@ -6,3 +6,5 @@ application/logs/log-*.php
 .project
 
 .settings/org.eclipse.php.core.prefs
+
+application/config/config.php
