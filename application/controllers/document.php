@@ -227,12 +227,29 @@ class Document extends CI_Controller {
 						$description = $this->input->post('description');
 					else	$description = "";
 					
+					/*
+					
+					Conversion du PDF au format HTML
+					
+					
+					exec('/usr/local/bin/pdftohtml -s '.$data['orig_name'].' 2>&1');
+        
+        			$fichier = fopen($data['orig_name'], "r");
+					while (!feof($fichier))
+					{
+        				$documentHTML .= fgets($fichier, 4096);
+					}
+				*/
+					
+					
+					
+					
 					// préparation des variables pour la creation du groupe
 					$donnees['emailUtilisateur']	= $this->session->userdata('email');
 					$donnees['titre'] 		= $titre;
 					$donnees['auteur']		= $auteur;
 					$donnees['description'] 	= $description;
-					$donnees['contenuOriginal']	= '<html>mon contenu original bla bla</html>'; // reception du pdf>html
+					$donnees['contenuOriginal']	= $documentHTML; // reception du pdf>html
 					$donnees['etat']		= 0;
 					$donnees['dateCreation'] 	= mdate("%d/%m/%Y", time());
 					// insertion du document en DB
