@@ -13,6 +13,7 @@
                 	<?=$item->contenuOriginal?>
 			
 			<?php } ?>
+			<iframe src="<?=base_url()."./filesUploaded/user_6b2710860069ce7e18a540219b459d5c/td_bada_v5-html.html"?>"> </iframe>
             <dl class="dl-horizontal">
 			</dl>
         </div>

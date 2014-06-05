@@ -228,27 +228,31 @@ class Document extends CI_Controller {
 						$description = $this->input->post('description');
 					else	$description = "";
 					
-					
-					
+					/*					
 					//Conversion du PDF au format HTML
-					/*
+					*/
+					$PathPDF = $directory.$data['upload_data']['raw_name'].".pdf"; 											//location du repertoire + non du chier pdf
+					$command = '"C:\Program Files\Calibre2\pdftohtml.exe" -s '.$PathPDF.' 2>&1';
+					exec($command);
+					//exec('/usr/local/bin/pdftohtml -s '.$directory."\\".$data['upload_data']['raw_name'].".pdf".' 2>&1'); //fonction d'axel pour MAC
 					
-					exec('/usr/local/bin/pdftohtml -s '.$data['orig_name'].' 2>&1');
-        
-        			$fichier = fopen($data['orig_name'], "r");
+					$urlfichierhtml = $directory.$data['upload_data']['raw_name']."-html.html"; 								//location du repertoire + nom du fichier html
+					
+        			//$fichier = fopen($fichierhtml, "r+");
+					/*
 					while (!feof($fichier))
 					{
         				$documentHTML .= fgets($fichier, 4096);
 					}
 					*/
-					$documentHTML = "toto";
+					//$msg = $fichier;
 					
 					// préparation des variables pour la creation du groupe
 					$donnees['emailUtilisateur']	= $this->session->userdata('email');
 					$donnees['titre'] 		= $titre;
 					$donnees['auteur']		= $auteur;
 					$donnees['description'] 	= $description;
-					$donnees['contenuOriginal']	= $documentHTML; // reception du pdf>html
+					$donnees['contenuOriginal']	= $urlfichierhtml; // reception du pdf>html
 					$donnees['etat']		= 0;
 					$donnees['dateCreation'] 	= mdate("%d/%m/%Y", time());
 					// insertion du document en DB
@@ -264,13 +268,17 @@ class Document extends CI_Controller {
 					
 					if($idDocument>0) {
 						$status = "success";
-						$msg = "Bien joué ! Le document PDF est dans votre bibliothèque.";
+						$msg = "Bien joué ! Le document PDF est dans votre bibliothèque";
+						//$directory."\\".$data['upload_data']['raw_name'].".pdf";
+						
+						
 					} else {
 						unlink($data['full_path']);
 						$status = "error";
 						$msg = "Une erreur s'est produite";	
 					}
 					//@unlink($_FILES[$file_element_name]);
+				
 				}
 			}
 			echo json_encode(array('status' => $status, 'msg' => $msg));

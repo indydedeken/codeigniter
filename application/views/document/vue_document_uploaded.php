@@ -17,7 +17,7 @@
             <?php
             //var_dump($files);
             $sizeMax = 80;
-		
+			
 		   	foreach ($files as $file)
             {
                 $titre = (strlen($file->titre)>$sizeMax ? substr($file->titre, 0, $sizeMax)."..." : $file->titre)
