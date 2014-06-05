@@ -206,15 +206,6 @@ class Document extends CI_Controller {
 				// ['orig_name'] = nom_du_fichier.pdf
 				
 				if( $data['upload_data']['raw_name'] != '' ) {
-					/*
-					$config['image_library'] = 'ImageMagick';
-					$config['library_path'] = '/etc/paths.d/';
-					$config['source_image'] = '/filesUploaded/user_a5e673e5d6dfd2aed96f51881037fe89/Extrait_du_diagramme_de_classe.pdf';
-					$config['source_image'] = 'test.jpg';
-					$config['width'] = 75;
-					$config['height'] = 50;
-					$this->load->library('image_lib', $config);
-					$this->image_lib->resize();*/
 						
 					$titreFichier = str_ireplace("_", " ", $data['upload_data']['raw_name']);
 					
@@ -229,14 +220,33 @@ class Document extends CI_Controller {
 					else	$description = "";
 					
 					/*					
-					//Conversion du PDF au format HTML
+					//Conversion du PDF au format HTML + img
 					*/
-					$PathPDF = $directory.$data['upload_data']['raw_name'].".pdf"; 											//location du repertoire + non du chier pdf
-					$command = '"C:\Program Files\Calibre2\pdftohtml.exe" -s '.$PathPDF.' 2>&1';
-					exec($command);
-					//exec('/usr/local/bin/pdftohtml -s '.$directory."\\".$data['upload_data']['raw_name'].".pdf".' 2>&1'); //fonction d'axel pour MAC
 					
-					$urlfichierhtml = $directory.$data['upload_data']['raw_name']."-html.html"; 								//location du repertoire + nom du fichier html
+					$pathPDF	= $directory.$data['upload_data']['raw_name'] . ".pdf"; //location du repertoire + non du chier pdf
+					$pathHTML	= $directory.$data['upload_data']['raw_name'] . ".html";
+					
+					/*
+					$config['image_library'] = 'gd2';
+					$config['source_image'] = "/asset/img/logo.png";
+					$config['source_image'] = '/asset/img/test.jpg';
+					$config['create_thumb'] = TRUE;
+					$config['width'] = 75;
+					$config['height'] = 50;
+					$this->load->library('image_lib', $config);
+					
+					$this->image_lib->resize();
+					//$msg = $this->image_lib->display_errors();
+					*/
+					
+					// WINDOWS
+					$command = '"C:\Program Files\Calibre2\pdftohtml.exe" -s '.$pathPDF.' >> PDFtoHTML.log 2>&1';
+					// MAC OS
+					$command = '/usr/local/bin/pdftohtml -c ' . $pathPDF . ' ' . $pathHTML . ' > PDFtoHTML.log 2>&1';
+					
+					exec($command);
+					
+					$urlfichierhtml = $directory.$data['upload_data']['raw_name']."-html.html"; //location du repertoire + nom du fichier html
 					
         			//$fichier = fopen($fichierhtml, "r+");
 					/*
@@ -266,12 +276,10 @@ class Document extends CI_Controller {
 					$_SESSION['listeGroupes']	= $this->model_groupe->getGroupes()->result();
 					$_SESSION['listeDocuments']	= $this->model_document->getDocuments()->result();
 					
+					
 					if($idDocument>0) {
 						$status = "success";
 						$msg = "Bien joué ! Le document PDF est dans votre bibliothèque";
-						//$directory."\\".$data['upload_data']['raw_name'].".pdf";
-						
-						
 					} else {
 						unlink($data['full_path']);
 						$status = "error";

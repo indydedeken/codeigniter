@@ -60,7 +60,8 @@
 		error : function (data, status)
 		{
 		    $("#userfile").val(''); // vider input type=file
-		    alert(status);
+		    console.log(data);
+			alert(status);
 		}
 	    });
 	    return false;
