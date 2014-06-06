@@ -30,7 +30,7 @@
 	
 	$('#uploadDocument').submit(function(e) {
 	    e.preventDefault();
-		generateAlert('<img src="<?=base_url()?>asset/img/chargement.gif"><br>Le chargement du document est en cours...');
+		generateAlert('<img src="<?=base_url()?>asset/img/chargement.gif"><br><div style="color:#F2853C; font-size:16px;"><p>Le chargement du document est en cours...</p></div>');
 		
 	    $.ajaxFileUpload({
 		url             :'<?=base_url()?>document/upload/',

@@ -226,19 +226,7 @@ class Document extends CI_Controller {
 					
 					$pathPDF	= $data['upload_data']['raw_name'] . ".pdf"; //location du repertoire + non du chier pdf
 					$pathHTML	= $data['upload_data']['raw_name'] . ".html";
-					
-					/*
-					$config['image_library'] = 'gd2';
-					$config['source_image'] = $directory."/asset/img/logo.png";
-					$config['source_image'] = $directory."/asset/img/test.jpg";
-					$config['create_thumb'] = TRUE;
-					$config['width'] = 75;
-					$config['height'] = 50;
-					$this->load->library('image_lib', $config);
-					
-					$this->image_lib->resize();
-					//$msg = $this->image_lib->display_errors();
-					*/
+					$pathPNG	= $data['upload_data']['raw_name'] . ".png";
 					
 					// WINDOWS
 					$command = '"C:\Program Files\Calibre2\pdftohtml.exe" -s '.$pathPDF.' >> PDFtoHTML.log 2>&1';
@@ -246,10 +234,12 @@ class Document extends CI_Controller {
 					//$command = '/usr/local/bin/pdftohtml -c ' . $pathPDF . ' ' . $pathHTML . ' > PDFtoHTML.log 2>&1';
 					
 					exec($command);
-					
+					$command = '"C:\Program Files (x86)\gs\gs9.04\bin\gswin32.exe" -q -dBATCH -dNOPAUSE -sDEVICE=jpeg -r20*20 -sOutputFile='.$pathPNG.' '.$pathPDF;
+					exec($command);
 					chdir("..\.."); //Retour au dossier Markus
 					
 					$urlfichierhtml = $directory.$data['upload_data']['raw_name']."-html.html"; //location du repertoire + nom du fichier html
+				
 					
 					// préparation des variables pour la creation du groupe
 					$donnees['emailUtilisateur']	= $this->session->userdata('email');
