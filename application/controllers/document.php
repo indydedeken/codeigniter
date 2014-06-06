@@ -222,14 +222,15 @@ class Document extends CI_Controller {
 					/*					
 					//Conversion du PDF au format HTML + img
 					*/
+					chdir($directory); //se placer dans le repertoire de l'utilisateur
 					
-					$pathPDF	= $directory.$data['upload_data']['raw_name'] . ".pdf"; //location du repertoire + non du chier pdf
-					$pathHTML	= $directory.$data['upload_data']['raw_name'] . ".html";
+					$pathPDF	= $data['upload_data']['raw_name'] . ".pdf"; //location du repertoire + non du chier pdf
+					$pathHTML	= $data['upload_data']['raw_name'] . ".html";
 					
 					/*
 					$config['image_library'] = 'gd2';
-					$config['source_image'] = "/asset/img/logo.png";
-					$config['source_image'] = '/asset/img/test.jpg';
+					$config['source_image'] = $directory."/asset/img/logo.png";
+					$config['source_image'] = $directory."/asset/img/test.jpg";
 					$config['create_thumb'] = TRUE;
 					$config['width'] = 75;
 					$config['height'] = 50;
@@ -242,20 +243,13 @@ class Document extends CI_Controller {
 					// WINDOWS
 					$command = '"C:\Program Files\Calibre2\pdftohtml.exe" -s '.$pathPDF.' >> PDFtoHTML.log 2>&1';
 					// MAC OS
-					$command = '/usr/local/bin/pdftohtml -c ' . $pathPDF . ' ' . $pathHTML . ' > PDFtoHTML.log 2>&1';
+					//$command = '/usr/local/bin/pdftohtml -c ' . $pathPDF . ' ' . $pathHTML . ' > PDFtoHTML.log 2>&1';
 					
 					exec($command);
 					
-					$urlfichierhtml = $directory.$data['upload_data']['raw_name']."-html.html"; //location du repertoire + nom du fichier html
+					chdir("..\.."); //Retour au dossier Markus
 					
-        			//$fichier = fopen($fichierhtml, "r+");
-					/*
-					while (!feof($fichier))
-					{
-        				$documentHTML .= fgets($fichier, 4096);
-					}
-					*/
-					//$msg = $fichier;
+					$urlfichierhtml = $directory.$data['upload_data']['raw_name']."-html.html"; //location du repertoire + nom du fichier html
 					
 					// préparation des variables pour la creation du groupe
 					$donnees['emailUtilisateur']	= $this->session->userdata('email');
@@ -276,7 +270,6 @@ class Document extends CI_Controller {
 					$_SESSION['listeGroupes']	= $this->model_groupe->getGroupes()->result();
 					$_SESSION['listeDocuments']	= $this->model_document->getDocuments()->result();
 					
-					
 					if($idDocument>0) {
 						$status = "success";
 						$msg = "Bien joué ! Le document PDF est dans votre bibliothèque";
@@ -286,10 +279,9 @@ class Document extends CI_Controller {
 						$msg = "Une erreur s'est produite";	
 					}
 					//@unlink($_FILES[$file_element_name]);
-				
 				}
 			}
-			echo json_encode(array('status' => $status, 'msg' => $msg));
+			echo json_encode(array('status' => $status, 'msg' => $msg));	
 		}		
 	}
 

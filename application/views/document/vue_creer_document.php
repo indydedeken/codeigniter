@@ -74,7 +74,6 @@
 			theme       : 'defaultTheme',
 			killer		: true,
 			maxVisible	: 1,
-			timeout		: 10000,
 			callback: {
 				onShow: function() {},
 				afterShow: function() {},
@@ -91,6 +90,7 @@
 			layout      : 'topCenter',
 			theme       : 'defaultTheme',
 			closeWith	: ['click'],
+			killer		: true,
 			maxVisible	: 3,
 			timeout		: 3000
 		});

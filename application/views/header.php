@@ -30,6 +30,8 @@
 	
 	$('#uploadDocument').submit(function(e) {
 	    e.preventDefault();
+		generateAlert('<img src="<?=base_url()?>asset/img/chargement.gif"><br>Le chargement du document est en cours...');
+		
 	    $.ajaxFileUpload({
 		url             :'<?=base_url()?>document/upload/',
 		secureuri       :false,
@@ -44,13 +46,14 @@
 		{
 		    if(data.status != 'error')
 		    {
-			$('#files').html('<p>Chargement...</p>');
+			
 			refresh_files();
 			$('#titre').val('');
 			$('#auteur').val('');
 			$('#description').val('');
 		    }
 		    if (data.status == "success") {
+			//$.noty.closeAll();
 			generateSuccess(data.msg);
 		    } else {
 			generateError(data.msg);
