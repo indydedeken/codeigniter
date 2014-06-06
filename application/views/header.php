@@ -205,7 +205,7 @@ $(function() {
         </button>
         <a class="navbar-logo" href="<?=base_url()?>">
         	<img id="logo" src="<?=base_url()?>asset/img/logo.png" alt="logo" title="from http://drbl.in/bjYW"/></a>
-        <a class="navbar-brand" href="<?=base_url()?>">Markus</a>
+        <a class="navbar-brand" href="<?=base_url()?>">Mark Us</a>
       </div>
     
       <!-- Collect the nav links, forms, and other content for toggling -->

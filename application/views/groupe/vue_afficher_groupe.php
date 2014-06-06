@@ -158,14 +158,14 @@
 			<li>
 				<?php if($estAdministrateur): ?>
 					<?php if($item->emailUtilisateur == $this->session->userdata('email')): ?>
-						<p><?=$item->prenom." ".$item->nom." ".$item->emailUtilisateur.""?></p>
+						<p><?=$item->prenom." ".$item->nom?></p>
 					<?php else :
 					?>
 						<input id="<?=$i?>" type="checkbox" name="option[]" value="<?=$item->emailUtilisateur?>">
-						<label for="<?=$i?>"><?=$item->prenom." ".$item->nom." ".$item->emailUtilisateur?></label>
+						<label for="<?=$i?>"><?=$item->prenom." ".$item->nom?></label>
 					<?php endif;?>	
 				<?php else : ?>
-						<?=ucfirst($item->prenom)?> <?=ucfirst($item->nom)?> <?=$item->emailUtilisateur?>
+						<?=ucfirst($item->prenom)?> <?=ucfirst($item->nom)?>
 				<?php endif; ?>
 				
 			</li>
