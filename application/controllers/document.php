@@ -109,7 +109,17 @@ class Document extends CI_Controller {
 				// si idGroupe + accès OK --> affiche le document
 				if($this->model_document->getDocument($idDocument, $this->session->userdata('email'), $idGroupe)) 
 				{
-					$data['documents']		= $this->model_document->getDocument($idDocument, $email, $idGroupe);
+					$limite = 5;
+					$data['idGroupe']	 	= $idGroupe;
+					$data['documents']	= $this->model_document->getDocument($idDocument, $email, $idGroupe);
+					if($idGroupe == 0){
+						$data['listeDocumentsPerso']	= $this->model_document->getDocumentsPerso($email, $limite, $idDocument);
+					}
+					else
+					{
+						$data['listeDocumentsGroupe']	= $this->model_document->getAllDocumentsGroupe($idGroupe, $email, 6, $idDocument);
+					}
+					//getDocument($idDocument, $email, $idGroupe);
 					//$data['document'] 		= $this->model_document->getDocument($id, $this->session->userdata('email'));
 					//$data['estAdministrateur'] 	= $this->model_document->estAdministrateur($id, $this->session->userdata('email'));
 					$data['idDocument']		= $idDocument;

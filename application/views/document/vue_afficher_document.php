@@ -4,10 +4,21 @@
   <div class="annonce">
     <div class="col col-sm-4 col-md-3">
       <h1>Document</h1>
-	  <?php foreach($documents->result() as $item) { ?>
+		<?php foreach($documents->result() as $item) { ?>
                 	<img src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="150" width="200"> </img>
-					
 			<?php } ?>
+		<?php 
+			if($idGroupe == 0) {
+				foreach($listeDocumentsPerso->result() as $item) {?>
+                	<img src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="150" width="200"> </img>
+		<?php 	} 
+			}
+			else {
+				foreach($listeDocumentsGroupe->result() as $item) {	?>
+					<img src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="150" width="200"> </img>
+		<?php	}
+			}	?>		
+			
     </div>
     <div class="justify col-sm-8 col-md-9">
       	<div class="bloc_groupe">

@@ -61,7 +61,10 @@ class Model_document extends CI_Model {
 	 * param2					: email de l'utilisateur
 	 * return					: ensemble des données de chaque document
 	 */
-	public function getAllDocumentsGroupe($idGroupe, $email) {
+	public function getAllDocumentsGroupe($idGroupe, $email, $limite = null, $document = null) {
+		if($limite == NULL)
+			$limite = 100;
+			
 		$this->db->select('	Document.id as idDocument, 
 							Document.emailUtilisateur, 
 							Document.auteur, 
@@ -69,6 +72,7 @@ class Model_document extends CI_Model {
 							Document.description,
 							Document.dateCreation, 
 							Document.etat, 
+							Document.contenuOriginal,
 							EtatDocument.libelle');
 		$this->db->from('Document');
 		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');
@@ -77,7 +81,11 @@ class Model_document extends CI_Model {
 		$this->db->join('GroupeUtilisateur', 'Groupe.id = GroupeUtilisateur.idGroupe');
 		$this->db->where('GroupeUtilisateur.emailUtilisateur', $email);
 		$this->db->where('GroupeUtilisateur.idGroupe', $idGroupe);
+		if(!empty($document)) {
+			$this->db->where_not_in('GroupeDocument.idDocument', $document);
+		}
 		$this->db->group_by('GroupeDocument.idDocument');
+		$this->db->limit($limite);
 		$data = $this->db->get();
 		
 		return $data;
@@ -170,7 +178,7 @@ class Model_document extends CI_Model {
 	 * param1		: email de l'utilisateur
 	 * return		: ensemble des données de chaque document
 	 */
-	public function getDocumentsPerso($email, $limite = NULL) {
+	public function getDocumentsPerso($email, $limite = NULL, $documents = NULL) {
 		if($limite == NULL)
 			$limite = 100;
 		$param = array('Document.emailUtilisateur' => $email, 'Groupe.id' => '0');
@@ -179,6 +187,9 @@ class Model_document extends CI_Model {
 		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');
 		$this->db->join('GroupeDocument', 'GroupeDocument.idDocument = Document.id');
 		$this->db->join('Groupe', 'Groupe.id = GroupeDocument.idGroupe');
+		if(!empty($documents)) {
+			$this->db->where_not_in('GroupeDocument.idDocument', $documents);
+		}
 		$data = $this->db->get_where('Document', $param, $limite);
 		
 		return $data;
