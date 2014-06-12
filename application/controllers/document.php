@@ -133,7 +133,7 @@ class Document extends CI_Controller {
 				{
 					// si id Groupe + accès KO --> proposer de demander l'accès
 					$this->load->view('header', $data);
-					echo "proposer de demander l'accès à ce groupe";
+					echo "Le document n'est surement pas présent dans la table GroupeDocument...";
 					//$this->load->view('document/vue_afficher_document_inaccessible', $data);
 					$this->load->view('footer', $data);
 				}	

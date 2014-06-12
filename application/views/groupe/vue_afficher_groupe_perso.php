@@ -4,7 +4,7 @@
   <br>
   <div class="annonce">
     <div class="col col-sm-4 col-md-3">
-      <h1>Bibliothèque personnelle</h1>
+      <h1 style="font-size:20px;">Bibliothèque personnelle</h1>
       <!-- affichage des informations du groupe -->
             <div style="text-align:center;">
             <?php 

@@ -31,15 +31,45 @@
     <div class="col col-sm-3 col-md-4">
       <h1>Activité des groupes</h1>
     </div>
-    <div class="justify col-sm-8 col-md-8"> <i><strong>––– Le 12 décembre 2013</strong></i><br>
-      <a class="lienGroupe" href="">Evry Search</a> - <strong>@Judith</strong> à rayé 8 lignes du document "<u>Vers un modèle computationnel unifié des émotions</u>"<br>
-      <a class="lienGroupe" href="">Evry Search</a> - <strong>@Axel</strong> à surligné 2 lignes du document "<u>Vers un modèle computationnel unifié des émotions</u>"<br>
+    <div class="justify col-sm-8 col-md-8">
+      <?php
+	$datePrec = NULL;
+	
+	if(empty($annotationGrp))
+	{
+	  ?>
+	  Aucune activité ces derniers temps...
+	  <?php
+	}
+	
+	foreach($annotationGrp as $annotation)
+	{
+	   
+	  if($datePrec != $annotation->dateCreation)
+	  {
+	    if(substr($annotation->dateCreation, 5, -3) == "06")
+	      $mois = 'juin';
+	    else
+	      $mois = 'juillet';
+	    ?>
+	    <i><strong>––– Le <?=substr($annotation->dateCreation, 8)?> <?=$mois?></strong></i><br>
+	    <?php
+	  }
+	  
+	  if($annotation->idTypeAnnotation == 1)
+	    $action = 'commenter';
+	  else if($annotation->idTypeAnnotation == 2)
+	    $action = 'surligner';
+	?>
+	<a class="lienGroupe" href="<?=site_url()."document/afficher/".$annotation->idDocument."/groupe/".$annotation->idGroupe?>"><?=$annotation->intitule?></a> - <strong><?=$annotation->emailUtilisateur?></strong> à <?=$action?> le document "<u><?=$annotation->titre?></u>"<br>
+	  <?php
+	
+		  $datePrec = $annotation->dateCreation;
+	
+	}
+	
+      ?>
       <br>
-      <i><strong>––– Le 10 décembre 2013</strong></i><br>
-      <a class="lienGroupe" href="">Evry Search</a> - <strong>@Judith</strong> à rayé 8 lignes du document "<u>Vers un modèle computationnel unifié des émotions</u>"<br>
-      <a class="lienGroupe" href="">Fontainebleau Search</a> - <strong>@Axel</strong> à surligné 2 lignes du document "<u>Vers un modèle computationnel unifié...</u>"<br>
-      <br>
-      (Ici se tiendront des informations générées par les autres membres sur les groupes auxquels le membre est associé. Nous pouvons imaginés avoir des informations d'ordre statistique, qualitatives...) </div>
   </div>
 </div>
 

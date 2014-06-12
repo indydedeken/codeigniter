@@ -202,7 +202,8 @@ class Membre extends CI_Controller {
 			$data['nav'] = 'profil';
 			
 			// remettre nav=membre car on refait le tableau
-			$data['nav'] = "membre"; 
+			$data['nav'] = "membre";
+			$data['annotationGrp'] = $this->model_annotation->getAnnotationTousGroupes();
 			
 			$this->session->set_userdata($data);
 			

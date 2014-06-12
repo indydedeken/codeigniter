@@ -6,7 +6,7 @@
 <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">-->
 <!-- IE SWAGG -->
 <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-<title>Mark us - Outils d'annotation de pdf</title>
+<title>Mark Us - Outils d'annotation de pdf</title>
 <script src="<?=base_url()?>asset/js/jquery-1.10.2.min.js"></script>
 <script src="<?=base_url()?>asset/js/jquery-ui-1.10.4.custom.min.js"></script> 
 <script src="<?=base_url()?>asset/js/jquery.noty.packaged.min.js"></script>
@@ -21,7 +21,6 @@
 		$('input[type="submit"]').prop("disabled", false);
 		$('#infoComplementaires').show({duration: 750, complete: saisirInfoComplementaires});
 		$('input#titre').focus();
-		
 	});
 	
 	function saisirInfoComplementaires() {

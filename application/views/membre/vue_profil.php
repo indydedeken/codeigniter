@@ -1,5 +1,5 @@
 <div class="container"> 
-  <br>
+<br>
   <br>
   
   <div id="blocContent" class="row annonce">
@@ -18,24 +18,23 @@
             <div>
 			<?=form_submit('submit','Éditer','id="submit" class="btn btn-lg btn-success" style="width:300px"')?></div>
 			<?=form_close()?>
-        </div>   
-             
-        
-        
+        </div>
+	
         <!-- affichage des documents de l'utilisateur -->
         <h2>Mes documents</h2>
-        <a class="lienGroupe" href="">Evry Search</a> - <strong>@Judith</strong> à rayé 8 lignes du document "<u>Vers un modèle computationnel unifié des émotions</u>"<br>
-      <a class="lienGroupe" href="">Evry Search</a> - <strong>@Axel</strong> à surligné 2 lignes du document "<u>Vers un modèle computationnel unifié des émotions</u>"<br>
-      <a class="lienGroupe" href="">Evry Search</a> - <strong>@Judith</strong> à rayé 8 lignes du document "<u>Vers un modèle computationnel unifié des émotions</u>"<br>
-      <a class="lienGroupe" href="">Fontainebleau Search</a> - <strong>@Axel</strong> à surligné 2 lignes du document "<u>Vers un modèle computationnel unifié...</u>"<br>
-      <br>
-      	
-        <!-- affichage des groupes de l'utilisateur -->
-        <h2>Mes groupes</h2>
-      	<a class="lienGroupe" href="">Evry Search</a> - <strong>@Judith</strong> à rayé 8 lignes du document "<u>Vers un modèle computationnel unifié des émotions</u>"<br>
-      <a class="lienGroupe" href="">Evry Search</a> - <strong>@Axel</strong> à surligné 2 lignes du document "<u>Vers un modèle computationnel unifié des émotions</u>"<br>
-      <a class="lienGroupe" href="">Evry Search</a> - <strong>@Judith</strong> à rayé 8 lignes du document "<u>Vers un modèle computationnel unifié des émotions</u>"<br>
-      <a class="lienGroupe" href="">Fontainebleau Search</a> - <strong>@Axel</strong> à surligné 2 lignes du document "<u>Vers un modèle computationnel unifié...</u>"<br></div>
+        <?php
+	  foreach($annotationGrp as $annotation)
+	  {
+	    //echo $annotation->dateCreation;
+	    if($annotation->idTypeAnnotation == 1)
+	      $action = 'commenter';
+	    else if($annotation->idTypeAnnotation == 2)
+	      $action = 'surligner';
+	  ?>
+	    <a class="lienGroupe" href="<?=site_url()."document/afficher/".$annotation->idDocument."/groupe/".$annotation->idGroupe?>"><?=$annotation->intitule?></a> - <strong><?=$annotation->emailUtilisateur?></strong> à <?=$action?> le document "<u><?=$annotation->titre?></u>"<br>
+	  <?php
+	  }
+	?>
   </div>
 </div>
 <script type="application/javascript">
