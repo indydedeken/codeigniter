@@ -57,7 +57,8 @@ class Model_annotation extends CI_Model {
 	public function getAnnotationTousGroupes() {
 		$param = array('GroupeUtilisateur.emailUtilisateur' => $this->session->userdata('email'));
 		
-		$this->db->select('Annotation.idDocument, Annotation.idGroupe, Annotation.emailUtilisateur, Document.titre, Annotation.idTypeAnnotation, Annotation.dateCreation, Groupe.intitule');
+		$this->db->distinct();
+		$this->db->select('Annotation.id, Annotation.idDocument, Annotation.idGroupe, Annotation.emailUtilisateur, Document.titre, Annotation.idTypeAnnotation, Annotation.dateCreation, Groupe.intitule');
 		$this->db->join('Annotation', 'GroupeUtilisateur.idGroupe = Annotation.idGroupe');
 		$this->db->join('Groupe', 'Annotation.idGroupe = Groupe.id');
 		$this->db->join('Document', 'Annotation.idDocument = Document.id');

@@ -158,20 +158,22 @@ $(function() {
     var data = [
 	// liste des documents
 	<?php
-	foreach($_SESSION['listeDocuments'] as $item) {
-	?>
-	{ id: "<?=$item->id?>", label: "<?=str_replace('"', '\"', $item->titre)?>", category: "document"},
-	<?php	
-	}
-	?>
-	// liste des groupes
-	<?php
-	foreach($_SESSION['listeGroupes'] as $item) {
-	?>
-	{ id: "<?=$item->id?>", label: "<?=str_replace('"', ' ', $item->intitule)?>", category: "groupe"},
-	<?php	
-	}
-	?>
+	if(isset($_SESSION['listeDocuments']) && isset($_SESSION['listeGroupes']))
+	    foreach($_SESSION['listeDocuments'] as $item)
+	    {
+	    ?>
+		{ id: "<?=$item->id?>", label: "<?=str_replace('"', '\"', $item->titre)?>", category: "document"},
+		<?php	
+		}
+		?>
+		// liste des groupes
+		<?php
+		foreach($_SESSION['listeGroupes'] as $item) {
+		?>
+		{ id: "<?=$item->id?>", label: "<?=str_replace('"', ' ', $item->intitule)?>", category: "groupe"},
+		<?php	
+	    }
+	    ?>
     ];
 	
     $("#search").catcomplete({
