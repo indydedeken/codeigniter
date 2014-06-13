@@ -90,8 +90,8 @@ class Document extends CI_Controller {
 				else if ($nbGroupe > 1)
 				{
 					// si pas d'idGroupe --> lister les groupes
-					$data['idDocument']		= $idDocument;
-					$data['nbGroupe']		= $nbGroupe;
+					$data['idDocument']	= $idDocument;
+					$data['nbGroupe']	= $nbGroupe;
 					$data['listeGroupe']	= $grpPourDocument;
 					
 					$this->load->view('header', $data);

@@ -20,7 +20,9 @@ class Home extends CI_Controller {
 		$data['email'] = $this->session->userdata('email');
 		$data['logged'] = $this->session->userdata('logged');
 		
-		$data['annotationGrp'] = $this->model_annotation->getAnnotationTousGroupes();
+		if($this->session->userdata('logged'))
+			$data['annotationGrp'] = $this->model_annotation->getAnnotationTousGroupes();
+			
 		
 		if($this->agent->is_mobile()) {
 			//echo "Vue mobile";

@@ -148,7 +148,9 @@ class Model_groupe extends CI_Model {
 	public function getGroupePourUnDocument($idDocument) {
 		
 		$param = array('GD.idDocument' => $idDocument);
+		
 		$this->db->join('Groupe GR', 'GR.id = GD.idGroupe');
+		$this->db->where('GD.idGroupe !=', '0');
 		$query = $this->db->get_where('GroupeDocument GD', $param);
 		
 		return $query->result();
@@ -168,8 +170,8 @@ class Model_groupe extends CI_Model {
 		AND GD.idGroupe = 1
 		AND GU.emailUtilisateur = '$email';
 	*/
-		$param = array('idGroupe' => $idGroupe,
-						'emailUtilisateur' => $email
+		$param = array( 'idGroupe' => $idGroupe,
+				'emailUtilisateur' => $email
 		);
 		$data = $this->db->get_where('GroupeUtilisateur', $param);
 		
