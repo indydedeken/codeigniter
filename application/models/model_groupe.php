@@ -356,6 +356,21 @@ class Model_groupe extends CI_Model {
 			return false;		 	
 	 }
 	 
+	 /* getMembre	: compte tous les membres d'un groupe
+	 * param1		: id du Groupe
+	 * return		: le nombre d'utilisateur
+	 */
+	public function countMembres($idgroupe) {
+		// compte le nombre d'utilisateur
+		$this->db->select('count(*) as nbMembre');
+		$this->db->from('groupeUtilisateur');
+		$this->db->where('groupeUtilisateur.idGroupe =', $idgroupe);
+		$data = $this->db->get();
+
+		return $data;
+	}
+	 
+	 
 	 /*
 	 * delGroupeAnnexe	: supprimer un Groupe dans les autres tables que Groupe
 	 * param1				: id du Groupe

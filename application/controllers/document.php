@@ -65,6 +65,7 @@ class Document extends CI_Controller {
 			$idDocument = $this->uri->segment(3);
 			$idGroupe = $this->uri->segment(5);
 			$email = $this->session->userdata('email');
+			$data['groupe'] = $this->model_groupe->getGroupe($this->uri->segment(5));
 			
 			if($idGroupe == NULL) 
 			{
@@ -114,10 +115,13 @@ class Document extends CI_Controller {
 					$data['documents']	= $this->model_document->getDocument($idDocument, $email, $idGroupe);
 					if($idGroupe == 0){
 						$data['listeDocumentsPerso']	= $this->model_document->getDocumentsPerso($email, $limite, $idDocument);
+						$data['nombreDocPerso'] = $this->model_document->getAllDocumentsPerso(0,$email); //on recupere tout les documents de la bibliothèque perso et on les compte dans la vue
 					}
 					else
 					{
 						$data['listeDocumentsGroupe']	= $this->model_document->getAllDocumentsGroupe($idGroupe, $email, 6, $idDocument);
+						$data['nombreDocGroupe'] = $this->model_document->getAllDocumentsGroupe($idGroupe, $email);
+						$data['nombreMembre'] = $this->model_groupe->countMembres($idGroupe);
 					}
 					//getDocument($idDocument, $email, $idGroupe);
 					//$data['document'] 		= $this->model_document->getDocument($id, $this->session->userdata('email'));

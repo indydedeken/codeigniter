@@ -128,5 +128,5 @@ class Model_membre extends CI_Model {
 
 		return $data;
 	}
-	
+
 }
