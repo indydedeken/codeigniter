@@ -363,8 +363,8 @@ class Model_groupe extends CI_Model {
 	public function countMembres($idgroupe) {
 		// compte le nombre d'utilisateur
 		$this->db->select('count(*) as nbMembre');
-		$this->db->from('groupeUtilisateur');
-		$this->db->where('groupeUtilisateur.idGroupe =', $idgroupe);
+		$this->db->from('GroupeUtilisateur');
+		$this->db->where('GroupeUtilisateur.idGroupe =', $idgroupe);
 		$data = $this->db->get();
 
 		return $data;
