@@ -122,7 +122,7 @@ class Model_membre extends CI_Model {
 	public function getMembres() {
 		// récupère toutes les variables des utilisateur
 		$this->db->select('*');
-		$this->db->from('utilisateur');
+		$this->db->from('Utilisateur');
 		$this->db->group_by('email');
 		$data = $this->db->get();
 
