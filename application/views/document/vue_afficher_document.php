@@ -15,7 +15,7 @@
 					foreach($listeDocumentsPerso->result() as $item) 
 					{
 					?>
-						<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="150" width="200"> </img>
+						<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125"> </img>
 					<?php 	
 					} 
 				}
@@ -30,7 +30,7 @@
 					{
 						foreach($listeDocumentsGroupe->result() as $item) {
 						?>
-							<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="150" width="200"> </img>
+							<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125"> </img>
 						<?php	
 						}
 					}
@@ -61,13 +61,22 @@
 	
     <div class="justify col-sm-8 col-md-9">
 		<div id="boutonsPDF">
-			<button style="cursor:pointer;" type="button" > <img style="width:20px;height:20px;" src="<?=base_url()?>asset/img/zoom_out.png"> </button>
+			<div id="zoomOut"> <img style="height:40px;" src="<?=base_url()?>asset/img/zoomOut.png"> </div>
+			<div id="zoomIn"> <img style="width:40px;" src="<?=base_url()?>asset/img/zoomIn.png"> </div>
+			<div id="toolBox"> <img style="width:40px;" src="<?=base_url()?>asset/img/toolBox.png">	</div>
+			<div id="bas"> <img style="width:40px;" src="<?=base_url()?>asset/img/bas.png"> </div>
+			<span> 1 / 68 </span>
+			<div id="haut"> <img style="width:40px;" src="<?=base_url()?>asset/img/haut.png"> </div>
+		</div>
+		<div id="panel">
+			<div id="comment"> <img style="height:40px;" src="<?=base_url()?>asset/img/comment.png"> </div>
+			<div id="pencil"> <img style="height:40px;" src="<?=base_url()?>asset/img/pencil.png"> </div>
+			<div id="surligner"> <img style="height:40px;" src="<?=base_url()?>asset/img/surligner.png"> </div>
 		</div>
       	<div class="bloc_groupe">
       		<!-- affichage des informations du document -->
 			<?php foreach($documents->result() as $item) { ?>
                 	<iframe src="<?=base_url().$item->contenuOriginal?>" height="850px" width="100%"> </iframe>
-					
 			<?php } ?>
 			
             <dl class="dl-horizontal">
@@ -80,6 +89,27 @@
 	</div>
 </div>
 <script type="application/javascript">
+	/*
+	* afficher panel lorsqu'on clic sur #toolBox
+	*/
+	var clicked = false;
+	
+	$('#toolBox').click(function(e) {
+		if(clicked === false)
+		{
+			$(this).css("border", "2px solid #B2DFFF");
+			clicked = true;
+		} else {
+			$(this).css("border", "2px solid #DEDEDE");
+			clicked = false;
+		}	
+	});
+	
+	$('#toolBox').click(function() {
+		$('#panel').toggle("slow");
+	});
+	
+
 </script>
 <script type="application/javascript">
 	/*
@@ -88,7 +118,6 @@
 	 * generateSuccess()
 	 * generateError()
 	 */
-	 
 	//
 	function generateAlert(msg) {
 		var n = noty({

@@ -279,6 +279,7 @@ form#register em {
 
 #containerMiniature {
 	position:inherit;
+	text-align: center;
 }
 
 @media (max-width: 768px) {
@@ -310,7 +311,92 @@ table.listeDocument {
 	cursor: pointer;
 }
 
+#boutonsPDF {
+	box-shadow: 0px 0px 6px #DEDEDE;
+	padding: 5px;
+	background: #ffffff; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffffff 0%, #f3f3f3 26%, #ededed 56%, #ffffff 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(26%,#f3f3f3), color-stop(56%,#ededed), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#f3f3f3 26%,#ededed 56%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffffff 0%,#f3f3f3 26%,#ededed 56%,#ffffff 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffffff 0%,#f3f3f3 26%,#ededed 56%,#ffffff 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ffffff 0%,#f3f3f3 26%,#ededed 56%,#ffffff 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+	position: relative;
+    z-index: 100;
+}
 
+#boutonsPDF div {
+	display: inline-block;
+	border: 2px solid #DEDEDE;
+	border-radius: 2px;
+	cursor:pointer;
+}
+
+#boutonsPDF div:hover, #panel div:hover {
+	border: 2px solid #B2DFFF;
+}
+
+
+#boutonsPDF div img{
+	height:40px;
+}
+
+#haut, #bas,#boutonsPDF span{
+	float:right;
+}
+
+#boutonsPDF  span {
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 1.8;
+    padding: 0 10px;
+}
+
+#panel {
+    background-color: #F3F3F3;
+    border: 1px solid #CECECE;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 0 2px #DEDEDE;
+    height: 55px;
+    left: 50px;
+    padding-bottom: 5px;
+    position: absolute;
+    /*right: 150px;*/
+    width: 90%;
+    z-index: 50;
+	display:none;
+}
+
+@media (max-width: 1200px) {
+	#panel {
+		width: 80%;
+	}
+}
+
+@media (max-width: 768px) {
+	#autresDocuments ,#infoAutresDocuments, #infoGroupe{
+		display:none;
+	}
+}
+
+#panel div {
+	display: inline-block;
+	border: 2px solid transparent;
+	border-radius: 2px;
+	cursor:pointer;
+	margin:5px 10px;
+}
+
+#panel div img{
+	height:40px;
+}
+
+#toolBox {
+	margin:0 20px;
+}
+
+/* ./document */
 
 /* groupe */
 form#creationGroupe.form-horizontal div.form-group div.input-group input.form-control {
