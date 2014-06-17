@@ -96,7 +96,7 @@ class Model_document extends CI_Model {
 	 * param2					: email de l'utilisateur
 	 * return					: ensemble des données de chaque document
 	 */
-	public function getAllDocumentsPerso($idGroupe, $email, $documents = NULL) {
+	public function getAllDocumentsPerso($idGroupe, $email, $document = NULL) {
 		$this->db->select('	Document.id as idDocument, 
 							Document.emailUtilisateur, 
 							Document.auteur, 
@@ -109,8 +109,8 @@ class Model_document extends CI_Model {
 		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');
 		$this->db->join('GroupeDocument', 'Document.id = GroupeDocument.idDocument');
 		$this->db->join('Groupe', 'GroupeDocument.idGroupe = Groupe.id');
-		if(!empty($documents)) {
-			$this->db->where_not_in('GroupeDocument.idDocument', $documents);
+		if(!empty($document)) {
+			$this->db->where_not_in('GroupeDocument.idDocument', $document);
 		}
 		$this->db->where('Document.emailUtilisateur', $email);
 		$this->db->where('Groupe.id', $idGroupe);		

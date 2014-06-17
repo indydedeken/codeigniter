@@ -4,50 +4,54 @@
   <div class="annonce">
     <div class="col col-sm-4 col-md-3" id="autresDocuments">
 		<div id="infoAutresDocuments">
-		<h1>Document</h1>
+		<h1 style="font-size:20px;">Les autres documents...</h1>
 			<div id="containerMiniature">
 			<!-- miniature du document choisis pour annotation -->
 			<?php 
-			foreach($documents->result() as $item) { ?>
-						<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="150" width="200"> </img>
-				<?php } ?>	
-			<?php 
+			
 			/* les miniature des document perso (aux max 5 + la miniature du document choisis pour annotion)*/
-				if($idGroupe == 0) {
-					foreach($listeDocumentsPerso->result() as $item) {?>
+				if($idGroupe == 0) 
+				{
+					foreach($listeDocumentsPerso->result() as $item) 
+					{
+					?>
 						<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="150" width="200"> </img>
-			<?php 	} 
+					<?php 	
+					} 
 				}
 				/* les miniature des document du groupe (aux max 5 + la miniature du document choisis pour annotion)*/
-				else {
-					foreach($listeDocumentsGroupe->result() as $item) {	?>
-						<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="150" width="200"> </img>
-			<?php	}
-				}	?>		
+				else 
+				{
+					if($listeDocumentsGroupe->num_rows == 0) 
+					{
+						echo "<p>Ce document est le seul du groupe</p>";
+					}
+					else 
+					{
+						foreach($listeDocumentsGroupe->result() as $item) {
+						?>
+							<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="150" width="200"> </img>
+						<?php	
+						}
+					}
+				}
+			?>		
 			</div>
 		</div>
 		<div id="infoGroupe">
 			<?php foreach($groupe->result() as $item) { 
 				if($item->id == 0) {
 			?>
-					<h1>Bibliothèque personnelles</h1>
-			<?php
-					$countNombreDocPerso = 0;
-					foreach($nombreDocPerso->result() as $item) {
-							$countNombreDocPerso++;
-					} ?>
-					<p>- <span style="color:red;"><?=$countNombreDocPerso?></span> documents<p>
+					<h1 style="font-size:20px;">Bibliothèque personnelles</h1>
+					<p><span style="font-weight:bold;">-</span> <span style="color:red;"><?=$nombreDocPerso->num_rows?></span> <span style="font-weight:bold;">documents</span><p>
 			<?php	}				
-				else { ?>
-					<h1><?=$item->intitule?></h1>
-			<?php	
-					$countNombreDocGroupe = 0;
-					foreach($nombreDocGroupe->result() as $item) {
-							$countNombreDocGroupe++;
-					} ?>
-						<p>- <span style="color:red;"><?=$countNombreDocGroupe?></span> documents<p>
-			<?php	foreach($nombreMembre->result() as $item) {?>
-						<p>- <span style="color:red;"><?=$item->nbMembre?></span> membres<p>
+				else { 
+			?>
+					<h1 style="font-size:20px;font-weight:bold;">Le groupe <span style="font-weight:200;"><i><?=$item->intitule?></i></span></h1>
+					<p><span style="font-weight:bold;">-</span> <span style="color:red;"><?=$nombreDocGroupe->num_rows?></span> <span style="font-weight:bold;">documents</span><p>
+			<?php	foreach($nombreMembre->result() as $item) {
+			?>
+						<p><span style="font-weight:bold;">-</span> <span style="color:red;"><?=$item->nbMembre?></span> <span style="font-weight:bold;">participants</span><p>
 			<?php	}	
 				}	 
 			}?>
@@ -56,6 +60,9 @@
     </div>
 	
     <div class="justify col-sm-8 col-md-9">
+		<div id="boutonsPDF">
+			<button style="cursor:pointer;" type="button" > <img style="width:20px;height:20px;" src="<?=base_url()?>asset/img/zoom_out.png"> </button>
+		</div>
       	<div class="bloc_groupe">
       		<!-- affichage des informations du document -->
 			<?php foreach($documents->result() as $item) { ?>

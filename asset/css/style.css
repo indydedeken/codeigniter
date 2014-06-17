@@ -267,41 +267,50 @@ form#register em {
 }
 
 #autresDocuments {
-	/*width:450px;*/
 	padding: 0px;
-	/*background-color: #FAFAFA;*/
-	/*box-shadow: 0px 0px 12px #555;*/
 }
 
 #infoAutresDocuments {
-	/*width:450px;*/
 	padding: 0px;
-	background-color: white; /*ou #FAFAFA ou autre =)*/
+	background-color: #F8F8F8;
 	text-align: left;
-	/*box-shadow: 0px 0px 12px #555;*/
+	box-shadow: 0px 0px 2px #DEDEDE;
 }
 
 #containerMiniature {
-	/*padding: 0px;*/
 	position:inherit;
 }
 
+@media (max-width: 768px) {
+	#autresDocuments ,#infoAutresDocuments, #infoGroupe{
+		display:none;
+	}
+}
+
 .miniaturePDF{
+	cursor: pointer;
 	border: 1px solid #D8D8D8;
 	margin: 10px;
-	/*box-shadow: 1px 1px 0px #aaa;*/
-	box-shadow: 1px 1px 12px #555;
+	box-shadow: 0px 0px 2px #DEDEDE;
+}
+
+.miniaturePDF:hover {
+	border: 1px solid #B2DFFF;
+	box-shadow: 0px 0px 6px #B2DFFF;
 }
 
 #infoGroupe {
 	text-align: left;
-	margin-top: 100px;
-	background-color: white; /*ou #FAFAFA ou autre =)*/
+	margin-top: 25px;
+	background-color: #F8F8F8;
+	box-shadow: 0px 0px 2px #DEDEDE;
 }
 
 table.listeDocument {
 	cursor: pointer;
 }
+
+
 
 /* groupe */
 form#creationGroupe.form-horizontal div.form-group div.input-group input.form-control {
