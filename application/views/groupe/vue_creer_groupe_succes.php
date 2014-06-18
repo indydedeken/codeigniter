@@ -4,7 +4,7 @@
 	<div class="annonce">
         <div style="background:#8AB7A0;padding-top:20px;font-weight:400;font-size:26px;text-align:center;" class="">
         	<p style="color:#FFFFFF">
-                Le groupe "Test" a été créé !
+                Le groupe "<?=$nom?>" a été créé !
             </p>
             <img alt="Patience..." src="http://markus.compri.me/asset/img/wait.gif" id="image">
         </div>

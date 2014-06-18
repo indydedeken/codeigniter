@@ -23,18 +23,27 @@
         <!-- affichage des documents de l'utilisateur -->
         <h2>Mes documents</h2>
         <?php
-	  foreach($annotationGrp as $annotation)
-	  {
-	    //echo $annotation->dateCreation;
-	    if($annotation->idTypeAnnotation == 1)
-	      $action = 'commenter';
-	    else if($annotation->idTypeAnnotation == 2)
-	      $action = 'surligner';
-	  ?>
-	    <a class="lienGroupe" href="<?=site_url()."document/afficher/".$annotation->idDocument."/groupe/".$annotation->idGroupe?>"><?=$annotation->intitule?></a> - <strong><?=$annotation->emailUtilisateur?></strong> à <?=$action?> le document "<u><?=$annotation->titre?></u>"<br>
-	  <?php
-	  }
-	?>
+		if(empty($annotationGrp))
+		{
+		?>
+        	<p>Aucune annotation pour le moment.</p>
+        <?php
+		}
+		else 
+		{
+		  foreach($annotationGrp as $annotation)
+		  {
+			//echo $annotation->dateCreation;
+			if($annotation->idTypeAnnotation == 1)
+			  $action = 'commenter';
+			else if($annotation->idTypeAnnotation == 2)
+			  $action = 'surligner';
+		  ?>
+			<a class="lienGroupe" href="<?=site_url()."document/afficher/".$annotation->idDocument."/groupe/".$annotation->idGroupe?>"><?=$annotation->intitule?></a> - <strong><?=$annotation->emailUtilisateur?></strong> à <?=$action?> le document "<u><?=$annotation->titre?></u>"<br>
+		  <?php
+		  }
+		}
+		?>
   </div>
 </div>
 <script type="application/javascript">

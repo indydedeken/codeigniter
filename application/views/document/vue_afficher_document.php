@@ -73,14 +73,9 @@
 			<div id="zoomOut"> <img style="height:40px;" src="<?=base_url()?>asset/img/zoomOut.png"> </div>
 			<div id="zoomIn"> <img style="width:40px;" src="<?=base_url()?>asset/img/zoomIn.png"> </div>
 			<!-- toolbox -->
-			<?php
-				if($doc->etat > 0) 
-				{
-				?> 
-            		<div id="toolBox"> <img style="width:40px;" src="<?=base_url()?>asset/img/toolBox.png">	</div>
-        	    <?php 
-				}
-			?>
+			<div id="toolBox" style="display: <?php if($doc->etat == 0) echo 'none'; ?>;"> 
+            	<img style="width:40px;" src="<?=base_url()?>asset/img/toolBox.png">
+            </div>
             <!-- ./fin toolbox -->
             <?php
 				if($estAdministrateur) 
@@ -175,6 +170,7 @@
 					{
 						$('#btnEtat').attr('data-etat', 1);
 						$('#btnEtat').html('Publié'); // etat est "Publie"
+						$('#toolBox').css('display', 'block');
 					} 
 					else if($('#btnEtat').attr('data-etat') == 1)
 					{
@@ -191,23 +187,6 @@
 		return false;
 	});
 	<!-- ./AJAX - changer etat document
-		
-	
-	
-	/*
-	* afficher le bon doc quand on click sur une miniature
-	*/
-	/*
-	$('.miniaturePDF').click(function(e) {
-		console.log($(this).attr( "data-idgroupe"));
-		var group = $(this).attr( "data-idgroupe");
-		console.log($(this).attr( "data-iddoc"));
-		var doc = $(this).attr( "data-iddoc");
-		console.log(doc + '/groupe/'+group);
-		var direction = 'window.location.replace("<?php echo base_url('document/afficher');?>/' + doc + '/groupe/'+group+'");';
-		setTimeout(direction, 0000);
-	});
-	*/
 </script>
 <script type="application/javascript">
 	/*

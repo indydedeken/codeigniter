@@ -19,63 +19,70 @@
 	<br><br>
     </div>
 </div>
-<div id="finDePage" class="row annonce">
-    <div class="col col-sm-3 col-md-4">
-	<h1>Activité des groupes</h1>
+<?php
+	if($logged) 
+	{
+?>
+    <div id="finDePage" class="row annonce">
+        <div class="col col-sm-3 col-md-4">
+        <h1>Activité des groupes</h1>
+        </div>
+        <div class="justify col-sm-8 col-md-8">
+        <?php
+        $datePrec = NULL;
+        
+        if(empty($annotationGrp))
+        {	
+            echo "Aucune activité ces derniers temps...";
+        }
+    
+        if(isset($annotationGrp))
+          foreach($annotationGrp as $annotation)
+          {
+              
+              if($datePrec != $annotation->dateCreation)
+              {
+              if(substr($annotation->dateCreation, 5, -3) == "06")
+              {
+                  $mois = 'juin';
+              }
+              else {
+                  $mois = 'juillet';
+              }
+              ?>
+              <i>
+                  <strong>
+                  ––– Le <?=substr($annotation->dateCreation, 8)?> <?=$mois?>
+                  </strong>
+              </i>
+              <br>
+              <?php
+              }
+              
+              if($annotation->idTypeAnnotation == 1)
+              {
+              $action = 'commenter';
+              }
+              else if($annotation->idTypeAnnotation == 2)
+              {
+              $action = 'surligner';
+              }
+              ?>
+              
+              <a class="lienGroupe" href="<?=site_url()."document/afficher/".$annotation->idDocument."/groupe/".$annotation->idGroupe?>"><?=$annotation->intitule?></a> - <strong><?=$annotation->emailUtilisateur?></strong> à <?=$action?> le document "<u><?=$annotation->titre?></u>"<br>
+              
+              <?php
+              
+              $datePrec = $annotation->dateCreation;
+          
+          }
+        ?>
+        <br>
+        </div>
     </div>
-    <div class="justify col-sm-8 col-md-8">
-	<?php
-	$datePrec = NULL;
-	
-	if(empty($annotationGrp))
-	{	
-	    echo "Aucune activité ces derniers temps...";
+<?php
 	}
-
-	if(isset($annotationGrp))
-	  foreach($annotationGrp as $annotation)
-	  {
-	      
-	      if($datePrec != $annotation->dateCreation)
-	      {
-		  if(substr($annotation->dateCreation, 5, -3) == "06")
-		  {
-		      $mois = 'juin';
-		  }
-		  else {
-		      $mois = 'juillet';
-		  }
-		  ?>
-		  <i>
-		      <strong>
-			  ––– Le <?=substr($annotation->dateCreation, 8)?> <?=$mois?>
-		      </strong>
-		  </i>
-		  <br>
-		  <?php
-	      }
-	      
-	      if($annotation->idTypeAnnotation == 1)
-	      {
-		  $action = 'commenter';
-	      }
-	      else if($annotation->idTypeAnnotation == 2)
-	      {
-		  $action = 'surligner';
-	      }
-	      ?>
-	      
-	      <a class="lienGroupe" href="<?=site_url()."document/afficher/".$annotation->idDocument."/groupe/".$annotation->idGroupe?>"><?=$annotation->intitule?></a> - <strong><?=$annotation->emailUtilisateur?></strong> à <?=$action?> le document "<u><?=$annotation->titre?></u>"<br>
-	      
-	      <?php
-	      
-	      $datePrec = $annotation->dateCreation;
-	  
-	  }
-	?>
-	<br>
-    </div>
-</div>
+?>
 <script>
 
     $(".close").click(function() {
