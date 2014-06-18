@@ -286,6 +286,21 @@ class Model_document extends CI_Model {
 		}
 	 }
 	 
+	 
+	 public function change_etat_document($idDoc, $etat, $email) {
+		//UPDATE Document SET etat=etat+1 WHERE id=3 AND email=$email;
+		if($etat < 2)
+			$etat += 1;
+		else
+			return 2;
+		
+		$data	= array('etat' 				=> $etat);
+		$where	= array('id' 				=> $idDoc,
+						'emailUtilisateur'	=> $email); 
+						
+		return $this->db->update('Document', $data, $where);
+	 }
+	 
 	 /* Ne pas appeller cette fonction depuis le controleur
 	  * seulement depuis document_model
 	  * 

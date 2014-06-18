@@ -15,7 +15,9 @@
 					foreach($listeDocumentsPerso->result() as $item) 
 					{
 					?>
-						<img class="miniaturePDF" data-idDoc="<?=$item->id?>" data-idgroupe="<?=$item->idGroupe?>" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125"> </img>
+                    	<a href="<?=base_url('document/afficher');?>/<?=$item->id?>/groupe/<?=$item->idGroupe?>">
+							<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125"/>
+                        </a>
 					<?php 	
 					} 
 				}
@@ -30,7 +32,9 @@
 					{
 						foreach($listeDocumentsGroupe->result() as $item) {
 						?>
-							<img class="miniaturePDF" data-idDoc="<?=$item->idDocument?>" data-idgroupe="<?=$item->idDuGroupe?>" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125"> </img>
+							<a href="<?=base_url('document/afficher');?>/<?=$item->id?>/groupe/<?=$item->idGroupe?>">
+                            	<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125" />
+                            </a>
 						<?php	
 						}
 					}
@@ -59,13 +63,30 @@
 		</div>	
     </div>
 	
+    
+    <?php 
+		$doc = $documents->result();
+		$doc = $doc[0];
+	?>
     <div class="justify col-sm-8 col-md-9">
 		<div id="boutonsPDF">
 			<div id="zoomOut"> <img style="height:40px;" src="<?=base_url()?>asset/img/zoomOut.png"> </div>
 			<div id="zoomIn"> <img style="width:40px;" src="<?=base_url()?>asset/img/zoomIn.png"> </div>
 			<div id="toolBox"> <img style="width:40px;" src="<?=base_url()?>asset/img/toolBox.png">	</div>
+            <div id="etat">
+            	<button id="btnEtat" style="border:none;" class="btn btn-default" data-etat="<?=$doc->etat?>" <?php if($doc->etat == 2) echo "disabled";?>>
+                	<?php
+						if($doc->etat == 0)
+							echo "Ouvert";
+						else if($doc->etat == 1)
+							echo "Publié";
+						else if($doc->etat == 2)
+							echo "Terminé";
+					?> 
+                </button>
+            </div>
 			<div id="bas"> <img style="width:40px;" src="<?=base_url()?>asset/img/bas.png"> </div>
-			<span> 1 / 68 </span>
+			<span> 1 / 2 </span>
 			<div id="haut"> <img style="width:40px;" src="<?=base_url()?>asset/img/haut.png"> </div>
 		</div>
 		<div id="panel">
@@ -81,10 +102,7 @@
 		</div>
       	<div class="bloc_groupe">
       		<!-- affichage des informations du document -->
-			<?php foreach($documents->result() as $item) { ?>
-                	<iframe src="<?=base_url().$item->contenuOriginal?>" height="850px" width="100%"> </iframe>
-			<?php } ?>
-			
+            <iframe src="<?=base_url().$doc->contenuOriginal?>" height="850px" width="100%"> </iframe>
             <dl class="dl-horizontal">
 			</dl>
         </div>
@@ -111,13 +129,59 @@
 		}	
 	});
 	
+	/*
+	 * 
+	 */
 	$('#toolBox').click(function() {
 		$('#panel').toggle("slow");
 	});
 	
+	<!-- AJAX - changer etat document
+	$('#btnEtat').click(function() {
+		var form_data = {
+			doc		: '<?=$doc->id?>',
+			etat	: $('#btnEtat').attr('data-etat'),
+			ajax	: '1'
+		};
+		$.ajax({
+			url: "<?=site_url('document/change_etat_document'); ?>",
+			type: 'POST',
+			async : true,
+			dataType: "json",
+			data: form_data,
+			success: function(data) {
+				// /!\ laisser le mot "erreur" dans msg pour afficher la bonne notification 
+				if (/rreur/.test(data.status)) {
+				  generateError(data.msg);	 
+				} else {
+					generateSuccess(data.msg);
+					if($('#btnEtat').attr('data-etat') == 0)
+					{
+						$('#btnEtat').attr('data-etat', 1);
+						$('#btnEtat').html('Publié'); // etat est "Publie"
+					} 
+					else if($('#btnEtat').attr('data-etat') == 1)
+					{
+						$('#btnEtat').attr('data-etat', 2);
+						$('#btnEtat').html('Terminé'); // etat est termine
+						$('#btnEtat').prop('disabled', true); // desactive le bouton "Termine"
+					}
+				}
+			},
+			error: function() {
+				generateError("L'état du document ne peut plus évoluer.");
+			}
+		});
+		return false;
+	});
+	<!-- ./AJAX - changer etat document
+		
+	
+	
 	/*
 	* afficher le bon doc quand on click sur une miniature
 	*/
+	/*
 	$('.miniaturePDF').click(function(e) {
 		console.log($(this).attr( "data-idgroupe"));
 		var group = $(this).attr( "data-idgroupe");
@@ -127,7 +191,7 @@
 		var direction = 'window.location.replace("<?php echo base_url('document/afficher');?>/' + doc + '/groupe/'+group+'");';
 		setTimeout(direction, 0000);
 	});
-
+	*/
 </script>
 <script type="application/javascript">
 	/*

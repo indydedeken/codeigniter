@@ -320,6 +320,38 @@ class Document extends CI_Controller {
 	    echo json_encode(array('status' => $status, 'msg' => $msg));
 	}
 
+
+	/****************************************/
+	/* document/change_etat					*/
+	/*										*/
+	/* BUT : change l'état d'un document	*/
+	/****************************************/
+	public function change_etat_document()
+	{
+		
+	    if( $this->input->post('ajax') ) 
+		{
+		
+			$doc	= $this->input->post('doc');
+			$etat	= $this->input->post('etat');
+		
+			if( $this->model_document->change_etat_document($doc, $etat, $this->session->userdata('email')))
+			{
+				$status = 'success';
+				$msg = "L'état du document est modifié.";
+			}
+			else
+	    	{
+				$status = 'error';
+				$msg = 'Une erreur s\'est produite, veuillez réessayez s\il vous plait.';
+			}
+		}
+		
+		// traitement termine, on envoi le status et le message de l operation 
+	    echo json_encode(array('status' => $status, 'msg' => $msg, 'etat'));
+	
+	}
+
 	
 /*************************************************/
 /************* FONCTIONS DE CALLBACK *************/
