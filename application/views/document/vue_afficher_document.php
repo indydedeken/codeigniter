@@ -32,7 +32,7 @@
 					{
 						foreach($listeDocumentsGroupe->result() as $item) {
 						?>
-							<a href="<?=base_url('document/afficher');?>/<?=$item->id?>/groupe/<?=$item->idGroupe?>">
+							<a href="<?=base_url('document/afficher');?>/<?=$item->idDocument?>/groupe/<?=$item->idGroupe?>">
                             	<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125" />
                             </a>
 						<?php	
@@ -72,19 +72,35 @@
 		<div id="boutonsPDF">
 			<div id="zoomOut"> <img style="height:40px;" src="<?=base_url()?>asset/img/zoomOut.png"> </div>
 			<div id="zoomIn"> <img style="width:40px;" src="<?=base_url()?>asset/img/zoomIn.png"> </div>
-			<div id="toolBox"> <img style="width:40px;" src="<?=base_url()?>asset/img/toolBox.png">	</div>
-            <div id="etat">
-            	<button id="btnEtat" style="border:none;" class="btn btn-default" data-etat="<?=$doc->etat?>" <?php if($doc->etat == 2) echo "disabled";?>>
-                	<?php
-						if($doc->etat == 0)
-							echo "Ouvert";
-						else if($doc->etat == 1)
-							echo "Publié";
-						else if($doc->etat == 2)
-							echo "Terminé";
-					?> 
-                </button>
-            </div>
+			<!-- toolbox -->
+			<?php
+				if($doc->etat > 0) 
+				{
+				?> 
+            		<div id="toolBox"> <img style="width:40px;" src="<?=base_url()?>asset/img/toolBox.png">	</div>
+        	    <?php 
+				}
+			?>
+            <!-- ./fin toolbox -->
+            <?php
+				if($estAdministrateur) 
+				{
+				?>
+                    <div id="etat">
+                        <button id="btnEtat" style="border:none;" class="btn btn-default" data-etat="<?=$doc->etat?>" <?php if($doc->etat == 2) echo "disabled";?>>
+                        <?php
+                            if($doc->etat == 0)
+                                echo "Ouvert";
+                            else if($doc->etat == 1)
+                                echo "Publié";
+                            else if($doc->etat == 2)
+                                echo "Terminé";
+                        ?> 
+                        </button>
+                    </div>
+           	 <?php
+				}
+			?>
 			<div id="bas"> <img style="width:40px;" src="<?=base_url()?>asset/img/bas.png"> </div>
 			<span> 1 / 2 </span>
 			<div id="haut"> <img style="width:40px;" src="<?=base_url()?>asset/img/haut.png"> </div>

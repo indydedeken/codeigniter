@@ -66,6 +66,7 @@ class Document extends CI_Controller {
 			$idGroupe = $this->uri->segment(5);
 			$email = $this->session->userdata('email');
 			$data['groupe'] = $this->model_groupe->getGroupe($this->uri->segment(5));
+			$data['estAdministrateur'] 	= $this->model_document->estAdministrateur($idDocument, $this->session->userdata('email'));
 			
 			if($idGroupe == NULL) 
 			{
@@ -125,7 +126,6 @@ class Document extends CI_Controller {
 					}
 					//getDocument($idDocument, $email, $idGroupe);
 					//$data['document'] 		= $this->model_document->getDocument($id, $this->session->userdata('email'));
-					//$data['estAdministrateur'] 	= $this->model_document->estAdministrateur($id, $this->session->userdata('email'));
 					$data['idDocument']		= $idDocument;
 	
 					$this->load->view('header', $data);

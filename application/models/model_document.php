@@ -74,7 +74,7 @@ class Model_document extends CI_Model {
 							Document.etat, 
 							Document.contenuOriginal,
 							EtatDocument.libelle,
-							GroupeDocument.idGroupe as idDuGroupe');
+							GroupeDocument.idGroupe as idGroupe');
 		$this->db->from('Document');
 		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');
 		$this->db->join('GroupeDocument', 'Document.id = GroupeDocument.idDocument');
@@ -300,6 +300,26 @@ class Model_document extends CI_Model {
 						
 		return $this->db->update('Document', $data, $where);
 	 }
+	 
+	 /*
+	 * estAdministrateur	: savoir si un membre est admin du document
+	 * param1				: id du document
+	 * param2				: email de l'utilisateur
+	 * return				: true/false
+	 */
+	public function estAdministrateur($idDoc, $email) {
+		$param = array(	'id' 				=> $idDoc,
+						'emailutilisateur'	=> $email
+		);
+
+		$data = $this->db->get_where('Document', $param);
+
+		if($data->num_rows() == 1) {
+			return true;
+		} else {
+			return false;	
+		}
+	}
 	 
 	 /* Ne pas appeller cette fonction depuis le controleur
 	  * seulement depuis document_model
