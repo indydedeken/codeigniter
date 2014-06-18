@@ -2,7 +2,7 @@
 <div class="container">
 	<div class="annonce">
 		<div class="col col-sm-4 col-md-3">
-			<h1>Uploader un document</h1>
+			<h1 style="font-size:25px;">Uploader un document</h1>
 		</div>
 		<div class="justify col-sm-8 col-md-9">
 			<!-- DEBUT INFORMATION FICHIER UPLOADÉ -->
