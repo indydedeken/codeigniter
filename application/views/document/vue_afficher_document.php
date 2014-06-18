@@ -15,7 +15,7 @@
 					foreach($listeDocumentsPerso->result() as $item) 
 					{
 					?>
-						<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125"> </img>
+						<img class="miniaturePDF" data-idDoc="<?=$item->id?>" data-idgroupe="<?=$item->idGroupe?>" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125"> </img>
 					<?php 	
 					} 
 				}
@@ -30,7 +30,7 @@
 					{
 						foreach($listeDocumentsGroupe->result() as $item) {
 						?>
-							<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125"> </img>
+							<img class="miniaturePDF" data-idDoc="<?=$item->idDocument?>" data-idgroupe="<?=$item->idDuGroupe?>" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125"> </img>
 						<?php	
 						}
 					}
@@ -72,6 +72,12 @@
 			<div id="comment"> <img style="height:40px;" src="<?=base_url()?>asset/img/comment.png"> </div>
 			<div id="pencil"> <img style="height:40px;" src="<?=base_url()?>asset/img/pencil.png"> </div>
 			<div id="surligner"> <img style="height:40px;" src="<?=base_url()?>asset/img/surligner.png"> </div>
+				<!--
+				<div id="cBlack" style="background-color:black;"> </div>
+				<div id="cRed" style="background-color:red;"> </div>
+				<div id="cBlue" style="background-color:blue;"> </div>
+				<div id="cGreen" style="background-color:green;"> </div>
+				-->
 		</div>
       	<div class="bloc_groupe">
       		<!-- affichage des informations du document -->
@@ -109,6 +115,18 @@
 		$('#panel').toggle("slow");
 	});
 	
+	/*
+	* afficher le bon doc quand on click sur une miniature
+	*/
+	$('.miniaturePDF').click(function(e) {
+		console.log($(this).attr( "data-idgroupe"));
+		var group = $(this).attr( "data-idgroupe");
+		console.log($(this).attr( "data-iddoc"));
+		var doc = $(this).attr( "data-iddoc");
+		console.log(doc + '/groupe/'+group);
+		var direction = 'window.location.replace("<?php echo base_url('document/afficher');?>/' + doc + '/groupe/'+group+'");';
+		setTimeout(direction, 0000);
+	});
 
 </script>
 <script type="application/javascript">

@@ -73,7 +73,8 @@ class Model_document extends CI_Model {
 							Document.dateCreation, 
 							Document.etat, 
 							Document.contenuOriginal,
-							EtatDocument.libelle');
+							EtatDocument.libelle,
+							GroupeDocument.idGroupe as idDuGroupe');
 		$this->db->from('Document');
 		$this->db->join('EtatDocument', 'Document.etat = EtatDocument.id');
 		$this->db->join('GroupeDocument', 'Document.id = GroupeDocument.idDocument');
