@@ -135,10 +135,16 @@ class Document extends CI_Controller {
 				} 
 				else 
 				{
+					
+					$data['groupe'] = $this->model_groupe->getGroupeVisiteur($idGroupe)->result();
+				
+					$data['check']	=	$this->model_acces->checkNouvelleDemandeAccesGroupe(	$idGroupe,  
+																								$email);
+					
 					// si id Groupe + accès KO --> proposer de demander l'accès
 					$this->load->view('header', $data);
-					echo "Le document n'est surement pas présent dans la table GroupeDocument...";
-					//$this->load->view('document/vue_afficher_document_inaccessible', $data);
+					//echo "Le document n'est surement pas présent dans la table GroupeDocument...";
+					$this->load->view('groupe/vue_afficher_groupe_inaccessible', $data);
 					$this->load->view('footer', $data);
 				}	
 			}
