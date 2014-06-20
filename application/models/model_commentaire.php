@@ -90,7 +90,7 @@ class Model_commentaire extends CI_Model {
 		
 		$data = $this->db->order_by('id', 'DESC')->get_where('Commentaire', $param);
 
-		if($data->num_rows() > 1) {
+		if($data) {
 			return $data->result();
 		} else {
 			return array();	
