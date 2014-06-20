@@ -190,6 +190,7 @@ window.onload=Start;
 /*
 *	zoomer le contenue de l'iframe
 */
+
 // au chargment de l'iframe on ajouter la valeur zoom = 100% a la balise html
 $('#edit').load(function(e) {
 	//console.log(this);
@@ -219,11 +220,6 @@ $("#zoomOut").click(function(e) {
 	//la valeur final du zoom apres le click
 	var zoomFinal = zoomValue - dezoom+"%"; //pour chrome
 	var zoomFinalFF = valuesFF - dezoomFF; //pour firefox
-	
-	console.log(zoomValue);
-	console.log(valuesFF);
-	console.log(zoomFinal);
-	console.log(zoomFinalFF);
 	
 	//on modifie la valeur actuel du zoom
 	if((zoomValue - dezoom) < 10 || (zoomFinalFF < 0.1)){
@@ -334,14 +330,20 @@ $("#zoomIn").click(function(e) {
 	<!-- ./AJAX - changer etat document
 	
 	<!-- AJAX - ajouter commentaire
+
+	
+	
 	$('#soumissionAddCommentaire').click(function(e) {
+		var idGroupe = <?=$idGroupe?>;
 		e.preventDefault();
 		var form_data = {
 			doc			: '<?=$doc->id?>',
-			grp			: '<?=$doc->idGroupe?>',
+			grp			: '<?=$idGroupe?>',
 			commentaire	: $('#commentaire').val(),
 			ajax		: '1'
 		};
+		
+		/*
 		$.ajax({
 			url: "<?=site_url('commentaire/add'); ?>",
 			type: 'POST',
@@ -373,6 +375,7 @@ $("#zoomIn").click(function(e) {
 			}
 		});
 		return false;
+		*/
 	});
 	<!-- ./AJAX - ajouter commentaire
 </script>
