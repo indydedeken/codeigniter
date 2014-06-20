@@ -108,7 +108,7 @@
 		</div>
       	<div class="bloc_groupe"
 		<!-- affichage des informations du document -->
-			<iframe id="edit" src="<?=base_url().$doc->contenuOriginal?>" height="850px" width="100%"> </iframe>	
+			<iframe id="edit" src="<?=base_url().$doc->contenuOriginal?>"> </iframe>	
             <dl class="dl-horizontal">
 			</dl>
         </div>
@@ -186,6 +186,81 @@ function Start() {
 // charge la fonction start() au chargement de la page
 window.onload=Start;
 /* Fin surligner du texte*/
+
+/*
+*	zoomer le contenue de l'iframe
+*/
+// au chargment de l'iframe on ajouter la valeur zoom = 100% a la balise html
+$('#edit').load(function(e) {
+	//console.log(this);
+	var iframeContent = this.contentWindow.document.childNodes[1];
+	//pour chrome
+	iframeContent.style.zoom = "100%"; 
+	// pour firefox
+	iframeContent.style.MozTransform = "scale(1)";
+	iframeContent.style.MozTransformOrigin= "0 0";
+	console.log(iframeContent);
+});
+
+$("#zoomOut").click(function(e) {
+	// on défnie la valeur du dezoom
+	var dezoom = 10; //chrome
+	var dezoomFF = 0.1; //FireFox
+	
+	// on recupere la valeur actuel du zoom
+	var iframeContent = document.getElementById('edit').contentWindow.document.childNodes[1];
+	//pour chrome
+	var zoomValue = parseInt(iframeContent.style.zoom);
+	//pour firefox
+	var scaleFF = iframeContent.style.MozTransform; //retourn scale(un nombre), on ne veut que le nombre
+	var valuesFF = scaleFF.split('(')[1];
+	valuesFF = valuesFF.split(')')[0];
+   
+	//la valeur final du zoom apres le click
+	var zoomFinal = zoomValue - dezoom+"%"; //pour chrome
+	var zoomFinalFF = valuesFF - dezoomFF; //pour firefox
+	
+	console.log(zoomValue);
+	console.log(valuesFF);
+	console.log(zoomFinal);
+	console.log(zoomFinalFF);
+	
+	//on modifie la valeur actuel du zoom
+	if((zoomValue - dezoom) < 10 || (zoomFinalFF < 0.1)){
+		iframeContent.style.zoom = iframeContent.style.zoom; //pour chrome
+		iframeContent.style.MozTransform = iframeContent.style.MozTransform; //pour firefox
+	}
+	else{
+		iframeContent.style.zoom = zoomFinal; //pour chrome
+		iframeContent.style.MozTransform = "scale("+zoomFinalFF+")"; //pour firefox
+	}	
+});
+
+$("#zoomIn").click(function(e) {
+	// on défnie la valeur du dezoom
+	var zoom = 10; //chrome
+	var zoomFF = 0.1; //FireFox
+	
+	// on recupere la valeur actuel du zoom
+	var iframeContent = document.getElementById('edit').contentWindow.document.childNodes[1];
+	//pour chrome
+	var zoomValue = parseInt(iframeContent.style.zoom);
+	//pour firefox
+	var scaleFF = iframeContent.style.MozTransform; //retourn scale(un nombre), on ne veut que le nombre
+	var valuesFF = scaleFF.split('(')[1];
+	valuesFF = parseFloat(valuesFF.split(')')[0]);
+   
+	//la valeur final du zoom apres le click
+	var zoomFinal = zoomValue + zoom+"%"; //pour chrome
+	var zoomFinalFF = valuesFF + zoomFF; //pour firefox
+
+	iframeContent.style.zoom = zoomFinal; //pour chrome
+	iframeContent.style.MozTransform = "scale("+zoomFinalFF+")"; //pour firefox
+		
+});
+
+/* fin du zoom */
+
 </script>	
 
 <script type="application/javascript">
