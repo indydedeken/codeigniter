@@ -343,7 +343,7 @@ $("#zoomIn").click(function(e) {
 			ajax		: '1'
 		};
 		
-		/*
+		
 		$.ajax({
 			url: "<?=site_url('commentaire/add'); ?>",
 			type: 'POST',
@@ -375,7 +375,7 @@ $("#zoomIn").click(function(e) {
 			}
 		});
 		return false;
-		*/
+		
 	});
 	<!-- ./AJAX - ajouter commentaire
 </script>
