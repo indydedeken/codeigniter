@@ -17,8 +17,8 @@ class Document extends CI_Controller {
 	}
 
 	/************************************************/
-	/* document/gestion				*/
-	/*						*/
+	/* document/gestion								*/
+	/*												*/
 	/* BUT : gestion des document d'un utilisateur	*/
 	/************************************************/
 	public function gestion() {
@@ -67,6 +67,13 @@ class Document extends CI_Controller {
 			$email = $this->session->userdata('email');
 			$data['groupe'] = $this->model_groupe->getGroupe($this->uri->segment(5));
 			$data['estAdministrateur'] 	= $this->model_document->estAdministrateur($idDocument, $this->session->userdata('email'));
+			
+			$paramCommentaires = array(	'idDocument'	=> $idDocument,
+										'idGroupe'		=> $idGroupe
+			);
+			
+			$data['commentaires'] = $this->model_commentaire->getCommentaire($paramCommentaires);
+			
 			
 			if($idGroupe == NULL) 
 			{

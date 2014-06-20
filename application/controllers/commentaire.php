@@ -34,6 +34,8 @@ class Commentaire extends CI_Controller {
 							'dateCreation'		=> $dateCreation
 			);
 			
+			$idCommentaire = '';
+			
 			// si le commentaire est nul :
 			if( trim($commentaire) == "")
 			{
@@ -43,7 +45,7 @@ class Commentaire extends CI_Controller {
 			else 
 			{		
 				// ajout du commentaire
-				if( $this->model_commentaire->addCommentaire($data) )
+				if( $idCommentaire = $this->model_commentaire->addCommentaire($data) )
 				{
 					$status = 'success';
 					$msg	= "Votre commentaire est ajouté !";
@@ -62,7 +64,13 @@ class Commentaire extends CI_Controller {
 		}
 		
 		// traitement termine, on envoi le status et le message de l operation 
-	    echo json_encode(array('status' => $status, 'msg' => $msg, 'etat'));	
-		
+	    echo json_encode(array(	'status' 		=> $status, 
+								'msg' 			=> $msg, 
+								'email'			=> $emailUtilisateur, 
+								'date'			=> $dateCreation,
+								'idCommentaire' => $idCommentaire, 
+								'commentaire'	=> $commentaire,
+								'idGroupe' 		=> $idGroupe, 
+								'idDocument' 	=> $idDocument));
 	}
 }

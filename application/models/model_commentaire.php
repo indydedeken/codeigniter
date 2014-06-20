@@ -78,5 +78,23 @@ class Model_commentaire extends CI_Model {
 		// retour de la fonction en cas de réussite
 		return 1;
 	}
-	
+
+	/* getComentaires	: obtenir les commentaires d'un document
+	 * param1			: data (contrainte)
+	 * return 			: $commentaires
+	 */
+	public function getCommentaire($param) {
+
+		// DANS L'IDEAL, IL FAUDRAIT VÉRIFIER QUE 
+		// L'UTILISATEUR A ACCES AU DOCUMENT
+		
+		$data = $this->db->order_by('id', 'DESC')->get_where('Commentaire', $param);
+
+		if($data->num_rows() > 1) {
+			return $data->result();
+		} else {
+			return array();	
+		}
+		
+	}
 }

@@ -112,10 +112,45 @@
             <dl class="dl-horizontal">
 			</dl>
         </div>
-        <div>
-        	<!-- affichage des membres du groupe -->
-        	<dl class="dl-horizontal">
+        <div class="bloc_groupe">
+        	<h2>Espace de partage <button id="openComment" class="btn btn-info" type="button"><span class="glyphicon glyphicon-plus"></span></button></h2>
+            <div id="nouveauCommentaire" style="display:none;">
+            	<form class="form-group">
+                	<div class="col-md-9">
+                    	<textarea id="commentaire" name="commentaire" class="form-control" placeholder="Écrire le commentaire..." style="height:35px;"></textarea>
+                    </div>
+                    <div class="col-md-3">
+                    	<input id="soumissionAddCommentaire" type="submit" class="btn btn-success form-control" value="Commenter">
+                    </div>
+                </form>
             </div>
+            
+      		<!-- affichage des commentaires du document -->
+            <div id="groupeCommentaires">
+            <?php
+			if(!empty($commentaires)) 
+			{
+				foreach($commentaires as $commentaire)
+				{
+				?>
+					<div class="col-md-9">
+                        <h5><?=$commentaire->emailUtilisateur?> - <span style="font-weight:200;">le <i><?=$commentaire->dateCreation?></i></span> </h5>
+                        <p data-idCommentaire="<?=$commentaire->id?>"><?=$commentaire->commentaire?></p>
+					</div>
+				<?php
+                }
+			}
+			else
+			{
+				?>
+                <p class="amasquer">Mince, personne n'a rien partagé ici.</p>
+				<?php
+			}
+			?>
+            </div>
+            <!-- ./fin affichage des commentaires du document -->
+            <dl class="dl-horizontal"></dl>
+        </div>
 	</div>
 </div>
 
@@ -127,7 +162,7 @@ var command = "";
 
 function Start() {
 	//passe l'iframe en modifiable
-	//effet secondaire : sous firefox quanbd on clic sur du texte dans l'iframe, on peut les contours, le deplacer et l'agrandir
+	//effet secondaire : sous firefox quand on clic sur du texte dans l'iframe, on peut les contours, le deplacer et l'agrandir
 	document.getElementById('edit').contentWindow.document.designMode = "on";
 	
 	var hilite = document.getElementById('hilitecolor');
@@ -177,7 +212,10 @@ window.onload=Start;
 		$('#panel').toggle("slow");
 	});
 	
-	
+	$('#openComment').click(function() {
+		$('#nouveauCommentaire').toggle("slow");
+		$('#commentaire').focus();
+	});
 	
 	<!-- AJAX - changer etat document
 	$('#btnEtat').click(function() {
@@ -219,6 +257,49 @@ window.onload=Start;
 		return false;
 	});
 	<!-- ./AJAX - changer etat document
+	
+	<!-- AJAX - ajouter commentaire
+	$('#soumissionAddCommentaire').click(function(e) {
+		e.preventDefault();
+		var form_data = {
+			doc			: '<?=$doc->id?>',
+			grp			: '<?=$doc->idGroupe?>',
+			commentaire	: $('#commentaire').val(),
+			ajax		: '1'
+		};
+		$.ajax({
+			url: "<?=site_url('commentaire/add'); ?>",
+			type: 'POST',
+			async : true,
+			dataType: "json",
+			data: form_data,
+			success: function(data) {
+				// /!\ laisser le mot "erreur" dans msg pour afficher la bonne notification 
+				if (/rr/.test(data.status)) {
+				  generateError(data.msg);	 
+				} else {
+					generateSuccess(data.msg);
+					$('#commentaire').val('');
+					$('.amasquer').hide();
+					
+					var nouveauCommentaire = '<div class="col-md-9" id="commentaire_'+data.idCommentaire+'" style="display:none;">';
+                    nouveauCommentaire += '<h5>'+ data.email +' - <span style="font-weight:200;">le <i>'+data.date+'</i></span> </h5>';
+                    nouveauCommentaire += '<p data-idCommentaire="'+data.idCommentaire+'">'+data.commentaire+'</p>';
+					nouveauCommentaire += '</div>';
+					
+					$('#groupeCommentaires').prepend(nouveauCommentaire);
+					
+					$('#commentaire_'+data.idCommentaire).show(1000);
+					
+				}
+			},
+			error: function() {
+				generateError("Commentaire non valide");
+			}
+		});
+		return false;
+	});
+	<!-- ./AJAX - ajouter commentaire
 </script>
 <script type="application/javascript">
 	/*
@@ -237,7 +318,7 @@ window.onload=Start;
 			theme       : 'defaultTheme',
 			closeWith	: ['click'],
 			maxVisible	: 3,
-			timeout		: 10000
+			timeout		: 7000
 		});
 	}
 	function generateSuccess(msg) {
@@ -256,13 +337,13 @@ window.onload=Start;
 	function generateError(msg) {
 		var n = noty({
 			text        : msg,
-			type        : 'error',
+			type        : 'warning',
 			dismissQueue: true,
 			layout      : 'topCenter',
 			theme       : 'defaultTheme',
 			closeWith	: ['click'],
 			maxVisible	: 3,
-			timeout		: false
+			timeout		: 2500
 		});
 	}
 
