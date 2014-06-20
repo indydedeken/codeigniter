@@ -130,6 +130,7 @@ class Document extends CI_Controller {
 						$data['listeDocumentsGroupe']	= $this->model_document->getAllDocumentsGroupe($idGroupe, $email, 6, $idDocument);
 						$data['nombreDocGroupe'] = $this->model_document->getAllDocumentsGroupe($idGroupe, $email);
 						$data['nombreMembre'] = $this->model_groupe->countMembres($idGroupe);
+						$data['nombreCommentaire'] = $this->model_commentaire->countCommentaires( array('idGroupe' => $idGroupe) );
 					}
 					//getDocument($idDocument, $email, $idGroupe);
 					//$data['document'] 		= $this->model_document->getDocument($id, $this->session->userdata('email'));

@@ -79,8 +79,8 @@ class Model_commentaire extends CI_Model {
 		return 1;
 	}
 
-	/* getComentaires	: obtenir les commentaires d'un document
-	 * param1			: data (contrainte)
+	/* getComentaire	: obtenir les commentaires d'un document
+	 * param1			: data (contraintes)
 	 * return 			: $commentaires
 	 */
 	public function getCommentaire($param) {
@@ -95,6 +95,23 @@ class Model_commentaire extends CI_Model {
 		} else {
 			return array();	
 		}
+	}
+	
+	/* countCommentairesGroupe	: compter l'activité commentaire d'un groupe
+	 * param1					: param (contraintes)
+	 * return 					: nombre de commentaire
+	 */
+	public function countCommentaires($param) {
+
+		// DANS L'IDEAL, IL FAUDRAIT VÉRIFIER QUE 
+		// L'UTILISATEUR A ACCES AU DOCUMENT
 		
+		$data = $this->db->get_where('Commentaire', $param);
+
+		if($data) {
+			return $data->num_rows();
+		} else {
+			return 0;	
+		}
 	}
 }

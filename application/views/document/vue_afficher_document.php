@@ -52,11 +52,14 @@
 				else { 
 			?>
 					<h1 style="font-size:20px;font-weight:bold;">Le groupe <span style="font-weight:200;"><i><?=$item->intitule?></i></span></h1>
-					<p><span style="font-weight:bold;">-</span> <span style="color:red;"><?=$nombreDocGroupe->num_rows?></span> <span style="font-weight:bold;">documents</span><p>
+					<p><span style="font-weight:bold;">-</span> <span style="color:red;"><?=$nombreDocGroupe->num_rows?></span> <span style="font-weight:bold;">document(s)</span><p>
 			<?php	foreach($nombreMembre->result() as $item) {
 			?>
-						<p><span style="font-weight:bold;">-</span> <span style="color:red;"><?=$item->nbMembre?></span> <span style="font-weight:bold;">participants</span><p>
-			<?php	}	
+						<p><span style="font-weight:bold;">-</span> <span style="color:red;"><?=$item->nbMembre?></span> <span style="font-weight:bold;">participant(s)</span><p>
+            <?php	}
+			?>
+						<p><span style="font-weight:bold;">-</span> <span style="color:red;"><?=$nombreCommentaire?></span> <span style="font-weight:bold;">commentaire(s)</span><p>
+			<?php
 				}	 
 			}?>
 			
