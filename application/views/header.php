@@ -236,7 +236,7 @@ $(function() {
                     <li><a href="<?=base_url('document')?>">Mes documents</a></li>
                     <li><a href="<?=base_url('document/creer')?>">Uploader un document</a></li>
                     <?php else:?>
-                        <li><a href="<?=base_url('membre')?>">Connexion</a></li></li>
+                        <li><a href="<?=base_url('membre')?>">Connexion</a></li>
                     <?php endif;?>
                 </ul>
             </li>
@@ -258,7 +258,7 @@ $(function() {
                     <li><a href="<?=base_url('acces')?>">Les accès aux groupes</a></li>
                     <li><a href="<?=base_url('groupe/creer')?>">Créer un groupe</a></li>
                     <?php else:?>
-                        <li><a href="<?=base_url('membre')?>">Connexion</a></li></li>
+                        <li><a href="<?=base_url('membre')?>">Connexion</a></li>
                     <?php endif;?>
                 </ul>
             </li>
@@ -276,7 +276,7 @@ $(function() {
               <li role="presentation" class="divider"></li>
               <li><a href="<?=base_url('membre/logout')?>">Déconnexion</a></li>
             <?php else:?>
-            	<li><a href="<?=base_url('membre')?>">Connexion</a></li></li>
+            	<li><a href="<?=base_url('membre')?>">Connexion</a></li>
             <?php endif;?>
             </ul>
           </li>
