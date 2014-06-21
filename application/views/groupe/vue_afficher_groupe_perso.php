@@ -47,9 +47,7 @@
 	</div>
 </div>
 <div id="modalPageSlide">
-    <a href="javascript:$.pageslide.close()" style="float:right">
-    	<button type="button" class="btn btn-xs">Fermer</button>
-   	</a>
+    <button type="button" class="btn btn-xs right" onClick="javascript:$.pageslide.close()">Fermer</button>
 </div>
 <script src="<?=base_url()?>asset/js/jquery.pageslide.min.js"></script>
 <script type="application/javascript"><!--

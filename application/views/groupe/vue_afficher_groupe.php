@@ -89,10 +89,9 @@
 					<div class="modal-content">
 						<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-						<?php foreach($groupe->result() as $item) ?>
-						<p>
-						<h5 class="modal-title" id="popupTitre1">Invitation au groupe <span id="popupTitre2"><?=$item->intitule ?></span></h5> 
-						</p>
+						<?php foreach($groupe->result() as $item) { ?>
+                            <h5 class="modal-title" id="popupTitre1">Invitation au groupe <span id="popupTitre2"><?=$item->intitule ?></span></h5> 
+                        <?php } ?>
 						</div>
 					<div class="modal-body">
 						<form id="formSearchMember" class="navbar-form navbar-right" role="search">
@@ -140,10 +139,8 @@
 	</div>
 </div>
 <div id="modalPageSlide">
-    <a href="javascript:$.pageslide.close()" style="float:right">
-    	<button type="button" class="btn btn-xs" style="margin-top:-3px;">X</button>
-   	</a>
-    <h4>Collaborateurs</h4> 
+    <button type="button" class="btn btn-xs right" style="margin-top:-3px;" onClick="javascript:$.pageslide.close()">X</button>
+   	<h4>Collaborateurs</h4> 
     
     <!-- affichage des membres du groupe -->
     <?php
@@ -153,23 +150,28 @@
     <ul id="listeMembre">
         <?php
 			$i=0;
-            foreach($membresGroupe->result() as $item) { 
+            foreach($membresGroupe->result() as $item) 
+			{ 
 			?>
 			<li>
-				<?php if($estAdministrateur): ?>
-					<?php if($item->emailUtilisateur == $this->session->userdata('email')): ?>
+				<?php 
+				if($estAdministrateur): 
+					if($item->emailUtilisateur == $this->session->userdata('email')): 
+					?>
 						<p><?=$item->prenom." ".$item->nom?></p>
-					<?php else :
+					<?php 
+					else :
 					?>
 						<input id="<?=$i?>" type="checkbox" name="option[]" value="<?=$item->emailUtilisateur?>">
 						<label for="<?=$i?>"><?=$item->prenom." ".$item->nom?></label>
-					<?php endif;?>	
-				<?php else : ?>
+					<?php 
+					endif;	
+				else : ?>
 						<?=ucfirst($item->prenom)?> <?=ucfirst($item->nom)?>
-				<?php endif; ?>
-				
+				<?php 
+				endif; 
+				?>
 			</li>
-                
         <?php 
 			$i++;
 			}	
@@ -179,9 +181,9 @@
 		echo form_close();
 	?>
 	<?php if($estAdministrateur): ?>
-			<button id="delMember" class="btn btn-default btn-danger" type="button">Supprimer</button>	
+			<button id="delMember" class="btn btn-default btn-danger">Supprimer</button>	
 	<?php endif;?>
-			<button id="addMember" class="btn btn-primary btn-primary" type="button">Inviter</button>
+			<button id="addMember" class="btn btn-primary btn-primary">Inviter</button>
 </div>
 <script src="<?=base_url()?>asset/js/jquery.pageslide.min.js"></script>
 <script type="application/javascript"><!--

@@ -20,7 +20,7 @@
 					{
 					?>
                     	<a href="<?=base_url('document/afficher');?>/<?=$item->id?>/groupe/<?=$item->idGroupe?>">
-							<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125"/>
+							<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125" alt=""/>
                         </a>
 					<?php 	
 					} 
@@ -37,7 +37,7 @@
 						foreach($listeDocumentsGroupe->result() as $item) {
 						?>
 							<a href="<?=base_url('document/afficher');?>/<?=$item->idDocument?>/groupe/<?=$item->idGroupe?>">
-                            	<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125" />
+                            	<img class="miniaturePDF" src="<?=str_replace('-html.html','.png',base_url().$item->contenuOriginal)?>" height="100" width="125"  alt="" />
                             </a>
 						<?php	
 						}
@@ -77,11 +77,11 @@
 	?>
     <div class="justify col-sm-8 col-md-9">
 		<div id="boutonsPDF">
-			<div id="zoomOut"> <img style="height:40px;" src="<?=base_url()?>asset/img/zoomOut.png"> </div>
-			<div id="zoomIn"> <img style="width:40px;" src="<?=base_url()?>asset/img/zoomIn.png"> </div>
+			<div id="zoomOut"> <img style="height:40px;" src="<?=base_url()?>asset/img/zoomOut.png" alt=""> </div>
+			<div id="zoomIn"> <img style="width:40px;" src="<?=base_url()?>asset/img/zoomIn.png" alt=""> </div>
 			<!-- toolbox -->
 			<div id="toolBox" style="display: <?php if($doc->etat == 0) echo 'none'; ?>;"> 
-            	<img style="width:40px;" src="<?=base_url()?>asset/img/toolBox.png">
+            	<img style="width:40px;" src="<?=base_url()?>asset/img/toolBox.png" alt="">
             </div>
             <!-- ./fin toolbox -->
             <?php
@@ -103,17 +103,17 @@
            	 <?php
 				}
 			?>
-			<div id="bas"> <img style="width:40px;" src="<?=base_url()?>asset/img/bas.png"> </div>
+			<div id="bas"> <img style="width:40px;" src="<?=base_url()?>asset/img/bas.png" alt=""> </div>
 			<span> 1 / 2 </span>
-			<div id="haut"> <img style="width:40px;" src="<?=base_url()?>asset/img/haut.png"> </div>
+			<div id="haut"> <img style="width:40px;" src="<?=base_url()?>asset/img/haut.png" alt=""> </div>
 		</div>
 		<div id="panel">
-			<div id="comment"> <img style="height:40px;" src="<?=base_url()?>asset/img/comment.png"> </div>
-			<div id="pencil"> <img style="height:40px;" src="<?=base_url()?>asset/img/pencil.png"> </div>
-			<div class="imagebutton" id="hilitecolor"><img class="image" src="<?=base_url()?>asset/img/surligner.png" ></div>
+			<div id="comment"> <img style="height:40px;" src="<?=base_url()?>asset/img/comment.png" alt=""> </div>
+			<div id="pencil"> <img style="height:40px;" src="<?=base_url()?>asset/img/pencil.png" alt=""> </div>
+			<div class="imagebutton" id="hilitecolor"><img class="image" src="<?=base_url()?>asset/img/surligner.png" alt=""></div>
 			<iframe width="250" height="170" id="colorpalette" src="<?=base_url()?>/colors.html" style="visibility:hidden; position: absolute;"></iframe>
 		</div>
-      	<div class="bloc_groupe"
+      	<div class="bloc_groupe">
 		<!-- affichage des informations du document -->
 			<iframe id="edit" src="<?=base_url().$doc->contenuOriginal?>"> </iframe>	
             <dl class="dl-horizontal">
@@ -156,7 +156,7 @@
 			?>
             </div>
             <!-- ./fin affichage des commentaires du document -->
-            <dl class="dl-horizontal" style="margin-bottom:20px;">&nbsp;</dl>
+            <dl class="dl-horizontal" style="margin-bottom:20px;"></dl>
         </div>
 	</div>
 </div>
@@ -284,7 +284,7 @@ $("#zoomIn").click(function(e) {
 	});
 	
 	/*
-	 * 
+	 *
 	 */
 	$('#toolBox').click(function() {
 		$('#panel').toggle("slow");
@@ -337,9 +337,6 @@ $("#zoomIn").click(function(e) {
 	<!-- ./AJAX - changer etat document
 	
 	<!-- AJAX - ajouter commentaire
-
-	
-	
 	$('#soumissionAddCommentaire').click(function(e) {
 		var idGroupe = <?=$idGroupe?>;
 		e.preventDefault();
@@ -384,7 +381,7 @@ $("#zoomIn").click(function(e) {
 		return false;
 		
 	});
-	<!-- ./AJAX - ajouter commentaire
+	<!-- ./AJAX - ajouter commentaire-->
 </script>
 <script type="application/javascript">
 	/*
@@ -393,7 +390,6 @@ $("#zoomIn").click(function(e) {
 	 * generateSuccess()
 	 * generateError()
 	 */
-	//
 	function generateAlert(msg) {
 		var n = noty({
 			text        : msg,

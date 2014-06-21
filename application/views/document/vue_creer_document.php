@@ -22,19 +22,19 @@
 			<!-- DEBUT FORMULAIRE UPLOAD -->
 			<?php echo form_open_multipart('document/upload', 'id="uploadDocument" class="form-horizontal" role="form"');?>
 				<div class="form-group dropzone">
-					<input type="file" id="userfile" name="userfile" size="20" />
+					<input type="file" id="userfile" name="userfile" />
 				</div>
 				<div id="infoComplementaires" style="display: none;">
 					<div class="form-group">
 						<label class="col-md-3 control-label">Titre du document</label>
 						<div class="col-md-9">
-							<input id="titre" type="texte" name="titre" class="form-control" placeholder="Titre visible du document">
+							<input id="titre" type="text" name="titre" class="form-control" placeholder="Titre visible du document">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-md-3 control-label">Auteur</label>
 						<div class="col-md-9">
-							<input id="auteur" type="texte" name="auteur" class="form-control" placeholder="Le ou les auteurs">
+							<input id="auteur" type="text" name="auteur" class="form-control" placeholder="Le ou les auteurs">
 						</div>
 					</div>
 					<div class="form-group">
@@ -55,7 +55,6 @@
 			
 		</div>
 	</div>
-</div> 
 <script type="application/javascript">
 	/*
 	 * Préparation des boites de notification

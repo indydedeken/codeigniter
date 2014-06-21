@@ -10,7 +10,7 @@
 				<div class="form-group">
 					<label class="col-md-3 control-label">Nom du groupe</label>
 					<div class="col-md-9">
-						<input id="nom" type="texte" name="nom" class="form-control" placeholder="Nom du groupe">
+						<input id="nom" type="text" name="nom" class="form-control" placeholder="Nom du groupe">
 					</div>
 				</div>
 				<div class="form-group">
