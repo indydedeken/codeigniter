@@ -12,6 +12,10 @@
 			/* les miniature des document perso (aux max 5 + la miniature du document choisis pour annotion)*/
 				if($idGroupe == 0) 
 				{
+					if($listeDocumentsPerso->num_rows == 0)
+					{
+						echo "<p>Ce document est le seul de votre bibliothèque</p>";
+					}
 					foreach($listeDocumentsPerso->result() as $item) 
 					{
 					?>
@@ -152,7 +156,7 @@
 			?>
             </div>
             <!-- ./fin affichage des commentaires du document -->
-            <dl class="dl-horizontal"></dl>
+            <dl class="dl-horizontal" style="margin-bottom:20px;">&nbsp;</dl>
         </div>
 	</div>
 </div>
