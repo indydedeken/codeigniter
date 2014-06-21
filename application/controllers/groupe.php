@@ -27,6 +27,12 @@ class Groupe extends CI_Controller {
 			
 			$data['groupe']	= $this->model_groupe->getAllGroupes($this->session->userdata('email'));
 			
+			$groupesTemp = $data['groupe']->result();
+			
+			foreach ($groupesTemp as $grpTemp) {
+				$data['nbDocument'][$grpTemp->id] = $this->model_document->getAllDocumentsGroupe($grpTemp->id, $this->session->userdata('email'));;
+			}
+			
 			$this->load->view('header', $data);
 			$this->load->view('groupe/vue_gestion_groupe', $data);
 			$this->load->view('footer', $data);
@@ -410,7 +416,8 @@ class Groupe extends CI_Controller {
 				echo 'Action impossible. Vous n\'êtes pas administrateur.';	
 				
 			} else {
-				
+			
+				$data['documents'] = $this->model_document->getAllDocumentsGroupe($data['groupe'], $this->session->userdata('email'))->result();	
 				$data['groupe'] = $this->model_groupe->getGroupe($data['groupe']);
 				$this->load->view('groupe/vue_edition_groupe', $data);
 				

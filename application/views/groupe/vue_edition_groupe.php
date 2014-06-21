@@ -8,6 +8,7 @@
 	<br>
 	<br>
 	<form method="POST" id="formEditGroupe" class="form-horizontal" role="form">
+    	 <!-- PARTIE EDITION DU GROUPE -->
 		<div class="form-group">
 			<input type="hidden" id="idGroupe" value="<?=$item->id?>" disabled/>
 			<div class="form-group">
@@ -28,6 +29,58 @@
 				<a id="recordEdit" href="#" class="btn btn-large btn-success">Enregistrer</a>
 			</div>
 		</div>
+        <!-- ./FIN PARTIE EDITION DU GROUPE -->
+    </form>
+    
+    
+    <form method="POST" id="formEditDocumentGroupe" class="form-horizontal" role="form">
+        <!-- PARTIE DOCUMENTS DU GROUPE -->
+        <div class="form-group">
+			<input type="hidden" id="idGroupe" value="<?=$item->id?>" disabled/>
+			<div class="form-group col-md-12">
+				<table class="table table-hover">
+                	<tr>
+                    	<th>Document</th>
+                        <th>Date</th>
+                        <th>Etat</th>
+                        <th><i>Action</i></th>
+                    </tr>
+                    <?php
+						foreach($documents as $document)
+						{
+						?>
+                        	<tr>
+                            	<td>
+                                	<?=$document->titre?> <br>(par <?=$document->auteur?>)
+                                </td>
+                                <td>
+                                	<?=$document->dateCreation?>
+                                </td>
+                                <td>
+                                	<?php
+										if($document->etat == 0)
+											echo "Ouvert";
+										else if($document->etat == 1)
+											echo "Publié";
+										else if($document->etat == 2)
+											echo "Terminé";
+									?> 
+                                </td>
+                                <td>
+                                	<span class="glyphicon glyphicon-download-alt"></span>
+                                </td>
+                            </tr>
+                        <?php
+						}
+					?>
+                </table>
+			</div>
+			
+			<div class="right">
+				<a href="<?=base_url('groupe').'/afficher/' . $item->id ?>"><button type="button" class="btn btn-large btn-primary">Retour</button></a>
+			</div>
+		</div>
+        <!-- ./FIN PARTIE DOCUMENTS DU GROUPE -->
 	</form>
 	<?php
 	}

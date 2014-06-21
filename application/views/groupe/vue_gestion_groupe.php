@@ -20,16 +20,27 @@
             <p>Liste des groupes disponibles :</p>
             <div id="liste-groupe" class="list-group">
             <?php 
-				foreach($groupe->result() as $item) { ?>
-                   <div class="btn-group btn-group-justified">
-                    <a class="list-group-item" href="<?=base_url('groupe/afficher/'.$item->id)?>" title="Groupe - <?=$item->intitule?>">
-						<span class="badge pull-right">Nb de documents</span>
-						<h5 class="list-group-item-heading"><?=$item->intitule?><span style="font-weight:300; font-style:italic;"> - <?=$item->dateCreation?> - 
-						<?php echo $item->nb." "; echo ($item->nb > 1) ? "membres" : "membre";?></span></h5>
-                        <?=$item->description?>
-					</a>
-				</div>
-			<?php } ?>
+			$variableNbDoc = "";
+			
+			foreach($nbDocument as $nbDoc)
+			{
+				$variableNbDoc[] = $nbDoc->num_rows();
+			}
+				
+			$i = 0;
+			
+			foreach($groupe->result() as $item) { ?>
+			   <div class="btn-group btn-group-justified">
+				<a class="list-group-item" href="<?=base_url('groupe/afficher/'.$item->id)?>" title="Groupe - <?=$item->intitule?>">
+					<span class="badge pull-right"><?=$variableNbDoc[$i]?></span>
+					<h5 class="list-group-item-heading"><?=$item->intitule?><span style="font-weight:300; font-style:italic;"> - <?=$item->dateCreation?> - 
+					<?php echo $item->nb." "; echo ($item->nb > 1) ? "membres" : "membre";?></span></h5>
+					<?=$item->description?>
+				</a>
+			</div>
+			<?php 
+			$i++;
+			} ?>
          	</div>   
         </div>
 	</div>
