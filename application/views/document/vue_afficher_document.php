@@ -78,6 +78,7 @@
     <div class="justify col-sm-8 col-md-9">
 		<div id="boutonsPDF">
 			<div id="zoomOut"> <img style="height:40px;" src="<?=base_url()?>asset/img/zoomOut.png" alt=""> </div>
+			<span id="zoomValeur"></span>
 			<div id="zoomIn"> <img style="width:40px;" src="<?=base_url()?>asset/img/zoomIn.png" alt=""> </div>
 			<!-- toolbox -->
 			<div id="toolBox" style="display: <?php if($doc->etat == 0) echo 'none'; ?>;"> 
@@ -207,13 +208,15 @@ $('#edit').load(function(e) {
 	// pour firefox
 	iframeContent.style.MozTransform = "scale(1)";
 	iframeContent.style.MozTransformOrigin= "0 0";
-	//console.log(iframeContent);
+
+	//Afficher la valeur du zoom
+	var zoomValeur = document.getElementById('zoomValeur');
+	zoomValeur.textContent = iframeContent.style.zoom;
 	
 	//Afficher le nombre de page du document
 	var dernierePage = document.getElementById('dernierePage');
 	var divs = iframeContent.getElementsByTagName("div");
 	dernierePage.textContent = divs.length;
-	//console.log(dernierePage);
 });
 
 $("#zoomOut").click(function(e) {
@@ -238,10 +241,14 @@ $("#zoomOut").click(function(e) {
 	if((zoomValue - dezoom) < 10 || (zoomFinalFF < 0.1)){
 		iframeContent.style.zoom = iframeContent.style.zoom; //pour chrome
 		iframeContent.style.MozTransform = iframeContent.style.MozTransform; //pour firefox
+		
 	}
 	else{
 		iframeContent.style.zoom = zoomFinal; //pour chrome
 		iframeContent.style.MozTransform = "scale("+zoomFinalFF+")"; //pour firefox
+		//Afficher la valeur du zoom
+		var zoomValeur = document.getElementById('zoomValeur');
+		zoomValeur.textContent = iframeContent.style.zoom;
 	}	
 });
 
@@ -265,6 +272,9 @@ $("#zoomIn").click(function(e) {
 
 	iframeContent.style.zoom = zoomFinal; //pour chrome
 	iframeContent.style.MozTransform = "scale("+zoomFinalFF+")"; //pour firefox
+	//Afficher la valeur du zoom
+	var zoomValeur = document.getElementById('zoomValeur');
+	zoomValeur.textContent = iframeContent.style.zoom;
 		
 });
 

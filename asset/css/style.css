@@ -342,7 +342,7 @@ table.listeDocument {
 	height:40px;
 }
 
-#haut, #bas,#boutonsPDF span{
+#haut, #bas,#dernierePage, #pageSeparator ,#pageActuel{
 	float:right;
 }
 
