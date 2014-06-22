@@ -77,12 +77,12 @@
 	?>
     <div class="justify col-sm-8 col-md-9">
 		<div id="boutonsPDF">
-			<div id="zoomOut"> <img style="height:40px;" src="<?=base_url()?>asset/img/zoomOut.png" alt=""> </div>
+			<div id="zoomOut"><span class="glyphicon glyphicon-zoom-out"></span></div>
 			<span id="zoomValeur"></span>
-			<div id="zoomIn"> <img style="width:40px;" src="<?=base_url()?>asset/img/zoomIn.png" alt=""> </div>
+			<div id="zoomIn"><span class="glyphicon glyphicon-zoom-in"></span></div>
 			<!-- toolbox -->
-			<div id="toolBox" style="display: <?php if($doc->etat == 0) echo 'none'; ?>;"> 
-            	<img style="width:40px;" src="<?=base_url()?>asset/img/toolBox.png" alt="">
+			<div id="toolBox" style="display: <?php if($doc->etat == 0) echo 'none'; else echo 'inline-block'; ?>;"> 
+            	<span class="glyphicon glyphicon-cog"></span>
             </div>
             <!-- ./fin toolbox -->
             <?php
@@ -90,7 +90,7 @@
 				{
 				?>
                     <div id="etat">
-                        <button id="btnEtat" style="border:none;" class="btn btn-default" data-etat="<?=$doc->etat?>" <?php if($doc->etat == 2) echo "disabled";?>>
+                        <button id="btnEtat" style="border:none;vertical-align:bottom !important;" class="btn btn-default" data-etat="<?=$doc->etat?>" <?php if($doc->etat == 2) echo "disabled";?>>
                         <?php
                             if($doc->etat == 0)
                                 echo "Ouvert";
@@ -104,9 +104,9 @@
            	 <?php
 				}
 			?>
-			<div id="bas"> <img style="width:40px;" src="<?=base_url()?>asset/img/bas.png" alt=""> </div>
+			<div id="bas"><span class="glyphicon glyphicon-chevron-down"></span></div>
 			<span id="dernierePage"></span><span id="pageSeparator">/</span><span id="pageActuel">1</span>
-			<div id="haut"> <img style="width:40px;" src="<?=base_url()?>asset/img/haut.png" alt=""> </div>
+			<div id="haut"><span class="glyphicon glyphicon-chevron-up"></span></div>
 		</div>
 		<div id="panel">
 			<div id="comment"> <img style="height:40px;" src="<?=base_url()?>asset/img/comment.png" alt=""> </div>
@@ -367,7 +367,7 @@ $("#bas").click(function(e) {
 					{
 						$('#btnEtat').attr('data-etat', 1);
 						$('#btnEtat').html('Publié'); // etat est "Publie"
-						$('#toolBox').css('display', 'block');
+						$('#toolBox').css('display', 'inline-block');
 					} 
 					else if($('#btnEtat').attr('data-etat') == 1)
 					{

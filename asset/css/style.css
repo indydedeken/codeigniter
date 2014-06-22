@@ -400,6 +400,22 @@ table.listeDocument {
 	height: 30px;
 	width: 30px;
 }
+/* CSS sur le panel vue_afficher_document */
+@media (max-width: 960px) {
+  #dernierePage, #pageSeparator, #pageActuel, #zoomValeur {
+      display: none;
+  }
+}
+@media (max-width: 500px) {
+  #toolBox {
+    display: none !important;
+  }
+}
+@media (max-width: 390px) {
+  #etat {
+    display: none !important;
+  }
+}
 
 /* commentaires */
 #groupeCommentaires > div {
