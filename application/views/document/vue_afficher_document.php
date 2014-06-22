@@ -104,7 +104,7 @@
 				}
 			?>
 			<div id="bas"> <img style="width:40px;" src="<?=base_url()?>asset/img/bas.png" alt=""> </div>
-			<span> 1 / 2 </span>
+			<span id="dernierePage"></span><span id="pageSeparator">/</span><span id="pageActuel">1</span>
 			<div id="haut"> <img style="width:40px;" src="<?=base_url()?>asset/img/haut.png" alt=""> </div>
 		</div>
 		<div id="panel">
@@ -207,7 +207,13 @@ $('#edit').load(function(e) {
 	// pour firefox
 	iframeContent.style.MozTransform = "scale(1)";
 	iframeContent.style.MozTransformOrigin= "0 0";
-	console.log(iframeContent);
+	//console.log(iframeContent);
+	
+	//Afficher le nombre de page du document
+	var dernierePage = document.getElementById('dernierePage');
+	var divs = iframeContent.getElementsByTagName("div");
+	dernierePage.textContent = divs.length;
+	//console.log(dernierePage);
 });
 
 $("#zoomOut").click(function(e) {
@@ -263,7 +269,40 @@ $("#zoomIn").click(function(e) {
 });
 
 /* fin du zoom */
+/* changer de page dans le pdf*/
 
+$("#haut").click(function(e) {
+	var iframeContent = document.getElementById('edit').contentWindow.document.childNodes[1];
+	var pageAcutel = document.getElementById('pageActuel');
+
+	if(parseInt(pageAcutel.textContent) > 1){
+		pageAcutel.textContent = parseInt(pageAcutel.textContent) -1;
+		xDiv = iframeContent.getElementsByTagName("div")[parseInt(pageAcutel.textContent)-1].offsetTop;
+		iframeContent.scrollTop = xDiv;
+	}
+	else {
+		pageAcutel.textContent = pageAcutel.textContent;
+	}
+});
+
+$("#bas").click(function(e) {
+	var iframe = document.getElementById('edit');
+	var iframeContent = iframe.contentWindow.document.childNodes[1];
+	
+	var pageAcutel = document.getElementById('pageActuel');
+	var dernierePage = document.getElementById('dernierePage');
+
+	if(parseInt(pageAcutel.textContent) < parseInt(dernierePage.textContent)){
+		pageAcutel.textContent = parseInt(pageAcutel.textContent) +1;
+		xDiv = iframeContent.getElementsByTagName("div")[parseInt(pageAcutel.textContent)-1].offsetTop;
+		iframeContent.scrollTop = xDiv;
+	}
+	else {
+		pageAcutel.textContent = pageAcutel.textContent;
+	}
+});
+
+/* fin de changer de page */
 </script>	
 
 <script type="application/javascript">
