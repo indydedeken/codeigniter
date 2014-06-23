@@ -93,9 +93,9 @@
 								<SELECT id="selectionGroupeOnAcces" name="selectionGroupeOnAcces" size="1" class="btn btn-default dropdown-toggle" >
 								<option value="0" selected disabled> Sélectionner un groupe </option>
 								<?php 
-								if(isset($groupeUtilisateur))
+								if(isset($groupesUtilisateur))
 								{
-									foreach($groupesUtilisateur->result() as $item) 
+									foreach($groupesUtilisateur as $item) 
 									{ 
 									?>
 										<OPTION value="<?=$item->id?>"> <?=$item->intitule?> </OPTION>	
