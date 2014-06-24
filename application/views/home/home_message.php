@@ -107,6 +107,51 @@
 	}
 	
     } else {
-	alert("localStorage n'est pas supporté");
+		alert("localStorage n'est pas supporté");
     }
+</script>
+<script type="application/javascript">
+	/*
+	 * Préparation des boites de notification
+	 * generateAlert()
+	 * generateSuccess()
+	 * generateError()
+	 */
+	function generateAlert(msg) {
+		var n = noty({
+			text        : msg,
+			type        : 'alert',
+			dismissQueue: true,
+			layout      : 'topCenter',
+			theme       : 'defaultTheme',
+			closeWith	: ['click'],
+			maxVisible	: 3,
+			timeout		: 7000
+		});
+	}
+	function generateSuccess(msg) {
+		var n = noty({
+			text        : msg,
+			type        : 'success',
+			dismissQueue: true,
+			layout      : 'topCenter',
+			theme       : 'defaultTheme',
+			closeWith	: ['click'],
+			maxVisible	: 3,
+			timeout		: 3000
+		});
+	}
+	//
+	function generateError(msg) {
+		var n = noty({
+			text        : msg,
+			type        : 'warning',
+			dismissQueue: true,
+			layout      : 'topCenter',
+			theme       : 'defaultTheme',
+			closeWith	: ['click'],
+			maxVisible	: 3,
+			timeout		: 2500
+		});
+	}
 </script>

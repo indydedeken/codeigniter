@@ -178,7 +178,8 @@ class Membre extends CI_Controller {
 					
 					// affichage des vues
 					$this->load->view('header', $data);
-					$this->load->view('membre/vue_inscription_succes', $data);
+					$this->load->view('home/home_message', $data);
+					echo '<script>window.onload=function(){ generateSuccess("Bienvenue sur MarkUS !"); };</script>';
 					$this->load->view('footer', $data);
 					
 				} else {
