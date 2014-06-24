@@ -164,6 +164,18 @@ class Membre extends CI_Controller {
 					
 					$this->session->set_userdata($data);
 					
+					/*
+					 * Ici on utilise la variable de session, car CI ne permet pas
+					 * de récupérer un array dans une variable de session
+					 */
+					$_SESSION['listeTopDocuments']	= $this->model_document->getTopDocuments($this->session->userdata('email'), 3)->result();
+					$_SESSION['listeTopGroupes']	= $this->model_groupe->getTopGroupes($this->session->userdata('email'), 3)->result();
+					
+					$_SESSION['listeGroupes']		= $this->model_groupe->getGroupes()->result();
+					$_SESSION['listeDocuments']		= $this->model_document->getDocuments()->result();
+					
+					$_SESSION['listeMembres']		= $this->model_membre->getMembres()->result();
+					
 					// affichage des vues
 					$this->load->view('header', $data);
 					$this->load->view('membre/vue_inscription_succes', $data);
