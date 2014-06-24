@@ -41,24 +41,44 @@
 			<!-- Affichage des documents -->
 			<!-- La bibliothèque est hors formulaire pour ne pas valider les input["type=hidden"] -->
 			<div id="listeDocs">
-				<h3>Donde Esta La Biblioteca</h3>
+				<h3>Documents disponibles :</h3>
 				
-					<ul id="gallery" class="gallery ui-helper-reset ui-helper-clearfix">
+					
 					<?php 
-					foreach($documents->result() as $item) { ?>
-						<li class="ui-widget-content ui-corner-tr" data-id="<?=$item->id?>" data-titre="<?=$item->titre?>">
-							<h5 class="ui-widget-header">
-							<?php 
-								if(strlen($item->titre)>50)
-									echo substr($item->titre, 0, 50) . '...';
-								else
-									echo $item->titre;
-								echo " <br>-<br> " . $item->auteur;
-								?>
-							</h5>
-						</li>
-					<?php } ?>
-					</ul>
+					if($documents->num_rows() == 0)
+					{
+					?>
+                    	<p style="float:right;">Vous n'avez pas encore chargé de documents ici ! Allez-y !
+                        <br>
+                        <a class="btn btn-default right" href="<?=base_url().'document/creer';?>">Upload</a>
+                        </p>
+                    <?php 
+					}
+					else 
+					{
+						?>
+                        <ul id="gallery" class="gallery ui-helper-reset ui-helper-clearfix">
+                        <?php
+						foreach($documents->result() as $item) { ?>
+							<li class="ui-widget-content ui-corner-tr" data-id="<?=$item->id?>" data-titre="<?=$item->titre?>">
+								<h5 class="ui-widget-header">
+								<?php 
+									if(strlen($item->titre)>50)
+										echo substr($item->titre, 0, 50) . '...';
+									else
+										echo $item->titre;
+									echo " <br>-<br> " . $item->auteur;
+									?>
+								</h5>
+							</li>
+						<?php 
+						} 
+						?>
+                        </ul>
+						<?php
+					}
+					?>
+					
 				
 			</div><!-- ./affichage des documents --> 
 		

@@ -22,13 +22,22 @@
             <?php 
 			$variableNbDoc = "";
 			
-			foreach($nbDocument as $nbDoc)
+			if(!empty($nbDocument))
 			{
-				$variableNbDoc[] = $nbDoc->num_rows();
+				foreach($nbDocument as $nbDoc)
+				{
+					$variableNbDoc[] = $nbDoc->num_rows();
+				}
 			}
-				
-			$i = 0;
+			else
+			{
+			?>
+            	<p>Vous ne disposez d'aucun groupe pour le moment.</p>
+            <?php
+			}
 			
+			$i = 0;
+		
 			foreach($groupe->result() as $item) { ?>
 			   <div class="btn-group btn-group-justified">
 				<a class="list-group-item" href="<?=base_url('groupe/afficher/'.$item->id)?>" title="Groupe - <?=$item->intitule?>">
