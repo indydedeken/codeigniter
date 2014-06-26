@@ -17,8 +17,8 @@ class Document extends CI_Controller {
 	}
 
 	/************************************************/
-	/* document/gestion								*/
-	/*												*/
+	/* document/gestion				*/
+	/*						*/
 	/* BUT : gestion des document d'un utilisateur	*/
 	/************************************************/
 	public function gestion() {
@@ -66,8 +66,8 @@ class Document extends CI_Controller {
 			$idGroupe = $this->uri->segment(5);
 			$email = $this->session->userdata('email');
 			$data['groupe'] = $this->model_groupe->getGroupe($this->uri->segment(5));
-			$data['estAdministrateur'] 	= $this->model_document->estAdministrateur($idDocument, $this->session->userdata('email'));
-			
+			$data['estAdministrateur'] = $this->model_document->estAdministrateur($idDocument, $this->session->userdata('email'));
+
 			$paramCommentaires = array(	'idDocument'	=> $idDocument,
 										'idGroupe'		=> $idGroupe
 			);
@@ -119,7 +119,7 @@ class Document extends CI_Controller {
 				if($this->model_document->getDocument($idDocument, $this->session->userdata('email'), $idGroupe)) 
 				{
 					$limite = 6;
-					$data['idGroupe']	 	= $idGroupe;
+					$data['idGroupe']	= $idGroupe;
 					$data['documents']	= $this->model_document->getDocument($idDocument, $email, $idGroupe);
 					if($idGroupe == 0){
 						$data['listeDocumentsPerso']	= $this->model_document->getDocumentsPerso($email, $limite, $idDocument);
@@ -145,9 +145,8 @@ class Document extends CI_Controller {
 				{
 					
 					$data['groupe'] = $this->model_groupe->getGroupeVisiteur($idGroupe)->result();
-				
-					$data['check']	=	$this->model_acces->checkNouvelleDemandeAccesGroupe(	$idGroupe,  
-																								$email);
+					$data['check']	= $this->model_acces->checkNouvelleDemandeAccesGroupe(	$idGroupe,
+														$email);
 					
 					// si id Groupe + accès KO --> proposer de demander l'accès
 					$this->load->view('header', $data);
@@ -197,18 +196,32 @@ class Document extends CI_Controller {
 			$status	= ""; // indique le status de la requete (success, error)
 			$msg	= ""; // message retourné sur la page d'upload
 			$file_element_name = 'userfile';
-			$directory	= "./filesUploaded/user_" . md5($this->session->userdata('email')) . "/";
+			$directory	= "/filesUploaded/user_" . md5($this->session->userdata('email')) . "/";
 			
-			if(!file_exists($directory))
+			/*
+			 *	// WINDOWS or MAC OS
+			 *	if(!file_exists($directory))
+			 *	{
+			 *		// création du dossier de l'utilisateur
+			 *		mkdir($directory);
+			 *	}
+			 */
+			
+			// DEBIAN VERSION
+			if(!file_exists("/var/www/markus". $directory))
 			{
+				$msg .= "chemin mkdir : /var/www/markus".$directory."_________" ;
 				// création du dossier de l'utilisateur
-				mkdir($directory);
+				$old = umask(0); 
+				mkdir("/var/www/markus".$directory, 0777);
+				chmod("/var/www/markus".$directory, 0777); 
+				umask($old);
 			}
 			
 			// paramétrage des règles d'upload
-			$config['upload_path'] 		= $directory;
+			$config['upload_path'] 		= "/var/www/markus" . $directory; // WINDOWS==> $config['upload_path'] = $directory;
 			$config['allowed_types'] 	= 'pdf';
-			$config['max_size'] 		= 1024*15;
+			$config['max_size'] 		= 1024*5;
 			$config['max_filename']		= '255';
 			$config['remove_spaces'] 	= 'TRUE';
 			$config['overwrite']		= 'TRUE';
@@ -220,10 +233,10 @@ class Document extends CI_Controller {
 			if ( !$this->upload->do_upload() )
 			{
 				// consulter les erreurs
-				//echo $this->upload->display_errors();
+				//$msg .= $this->upload->display_errors() . "_________";
 				
 				$status = 'error';
-				$msg = ':( Seuls les documents PDF sont autorisés ici. Réessaye !';
+				$msg = ':( ATTENTION à la taille et pour rappel SEULS LES PDF sont autorisés ici. Réessaye !';
 				//si l'upload échoue on redirige vers la page d'upload de document
 				//redirect(site_url().'document/creer');
 			}
@@ -250,7 +263,10 @@ class Document extends CI_Controller {
 					/*					
 					//Conversion du PDF au format HTML + img
 					*/
-					chdir($directory); //se placer dans le repertoire de l'utilisateur
+					// WINDOWS
+					// chdir($directory);
+					// DEBIAN
+					chdir("/var/www/markus".$directory); //se placer dans le repertoire de l'utilisateur
 					
 					$pathPDF	= $data['upload_data']['raw_name'] . ".pdf"; //location du repertoire + non du chier pdf
 					$pathHTML	= $data['upload_data']['raw_name'] . ".html";
@@ -260,11 +276,22 @@ class Document extends CI_Controller {
 					$command = '"C:\Program Files\Calibre2\pdftohtml.exe" -s '.$pathPDF.' >> PDFtoHTML.log 2>&1';
 					// MAC OS
 					//$command = '/usr/local/bin/pdftohtml -c ' . $pathPDF . ' ' . $pathHTML . ' > PDFtoHTML.log 2>&1';
+					// DEBIAN
+					$command = '/usr/bin/pdftohtml -s ' . $pathPDF;
 					
 					exec($command);
+					// WINDOWS
 					$command = '"C:\Program Files (x86)\gs\gs9.04\bin\gswin32.exe" -q -dBATCH -dNOPAUSE -sDEVICE=jpeg -r20*20 -sOutputFile='.$pathPNG.' '.$pathPDF;
+					// DEBIAN
+					$command = '/usr/bin/gs -q -dBATCH -dNOPAUSE -sDEVICE=jpeg -r20*20 -sOutputFile='.$pathPNG.' '.$pathPDF;
+					
 					exec($command);
-					chdir("..\.."); //Retour au dossier Markus
+					
+					// WINDOWS
+					//chdir("..\..");
+					
+					// DEBIAN
+					chdir("../.."); //Retour au dossier Markus
 					
 					$urlfichierhtml = $directory.$data['upload_data']['raw_name']."-html.html"; //location du repertoire + nom du fichier html
 				
@@ -334,7 +361,6 @@ class Document extends CI_Controller {
 	    echo json_encode(array('status' => $status, 'msg' => $msg));
 	}
 
-
 	/****************************************/
 	/* document/change_etat					*/
 	/*										*/
@@ -365,7 +391,6 @@ class Document extends CI_Controller {
 	    echo json_encode(array('status' => $status, 'msg' => $msg, 'etat'));
 	
 	}
-
 	
 /*************************************************/
 /************* FONCTIONS DE CALLBACK *************/
