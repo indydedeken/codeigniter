@@ -33,7 +33,7 @@ class Test extends CI_Controller {
 		
 		// BEGIN - countDocument : compter le nombre de document d'un utilisateur
 		$data = array('etat' => '0');
-		$test = $this->model_document->countDocuments('indy@indy.fr', 0);
+		$test = $this->model_document->countDocumentsFromGroup(0);
 		$expected_result = 'is_int';
 		$test_name = 'Compter les documents a l\'etat : ' . $data['etat'];
 		$this->unit->run($test, $expected_result, $test_name, '');

@@ -16,7 +16,7 @@
 */
 $config['base_url']	= 'http://192.168.194.200/markus/';
 $config['base_url']	= 'http://192.168.1.6/markus/';
-$config['base_url']	= 'http://localhost/markus/';
+$config['base_url']	= 'http://localhost:8888/markus/';
 
 /*
 |--------------------------------------------------------------------------

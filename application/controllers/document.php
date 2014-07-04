@@ -30,8 +30,8 @@ class Document extends CI_Controller {
 			
 			$data['groupes']		= $this->model_groupe->getAllGroupes($email);
 			$data['documents']		= $this->model_document->getAllDocuments($email);
-			$data['documentsPersonnels']	= $this->model_document->getDocumentsPerso($email);
-			//$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($email);
+			$data['documentsPersonnels']	= $this->model_document->getAllDocuments();
+			$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($email);
 			
 			$this->load->view('header', $data);
 			$this->load->view('document/vue_gestion_document', $data);
@@ -116,19 +116,20 @@ class Document extends CI_Controller {
 			else 
 			{
 				// si idGroupe + accès OK --> affiche le document
-				if($this->model_document->getDocument($idDocument, $this->session->userdata('email'), $idGroupe)) 
+				if($this->model_document->getDocument($idDocument, $idGroupe)) 
 				{
 					$limite = 6;
 					$data['idGroupe']	= $idGroupe;
-					$data['documents']	= $this->model_document->getDocument($idDocument, $email, $idGroupe);
+					$data['documents']	= $this->model_document->getDocument($idDocument, $idGroupe);
 					if($idGroupe == 0){
-						$data['listeDocumentsPerso']	= $this->model_document->getDocumentsPerso($email, $limite, $idDocument);
-						$data['nombreDocPerso'] = $this->model_document->getAllDocumentsPerso(0,$email); //on recupere tout les documents de la bibliothèque perso et on les compte dans la vue
+						$data['listeDocumentsPerso']	= $this->model_document->getAllDocumentsFromGroup($limite, $idDocument);
+						$data['nombreDocPerso'] = $this->model_document->getPersonalLibrary(); 
+						//on recupere tout les documents de la bibliothèque perso et on les compte dans la vue
 					}
 					else
 					{
-						$data['listeDocumentsGroupe']	= $this->model_document->getAllDocumentsGroupe($idGroupe, $email, 6, $idDocument);
-						$data['nombreDocGroupe'] = $this->model_document->getAllDocumentsGroupe($idGroupe, $email);
+						$data['listeDocumentsGroupe']	= $this->model_document->getAllDocumentsFromGroup($idGroupe, 6, $idDocument);
+						$data['nombreDocGroupe'] = $this->model_document->countDocumentsFromGroup($idGroupe);
 						$data['nombreMembre'] = $this->model_groupe->countMembres($idGroupe);
 						$data['nombreCommentaire'] = $this->model_commentaire->countCommentaires( array('idGroupe' => $idGroupe) );
 					}
@@ -313,7 +314,7 @@ class Document extends CI_Controller {
 					
 					// réinitialise les résultats de la search
 					$_SESSION['listeGroupes']	= $this->model_groupe->getGroupes()->result();
-					$_SESSION['listeDocuments']	= $this->model_document->getDocuments()->result();
+					$_SESSION['listeDocuments']	= $this->model_document->getDocumentsToSearch()->result();
 					
 					if($idDocument>0) {
 						$status = "success";
@@ -337,8 +338,8 @@ class Document extends CI_Controller {
 	/************************************************/
 	public function files()
 	{
-	    $files = $this->model_document->getDocumentsPerso($this->session->userdata('email'));
-	    $this->load->view('document/vue_document_uploaded', array('files' => $files->result()));
+	    $data['files'] = $this->model_document->getPersonalLibrary()->result();
+	    $this->load->view('document/vue_document_uploaded', $data);
 	}
 	
 	/****************************************/
@@ -348,7 +349,7 @@ class Document extends CI_Controller {
 	/****************************************/
 	public function delete_file($file_id)
 	{
-	    if ($this->model_document->delDocument($file_id, $this->session->userdata('email')))
+	    if ($this->model_document->delDocument($file_id))
 	    {
 		$status = 'success';
 		$msg = 'Le fichier a été détruit, comme vous le souhaitiez !';
@@ -375,7 +376,7 @@ class Document extends CI_Controller {
 			$doc	= $this->input->post('doc');
 			$etat	= $this->input->post('etat');
 		
-			if( $this->model_document->change_etat_document($doc, $etat, $this->session->userdata('email')))
+			if( $this->model_document->change_etat_document($doc, $etat))
 			{
 				$status = 'success';
 				$msg = "L'état du document est modifié.";

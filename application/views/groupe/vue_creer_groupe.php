@@ -60,7 +60,7 @@
                         <ul id="gallery" class="gallery ui-helper-reset ui-helper-clearfix">
                         <?php
 						foreach($documents->result() as $item) { ?>
-							<li class="ui-widget-content ui-corner-tr" data-id="<?=$item->id?>" data-titre="<?=$item->titre?>">
+							<li class="ui-widget-content ui-corner-tr" data-id="<?=$item->idDocument?>" data-titre="<?=$item->titre?>">
 								<h5 class="ui-widget-header">
 								<?php 
 									if(strlen($item->titre)>50)
