@@ -28,10 +28,10 @@ class Document extends CI_Controller {
 			
 			$email = $this->session->userdata('email');
 			
-			$data['groupes']		= $this->model_groupe->getAllGroupes($email);
+			$data['groupes']		= $this->model_groupe->getUserGroups();
 			$data['documents']		= $this->model_document->getAllDocuments($email);
 			$data['documentsPersonnels']	= $this->model_document->getDocumentsPerso($email);
-			//$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroupes($email);
+			//$data['nbGroupeUtilisateur']	= $this->model_groupe->countGroups();
 			
 			$this->load->view('header', $data);
 			$this->load->view('document/vue_gestion_document', $data);
@@ -65,7 +65,7 @@ class Document extends CI_Controller {
 			$idDocument = $this->uri->segment(3);
 			$idGroupe = $this->uri->segment(5);
 			$email = $this->session->userdata('email');
-			$data['groupe'] = $this->model_groupe->getGroupe($this->uri->segment(5));
+			$data['groupe'] = $this->model_groupe->getGroup($this->uri->segment(5));
 			$data['estAdministrateur'] = $this->model_document->estAdministrateur($idDocument, $this->session->userdata('email'));
 
 			
@@ -285,7 +285,7 @@ class Document extends CI_Controller {
 					$this->model_groupe->addDocGroupe($donneesDocGrp);
 					
 					// réinitialise les résultats de la search
-					$_SESSION['listeGroupes']	= $this->model_groupe->getGroupes()->result();
+					$_SESSION['listeGroupes']	= $this->model_groupe->getGroups();
 					$_SESSION['listeDocuments']	= $this->model_document->getDocuments()->result();
 					
 					if($idDocument>0) {

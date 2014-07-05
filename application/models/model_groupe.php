@@ -1,7 +1,5 @@
 <?php 
-
 class Model_groupe extends CI_Model {
-	
 	/*
 	 * Model_groupe
 	 */
@@ -11,18 +9,13 @@ class Model_groupe extends CI_Model {
         parent::__construct();
     }
 	
-	/* countGroupes		: connaitre le nombre de Groupes disponible
+	/* countGroups		: connaitre le nombre de Groupes disponible
 	 * param1 			: email de l'utilisateur, peut-être vide
-	 * return			: nombre de Groupes qui correspondent
+	 * return			: nombre de Groupes de l'utilisateur
 	 */
-	public function countGroupes($email) {
-		
-		if($email != '')
-			$this->db->like('emailUtilisateur', $email);
-		
-		$data = $this->db->count_all_results('GroupeUtilisateur');
-		
-		return $data;	
+	public function countGroups() {
+		$this->db->like('emailUtilisateur', $this->session->userdata('email'));
+		return $this->db->count_all_results('GroupeUtilisateur');
 	}
 	
 	/* A REFAIRE getTopGroupe		: récupérer les top groupes
@@ -43,41 +36,37 @@ class Model_groupe extends CI_Model {
 		return $data;
 	}
 	
-	/* getGroupes	: récupérer tous les groupes existant
+	/* getGroups	: récupérer tous les groupes existant
 	 * return		: ensemble des données de chaque Groupe
 	 */
-	public function getGroupes() {
-		// récupère toutes les variables du groupe + nombre de collaborateur
+	public function getGroups() {
 		$this->db->select('*');
 		$this->db->from('Groupe');
 		$this->db->group_by('id');
-		$data = $this->db->get();
 
-		return $data;
+		return $this->db->get()->result();
 	}
 	
 	
-	/* getAllGroupes	: récupérer tous les groupes d'un utilisateur
+	/* getUserGroups	: récupérer tous les groupes d'un utilisateur
 	 * param1			: email de l'utilisateur
 	 * return			: ensemble des données de chaque Groupe
 	 */
-	public function getAllGroupes($email) {
+	public function getUserGroups() {
 
-		// récupère toutes les variables du groupe + nombre de collaborateur
-		$this->db->select('*, count(*) as nb');
+		$this->db->select('*, count(*) as nb'); // nb = nombre de collaborateur
 		$this->db->from('Groupe JOIN GroupeUtilisateur ON `GroupeUtilisateur`.`idGroupe` = `Groupe`.`id` ');
-		$this->db->where('Groupe.id IN (select idGroupe from GroupeUtilisateur WHERE emailUtilisateur = \''.$email.'\')');
+		$this->db->where('Groupe.id IN (select idGroupe from GroupeUtilisateur WHERE emailUtilisateur = \''.$this->session->userdata('email').'\')');
 		$this->db->group_by('id');
-		$data = $this->db->get();
-
-		return $data;
+		
+		return $this->db->get();;
 	}
 	
 	/* getGroupe	: récupérer les informations d'un groupe
 	 * param1		: id du Groupe
 	 * return		: ensemble des données du Groupe
 	 */
-	public function getGroupe($idGroupe) {
+	public function getGroup($idGroupe) {
 		$param = array(	'id' => $idGroupe);
 		
 		if($idGroupe != 0) {
@@ -92,7 +81,7 @@ class Model_groupe extends CI_Model {
 		}
 	}
 	
-	/* getGroupe	: recuperer tous les groupe où l'tulisateur est admin
+	/* getGroupe	: recuperer tous les groupe où l'utilisateur est admin
 	 * param1		: id de l'utilisateur
 	 * return		: ensemble des données du Groupe
 	 */
@@ -331,13 +320,11 @@ class Model_groupe extends CI_Model {
 			// si l'insertion échoue
 			$this->db->trans_rollback();
 			return 0;
-	
 		}	
 		// retour de la fonction en cas de réussite
 		return 1;
 	
-	}	
-	
+	}
 
 	/*
 	 * delGroupe	: supprimer un Groupe
@@ -356,10 +343,10 @@ class Model_groupe extends CI_Model {
 			return false;		 	
 	 }
 	 
-	 /* getMembre	: compte tous les membres d'un groupe
-	 * param1		: id du Groupe
-	 * return		: le nombre d'utilisateur
-	 */
+	 /* countMembres	: compte tous les membres d'un groupe
+	  *	param1			: id du Groupe
+	  * return			: le nombre d'utilisateur
+	  */
 	public function countMembres($idgroupe) {
 		// compte le nombre d'utilisateur
 		$this->db->select('count(*) as nbMembre');

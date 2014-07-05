@@ -51,7 +51,7 @@ class Membre extends CI_Controller {
 						'nom'						=> $nom,
 						'logged'					=> true,
 						'nbDocumentsUtilisateur'	=> $this->model_document->countDocumentsFromGroup(0), // 0 => personalLibrary
-						'nbGroupesUtilisateur'		=> $this->model_groupe->countGroupes($email)
+						'nbGroupesUtilisateur'		=> $this->model_groupe->countGroups()
 					);
 					
 					
@@ -64,7 +64,7 @@ class Membre extends CI_Controller {
 					$_SESSION['listeTopDocuments']	= $this->model_document->getTopDocuments(3)->result();
 					$_SESSION['listeTopGroupes']	= $this->model_groupe->getTopGroupes($this->session->userdata('email'), 3)->result();
 					
-					$_SESSION['listeGroupes']		= $this->model_groupe->getGroupes()->result();
+					$_SESSION['listeGroupes']		= $this->model_groupe->getGroups();
 					$_SESSION['listeDocuments']		= $this->model_document->getDocumentsToSearch()->result();
 					
 					$_SESSION['listeMembres']		= $this->model_membre->getMembres()->result();
@@ -171,7 +171,7 @@ class Membre extends CI_Controller {
 					$_SESSION['listeTopDocuments']	= $this->model_document->getTopDocuments(3)->result();
 					$_SESSION['listeTopGroupes']	= $this->model_groupe->getTopGroupes($this->session->userdata('email'), 3)->result();
 					
-					$_SESSION['listeGroupes']		= $this->model_groupe->getGroupes()->result();
+					$_SESSION['listeGroupes']		= $this->model_groupe->getGroups();
 					$_SESSION['listeDocuments']		= $this->model_document->getDocumentsToSearch()->result();
 					
 					$_SESSION['listeMembres']		= $this->model_membre->getMembres()->result();

@@ -25,7 +25,7 @@ class Groupe extends CI_Controller {
 		$data['nav'] = "gestionGrp"; 
 		if($this->session->userdata('email') && $this->session->userdata('logged')) {
 			
-			$data['groupe']	= $this->model_groupe->getAllGroupes($this->session->userdata('email'));
+			$data['groupe']	= $this->model_groupe->getUserGroups();
 			
 			$groupesTemp = $data['groupe']->result();
 			
@@ -63,7 +63,7 @@ class Groupe extends CI_Controller {
  			if( $idGroupe == 0 )
  			{
  				$data = '';
- 				$data['groupe'] 			= $this->model_groupe->getGroupe($idGroupe);
+ 				$data['groupe'] 			= $this->model_groupe->getGroup($idGroupe);
  				$data['idGroupe']			= $idGroupe;
  				$data['documents']			= $this->model_document->getPersonalLibrary();
  				
@@ -71,9 +71,9 @@ class Groupe extends CI_Controller {
  				$this->load->view('groupe/vue_afficher_groupe_perso', $data);
  				$this->load->view('footer', $data);
  				
- 			} else if( $this->model_groupe->getGroupe($idGroupe) ) {
+ 			} else if( $this->model_groupe->getGroup($idGroupe) ) {
 				
- 				$data['groupe'] 			= $this->model_groupe->getGroupe($idGroupe);
+ 				$data['groupe'] 			= $this->model_groupe->getGroup($idGroupe);
  				$data['membresGroupe'] 		= $this->model_groupe->getAllMembresGroupe($idGroupe);
  				$data['estAdministrateur'] 	= $this->model_groupe->estAdministrateur($idGroupe, $email);
  				$data['idGroupe']			= $idGroupe;
@@ -235,7 +235,7 @@ class Groupe extends CI_Controller {
 			
 				if($this->model_groupe->quitterGroupe($data['groupe'], $data['email'])) {
 				
-					$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroupes($data['email']));
+					$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroups());
 					echo 'Succès : Vous avez bien quitté le groupe.<br>Vous allez être redirigé.';
 				
 				} else {
@@ -328,7 +328,7 @@ class Groupe extends CI_Controller {
 		if(	$this->model_groupe->supprimerMembre($data['idGroupe'], $emails) && 
 			$this->model_acces->suppressionDemandeAcces($data['idGroupe'], $emails)) 
 		{
-			$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroupes($data['email']));
+			$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroups());
 			echo 'Succès ! Souhaitons bonne chance aux ex-membres du groupe :D';
 		} else {
 			echo 'Erreur : Vous ne pouvez supprimer ces utilisateurs.';			
@@ -366,7 +366,7 @@ class Groupe extends CI_Controller {
 					else {
 						if($this->model_groupe->estAdministrateur($data['groupe'], $data['email'])) {
 							if($this->model_groupe->ajouterMembre($data['groupe'], $data['membre'])) {
-									$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroupes($data['email']));
+									$this->session->set_userdata('nbGroupesUtilisateur', $this->model_groupe->countGroups());
 									echo 'Succès ! '.$data['membre'].' a été ajouter au groupe.';
 								
 							} else {
@@ -418,7 +418,7 @@ class Groupe extends CI_Controller {
 			} else {
 			
 				$data['documents'] = $this->model_document->getAllDocumentsGroupe($data['groupe'], $this->session->userdata('email'))->result();	
-				$data['groupe'] = $this->model_groupe->getGroupe($data['groupe']);
+				$data['groupe'] = $this->model_groupe->getGroup($data['groupe']);
 				$this->load->view('groupe/vue_edition_groupe', $data);
 				
 			}
