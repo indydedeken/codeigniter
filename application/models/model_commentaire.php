@@ -17,20 +17,15 @@ class Model_commentaire extends CI_Model {
 	 * return 			: id du commentaire ajoute
 	 */
 	public function addCommentaire($data) {
-		
-		$this->db->trans_begin();	
+		$this->db->trans_begin();
 		
 		if( $this->db->insert('Commentaire', $data) ) {
-			// si l'insertion réussie
 			$insert_id = $this->db->insert_id();
 			$this->db->trans_commit();
 		} else {
-			// si l'insertion échoue
 			$this->db->trans_rollback();
-			return 0;
+			return false;
 		}	
-		
-		// retour de la fonction en cas de réussite
 		return $insert_id;
 	}
 	
@@ -39,23 +34,18 @@ class Model_commentaire extends CI_Model {
 	 * return 			: true/false
 	 */
 	public function delCommentaire($data) {
-		
 		$this->db->trans_begin();
 		
-		// contrainte pour la suppression
-		$this->db->where($data);
+		$this->db->where($data); // contrainte pour la suppression
 		
 		if( $this->db->delete('Commentaire') ) {
-			// si la suppression est réussie
 			$insert_id = $this->db->insert_id();
 			$this->db->trans_commit();
 		} else {
-			// si l'insertion échoue
 			$this->db->trans_rollback();
-			return 0;
-		}	
-		// retour de la fonction en cas de réussite
-		return 1;
+			return false;
+		}
+		return true;
 	}
 	
 	/* updateComentaire	: maj un commentaire
@@ -63,20 +53,16 @@ class Model_commentaire extends CI_Model {
 	 * return 			: true/false
 	 */
 	public function updateCommentaire($data) {
-		
 		$this->db->trans_begin();
 		
 		if( $this->db->update('Commentaire', $data) ) {
-			// si la suppression est réussie
 			$insert_id = $this->db->insert_id();
 			$this->db->trans_commit();
 		} else {
-			// si l'insertion échoue
 			$this->db->trans_rollback();
-			return 0;
-		}	
-		// retour de la fonction en cas de réussite
-		return 1;
+			return false;
+		}
+		return true;
 	}
 
 	/* getComentaire	: obtenir les commentaires d'un document
@@ -86,7 +72,7 @@ class Model_commentaire extends CI_Model {
 	public function getCommentaire($param) {
 
 		// DANS L'IDEAL, IL FAUDRAIT VÉRIFIER QUE 
-		// L'UTILISATEUR A ACCES AU DOCUMENT
+		// L'UTILISATEUR AIT ACCES AU GROUPE/DOCUMENT
 		
 		$data = $this->db->order_by('id', 'DESC')->get_where('Commentaire', $param);
 
@@ -97,21 +83,17 @@ class Model_commentaire extends CI_Model {
 		}
 	}
 	
-	/* countCommentairesGroupe	: compter l'activité commentaire d'un groupe
-	 * param1					: param (contraintes)
-	 * return 					: nombre de commentaire
+	/* countCommentaires	: compter l'activité commentaire d'un groupe
+	 * param1				: param (contraintes)
+	 * return 				: nombre de commentaire
 	 */
 	public function countCommentaires($param) {
-
-		// DANS L'IDEAL, IL FAUDRAIT VÉRIFIER QUE 
-		// L'UTILISATEUR A ACCES AU DOCUMENT
-		
 		$data = $this->db->get_where('Commentaire', $param);
 
 		if($data) {
 			return $data->num_rows();
 		} else {
-			return 0;	
+			return false;	
 		}
 	}
 }
